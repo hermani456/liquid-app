@@ -37,47 +37,47 @@ import {
 const data = {
   teams: [
     {
-      name: "Acme Inc",
+      name: "Negocio de la esquina",
       logo: Atom,
-      plan: "Enterprise",
+      plan: "Pyme",
     },
     {
-      name: "Acme Corp.",
+      name: "Quiosco de la esquina",
       logo: Eclipse,
-      plan: "Startup",
+      plan: "Prima",
     },
     {
-      name: "Evil Corp.",
+      name: "Tienda de la esquina",
       logo: Rabbit,
-      plan: "Free",
+      plan: "Empresarial",
     },
   ],
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "Chupete Suazo",
+    email: "chupete@suazo.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
     {
-      title: "Playground",
+      title: "Empresas",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "Crear Empresa",
           url: "#",
           icon: History,
           description: "View your recent prompts",
         },
         {
-          title: "Starred",
+          title: "Editar Empresa",
           url: "#",
           icon: Star,
           description: "Browse your starred prompts",
         },
         {
-          title: "Settings",
+          title: "Eliminar Empresa",
           url: "#",
           icon: Settings2,
           description: "Configure your playground",
@@ -85,24 +85,24 @@ const data = {
       ],
     },
     {
-      title: "Models",
+      title: "Personal",
       url: "#",
       icon: Bot,
       items: [
         {
-          title: "Genesis",
+          title: "Crear Personal",
           url: "#",
           icon: Rabbit,
           description: "Our fastest model for general use cases.",
         },
         {
-          title: "Explorer",
+          title: "Editar Personal",
           url: "#",
           icon: Bird,
           description: "Performance and speed for efficiency.",
         },
         {
-          title: "Quantum",
+          title: "Eliminar Personal",
           url: "#",
           icon: Turtle,
           description: "The most powerful model for complex computations.",
@@ -110,88 +110,72 @@ const data = {
       ],
     },
     {
-      title: "Documentation",
+      title: "Liquidaciones",
       url: "#",
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
+          title: "Crear Liquidación",
           url: "#",
         },
         {
-          title: "Get Started",
+          title: "Editar Liquidación",
           url: "#",
         },
         {
-          title: "Tutorials",
+          title: "Eliminar Liquidación",
           url: "#",
         },
         {
-          title: "Changelog",
+          title: "Historial Liquidaciones",
           url: "#",
         },
       ],
     },
     {
-      title: "API",
+      title: "Enviar Liquidaciones",
       url: "#",
       icon: Code2,
       items: [
         {
-          title: "Chat",
-          url: "#",
-        },
-        {
-          title: "Completion",
-          url: "#",
-        },
-        {
-          title: "Images",
-          url: "#",
-        },
-        {
-          title: "Video",
-          url: "#",
-        },
-        {
-          title: "Speech",
+          title: "Email",
           url: "#",
         },
       ],
     },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
+    // {
+    //   title: "Settings",
+    //   url: "#",
+    //   icon: Settings2,
+    //   items: [
+    //     {
+    //       title: "General",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Team",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Billing",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Limits",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
   ],
 
   navSecondary: [
     {
-      title: "Support",
+      title: "Soporte",
       url: "#",
       icon: LifeBuoy,
     },
     {
-      title: "Feedback",
+      title: "Contacto",
       url: "#",
       icon: Send,
     },
@@ -255,20 +239,20 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarItem>
-          <SidebarLabel>Platform</SidebarLabel>
-          <NavMain items={data.navMain} searchResults={data.searchResults} />
+          <SidebarLabel>Menu</SidebarLabel>
+          <NavMain items={data.navMain} />
         </SidebarItem>
-        <SidebarItem>
+        {/* <SidebarItem>
           <SidebarLabel>Projects</SidebarLabel>
           <NavProjects projects={data.projects} />
-        </SidebarItem>
+        </SidebarItem> */}
         <SidebarItem className="mt-auto">
-          <SidebarLabel>Help</SidebarLabel>
+          <SidebarLabel>Ayuda</SidebarLabel>
           <NavSecondary items={data.navSecondary} />
         </SidebarItem>
-        <SidebarItem>
+        {/* <SidebarItem>
           <StorageCard />
-        </SidebarItem>
+        </SidebarItem> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

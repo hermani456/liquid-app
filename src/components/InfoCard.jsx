@@ -1,12 +1,14 @@
-const InfoCard = ({number, name, Icon, description}) => {
+const InfoCard = ({ number, name, Icon, description, bgColor, textColor }) => {
   return (
-    <div className="w-[13rem] h-[8rem] rounded-md bg-white shadow-md p-4 space-y-5">
+    <div className="min-w-[15rem] h-[9rem] rounded-md bg-white shadow-md p-4 space-y-5 cursor-pointer hover:scale-105  transition-all">
       <div className="flex items-center justify-between">
         <div>
           <h6 className="text-xl font-semibold">{number}</h6>
           <p>{name}</p>
         </div>
-        <div>
+        <div className="flex justify-center items-center size-12 rounded-full"
+        style={{backgroundColor: bgColor, color: textColor}}
+        >
           <Icon size={32} />
         </div>
       </div>

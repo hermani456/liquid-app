@@ -1,4 +1,4 @@
-import { Building, Folder, List, Users } from "lucide-react";
+import { Building, Folder, List, Users, Mail } from "lucide-react";
 
 export const infoCardsContent = [
   {
@@ -6,23 +6,31 @@ export const infoCardsContent = [
     name: "Empresas",
     Icon: Building,
     description: "A tu cargo",
+    bgColor: "#FFF4E8",
+    textColor: "#F29425",
   },
   {
-    number: 5,
-    name: "Proyectos",
-    Icon: Folder,
-    description: "En curso",
+    number: 100,
+    name: "Empleados",
+    Icon: Users,
+    description: "Registrados",
+    bgColor: "#E8F5FF",
+    textColor: "#248CD8",
   },
   {
-    number: 7,
-    name: "Tareas",
+    number: 300,
+    name: "Liquidaciones",
     Icon: List,
-    description: "Pendientes",
+    description: "Generadas",
+    bgColor: "#F9EFFF",
+    textColor: "#A601FF",
   },
   {
     number: 10,
-    name: "Clientes",
-    Icon: Users,
-    description: "Registrados",
+    name: "Emails",
+    Icon: Mail,
+    description: "Enviados",
+    bgColor: "#ECFFF2",
+    textColor: "#10A142",
   },
 ];
