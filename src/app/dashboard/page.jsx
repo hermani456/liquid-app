@@ -24,13 +24,13 @@ const page = () => {
           ))}
         </div>
         <div className="flex gap-5 flex-wrap flex-grow">
-          <div className="min-w-[8rem] sm:w-[38rem] h-[15rem] bg-white mt-5 p-2 rounded overflow-hidden shadow">
+          <div className="h-[15rem] bg-white mt-5 p-2 rounded overflow-hidden shadow">
             <h2 className="py-3 pl-2">Empresas</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
               <DashBoardTable />
             </div>
           </div>
-          <div className="min-w-[8rem] sm:w-[38rem] h-[15rem] bg-white mt-5 p-2 rounded overflow-hidden shadow">
+          <div className="h-[15rem] bg-white mt-5 p-2 rounded overflow-hidden shadow">
             <h2 className="py-3 pl-2">Empresas</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
               <DashBoardTable />

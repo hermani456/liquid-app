@@ -1,10 +1,10 @@
-const InputComponent = ({name, description}) => {
+const InputComponent = ({name, description, type="text"}) => {
   return (
     <div className="flex flex-col gap-2">
       <label>{name}</label>
       <input
-        type="text"
-        className="px-5 py-3 rounded-lg border text-sm max-w-[20rem] md:w-[20rem]"
+        type={type}
+        className="px-5 py-3 rounded-lg border text-sm w-64"
         placeholder={description}
       />
     </div>

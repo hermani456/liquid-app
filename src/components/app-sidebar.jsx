@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Atom,
@@ -18,14 +18,18 @@ import {
   SquareTerminal,
   Star,
   Turtle,
-} from "lucide-react"
+  UserPlus,
+  Building,
+  HandCoins,
+  Mails,
+} from "lucide-react";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
-import { StorageCard } from "@/components/storage-card"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
+import { StorageCard } from "@/components/storage-card";
+import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -33,7 +37,12 @@ import {
   SidebarHeader,
   SidebarItem,
   SidebarLabel,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import { CollapsibleTrigger } from "./ui/collapsible";
+import { Button } from "./ui/button";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { LayoutDashboard } from "lucide-react";
 const data = {
   teams: [
     {
@@ -61,24 +70,24 @@ const data = {
     {
       title: "Empresas",
       url: "#",
-      icon: SquareTerminal,
+      icon: Building,
       isActive: true,
       items: [
         {
           title: "Crear Empresa",
-          url: "/dashboard/crear-empresa",
+          url: "/dashboard/company/create-company",
           icon: History,
           description: "View your recent prompts",
         },
         {
           title: "Editar Empresa",
-          url: "#",
+          url: "/dashboard/company/edit-company",
           icon: Star,
           description: "Browse your starred prompts",
         },
         {
           title: "Eliminar Empresa",
-          url: "#",
+          url: "/dashboard/company/delete-company",
           icon: Settings2,
           description: "Configure your playground",
         },
@@ -87,11 +96,11 @@ const data = {
     {
       title: "Personal",
       url: "#",
-      icon: Bot,
+      icon: UserPlus,
       items: [
         {
           title: "Crear Personal",
-          url: "#",
+          url: "/dashboard/employee/create-employee",
           icon: Rabbit,
           description: "Our fastest model for general use cases.",
         },
@@ -112,7 +121,7 @@ const data = {
     {
       title: "Liquidaciones",
       url: "#",
-      icon: BookOpen,
+      icon: HandCoins,
       items: [
         {
           title: "Crear Liquidación",
@@ -135,7 +144,7 @@ const data = {
     {
       title: "Enviar Liquidaciones",
       url: "#",
-      icon: Code2,
+      icon: Mails,
       items: [
         {
           title: "Email",
@@ -229,34 +238,38 @@ const data = {
       url: "#",
     },
   ],
-}
+};
 
 export function AppSidebar() {
   return (
-    (<Sidebar>
+    <Sidebar>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
         <SidebarItem>
           <SidebarLabel>Menu</SidebarLabel>
+          <div className="relative flex items-center">
+            <Link
+              href="/dashboard/"
+              className="min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
+            >
+              <LayoutDashboard className="h-4 w-4 shrink-0" />
+              <div className="flex flex-1 overflow-hidden">
+                <div className="line-clamp-1 pr-6">Dashboard</div>
+              </div>
+            </Link>
+          </div>
           <NavMain items={data.navMain} />
         </SidebarItem>
-        {/* <SidebarItem>
-          <SidebarLabel>Projects</SidebarLabel>
-          <NavProjects projects={data.projects} />
-        </SidebarItem> */}
         <SidebarItem className="mt-auto">
           <SidebarLabel>Ayuda</SidebarLabel>
           <NavSecondary items={data.navSecondary} />
         </SidebarItem>
-        {/* <SidebarItem>
-          <StorageCard />
-        </SidebarItem> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
-    </Sidebar>)
+    </Sidebar>
   );
 }
