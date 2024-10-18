@@ -66,7 +66,7 @@ const data = {
       items: [
         {
           title: "Crear Empresa",
-          url: "#",
+          url: "/dashboard/crear-empresa",
           icon: History,
           description: "View your recent prompts",
         },

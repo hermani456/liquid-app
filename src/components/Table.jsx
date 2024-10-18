@@ -13,36 +13,26 @@ const DashBoardTable = () => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Rut</TableHead>
-          <TableHead>Nombre</TableHead>
-          <TableHead>Empleados</TableHead>
+          <TableHead className="text-xs md:text-md">Rut</TableHead>
+          <TableHead className="text-xs md:text-md">Nombre</TableHead>
+          <TableHead className="text-xs md:text-md">Empleados</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         <TableRow>
-          <TableCell className="font-medium">77.456.775-5</TableCell>
-          <TableCell>Negocio de la esquina</TableCell>
-          <TableCell>456</TableCell>
+          <TableCell className="font-medium text-xs md:text-md">77.456.775-5</TableCell>
+          <TableCell className="font-medium text-xs md:text-md">Negocio de la esquina</TableCell>
+          <TableCell className="font-medium text-xs md:text-md">456</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell className="font-medium">77.456.775-5</TableCell>
-          <TableCell>Negocio de la esquina</TableCell>
-          <TableCell>456</TableCell>
+          <TableCell className="font-medium text-xs md:text-md">77.456.775-5</TableCell>
+          <TableCell className="font-medium text-xs md:text-md">Negocio de la esquina</TableCell>
+          <TableCell className="font-medium text-xs md:text-md">456</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell className="font-medium">77.456.775-5</TableCell>
-          <TableCell>Negocio de la esquina</TableCell>
-          <TableCell>456</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-medium">77.456.775-5</TableCell>
-          <TableCell>Negocio de la esquina</TableCell>
-          <TableCell>456</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-medium">77.456.775-5</TableCell>
-          <TableCell>Negocio de la esquina</TableCell>
-          <TableCell>456</TableCell>
+          <TableCell className="font-medium text-xs md:text-md">77.456.775-5</TableCell>
+          <TableCell className="font-medium text-xs md:text-md">Negocio de la esquina</TableCell>
+          <TableCell className="font-medium text-xs md:text-md">456</TableCell>
         </TableRow>
       </TableBody>
     </Table>

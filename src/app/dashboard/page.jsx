@@ -24,27 +24,27 @@ const page = () => {
           ))}
         </div>
         <div className="flex gap-5 flex-wrap flex-grow">
-          <div className="w-full sm:w-[38rem] h-[15rem] bg-white mt-5 p-2 rounded overflow-hidden shadow">
+          <div className="min-w-[8rem] sm:w-[38rem] h-[15rem] bg-white mt-5 p-2 rounded overflow-hidden shadow">
             <h2 className="py-3 pl-2">Empresas</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
               <DashBoardTable />
             </div>
           </div>
-          <div className="w-full sm:w-[38rem] h-[15rem] bg-white mt-5 p-2 rounded overflow-hidden shadow">
+          <div className="min-w-[8rem] sm:w-[38rem] h-[15rem] bg-white mt-5 p-2 rounded overflow-hidden shadow">
             <h2 className="py-3 pl-2">Empresas</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
               <DashBoardTable />
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap min-h-[18rem] justify-between items-center pr-20">
-          <div className="w-[25rem]">
+        <div className="flex flex-wrap min-h-[18rem] justify-between items-center lg:pr-20">
+          <div className="max-w-[25rem] lg:w-[25rem]">
             <AreaChart />
           </div>
-          <div className="w-[25rem]">
+          <div className="max-w-[25rem] lg:w-[25rem]">
             <BarChart />
           </div>
-          <div className="w-[25rem]">
+          <div className="max-w-[25rem] lg:w-[25rem]">
             <PieChart />
           </div>
         </div>
