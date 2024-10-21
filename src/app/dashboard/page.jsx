@@ -12,7 +12,7 @@ const page = () => {
   const dayName = date.toLocaleString("es-CL", { weekday: "long" });
   const monthName = date.toLocaleString("es-CL", { month: "long" });
   return (
-    <div className="bg-[#F8F9FD]">
+    <div className="">
       <div className="py-2 px-3">
         <h2 className="lg:text-2xl font-semibold">
           Bienvenido, Humberto Chupete Suazo
@@ -24,13 +24,13 @@ const page = () => {
           ))}
         </div>
         <div className="flex gap-5 flex-wrap flex-grow">
-          <div className="h-[15rem] bg-white mt-5 p-2 rounded overflow-hidden shadow">
+          <div className="h-[15rem] mt-5 p-2 rounded overflow-hidden shadow">
             <h2 className="py-3 pl-2">Empresas</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
               <DashBoardTable />
             </div>
           </div>
-          <div className="h-[15rem] bg-white mt-5 p-2 rounded overflow-hidden shadow">
+          <div className="h-[15rem] mt-5 p-2 rounded overflow-hidden shadow">
             <h2 className="py-3 pl-2">Empresas</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
               <DashBoardTable />
