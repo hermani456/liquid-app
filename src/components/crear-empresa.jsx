@@ -30,7 +30,7 @@ export function CrearEmpresa() {
 
   return (
     <form onSubmit={handleSubmit} className="p-2 lg:p-10">
-      <h2 className="text-2xl font-bold mb-6 text-center">Crear Empresa</h2>
+      <h2 className="text-2xl lg:text-3xl font-bold mb-6">Crear Empresa</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <Label htmlFor="nombre">Nombre de la Empresa</Label>
@@ -79,7 +79,7 @@ export function CrearEmpresa() {
           type="submit"
           className="mt-6 min-w-[10%] hover:scale-105 transition-all ease-in-out"
         >
-          Enviar
+          Crear
         </Button>
       </div>
     </form>

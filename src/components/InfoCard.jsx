@@ -13,7 +13,7 @@ const InfoCard = ({ number, name, Icon, description, bgColor, textColor }) => {
         </div>
       </div>
       <div>
-        <p className="text-xs text-gray-600">{description}</p>
+        <p className="text-xs text-chart-1">{description}</p>
       </div>
     </div>
   );

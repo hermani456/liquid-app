@@ -43,7 +43,7 @@ export function EmployeeForm() {
 
   return (
     <form onSubmit={handleSubmit} className="p-6">
-      <h2 className="text-2xl font-bold mb-6 text-center">
+      <h2 className="text-2xl lg:text-3xl font-bold mb-6">
         Agregar Empleado
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -174,7 +174,7 @@ export function EmployeeForm() {
       </div>
       <div className="flex justify-center">
         <Button type="submit" className="mt-6 min-w-[10%] hover:scale-105 transition-all ease-in-out">
-          Enviar
+          Crear
         </Button>
       </div>
     </form>
