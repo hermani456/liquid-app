@@ -106,13 +106,13 @@ const data = {
         },
         {
           title: "Editar Personal",
-          url: "#",
+          url: "/dashboard/employee/edit-employee",
           icon: Bird,
           description: "Performance and speed for efficiency.",
         },
         {
           title: "Eliminar Personal",
-          url: "#",
+          url: "/dashboard/employee/delete-employee",
           icon: Turtle,
           description: "The most powerful model for complex computations.",
         },
