@@ -42,9 +42,9 @@ CREATE TABLE payrolls (
     calculation_date DATE NOT NULL,
     days_worked INT NOT NULL,
     overtime_hours INT DEFAULT 0,
-    base_salary DECIMAL(10, 2) NOT NULL,
-    overtime_pay DECIMAL(10, 2) DEFAULT 0,
-    total_salary DECIMAL(10, 2) NOT NULL,
+    base_salary INT NOT NULL,
+    overtime_pay INT DEFAULT 0,
+    total_salary INT NOT NULL,
     email_sent BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT NOW()
 );
