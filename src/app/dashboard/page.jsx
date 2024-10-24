@@ -37,11 +37,11 @@ const page = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap min-h-[18rem] justify-between items-center lg:pr-20">
+        <div className="flex flex-wrap min-h-[18rem] items-center lg:pr-20">
           <div className="max-w-[25rem] lg:w-[25rem]">
             <AreaChart />
           </div>
-          <div className="max-w-[25rem] lg:w-[25rem]">
+          <div className="max-w-[25rem] lg:w-[25rem] pl-20">
             <BarChart />
           </div>
           <div className="max-w-[25rem] lg:w-[25rem]">
