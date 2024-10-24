@@ -50,14 +50,29 @@ CREATE TABLE payrolls (
 );
 
 -- PROCEDURE PARA CREAR EMPLEADOS
-CREATE OR REPLACE PROCEDURE create_user(p_clerk_user_id VARCHAR, p_name VARCHAR, p_email VARCHAR)
+CREATE OR REPLACE PROCEDURE add_worker(
+    p_company_id INT,
+    p_name VARCHAR,
+    p_last_name VARCHAR,
+    p_rut VARCHAR,
+    p_sex CHAR(1),
+    p_home_address VARCHAR,
+    p_phone VARCHAR,
+    p_position VARCHAR,
+    p_department VARCHAR,
+    p_base_salary INT,
+    p_email VARCHAR
+)
+-- PROCEDURE PARA CREAR EMPLEADOS
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM users WHERE clerk_user_id = p_clerk_user_id) THEN
-        INSERT INTO users (clerk_user_id, name, email)
-        VALUES (p_clerk_user_id, p_name, p_email);
-    END IF;
+    INSERT INTO workers(
+        company_id, name, last_name, rut, sex, home_address, phone, position, department, base_salary, email
+    )
+    VALUES (
+        p_company_id, p_name, p_last_name, p_rut, p_sex, p_home_address, p_phone, p_position, p_department, p_base_salary, p_email
+    );
 END;
 $$;
 

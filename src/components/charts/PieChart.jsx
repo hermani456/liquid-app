@@ -99,7 +99,7 @@ export function PieChartComponent() {
                       y={(viewBox.cy || 0) + 24}
                       className="fill-muted-foreground"
                     >
-                      Visitors
+                      Liquidaciones
                     </tspan>
                   </text>
                 );
