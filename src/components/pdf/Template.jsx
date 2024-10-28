@@ -210,7 +210,7 @@ const page = () => {
           >
             <div className="bg-black/20 p-1 flex space-x-10">
               <h2>Fecha de Emision: 20/10/2024</h2>
-              <h2>Emitido por: Admin Name</h2>
+              <h2>Emitido por: DCampuzano</h2>
             </div>
             <div className="flex justify-between px-10 py-5">
               <div className="w-1/2 mt-auto text-center pt-10">
@@ -221,7 +221,7 @@ const page = () => {
               <div className="w-1/2">
                 Recibi a plena conformidad el monto indicado en esta liquidacion
                 de sueldo, la cual corresponde plenamente a mi remuneración
-                acordada
+                acordada.
               </div>
             </div>
           </div>
