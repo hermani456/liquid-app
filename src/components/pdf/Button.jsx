@@ -11,7 +11,7 @@ const Button = () => {
     const data = await response.json();
     alert(data);
   };
-  return <button className="absolute inset-0" onClick={handleClick}>Button</button>;
+  return <button className="px-5 py-2 bg-red-500 text-white rounded-md" onClick={handleClick}>Convert PDF</button>;
 };
 
 export default Button;
