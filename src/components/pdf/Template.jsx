@@ -9,7 +9,7 @@ import { Building } from "lucide-react";
 const page = () => {
   return (
     <div
-      className="h-[32.5cm] w-[21.5cm]"
+      className="h-[1056px] w-[816px]"
       style={{
         color: "#000",
         background: "white",
@@ -24,7 +24,7 @@ const page = () => {
             </div>
             <div className="w-[1px] bg-black/30 h-14 mr-2"></div>
             <div className="text-xs font-semibold">
-              <p>Yme.cL</p>
+              <p>Lota Schwager</p>
               <p>77.456.321-5</p>
               <p>San Martin 2019</p>
             </div>
@@ -44,13 +44,13 @@ const page = () => {
             <div className="flex justify-between p-1">
               <div className="flex flex-col">
                 <h6 className="font-semibold">
-                  Nombre: <span className="font-normal">Emilio Acevedo</span>
+                  Nombre: <span className="font-normal">Humberto Chupete Suazo</span>
                 </h6>
                 <h6 className="font-semibold">
                   Rut: <span className="font-normal">12.345.678-9</span>
                 </h6>
                 <h6 className="font-semibold">
-                  Cargo: <span className="font-normal">Desarrollador</span>
+                  Cargo: <span className="font-normal">Delantero</span>
                 </h6>
               </div>
               <div className="flex flex-col">
@@ -61,34 +61,178 @@ const page = () => {
                   Contrato: <span className="font-normal">Indefinido</span>
                 </h6>
                 <h6 className="font-semibold">
-                  Email: <span className="font-normal">emilio@a7.cl</span>
+                  Email: <span className="font-normal">chupete@suazo.com</span>
                 </h6>
               </div>
             </div>
           </div>
           <div
             id="details"
-            className="border rounded-md text-sm overflow-hidden mt-3"
+            className="border rounded-md text-sm overflow-hidden mt-3 pb-5"
           >
             <div className="bg-black/20 p-1">
               <h2 className="font-bold">Detalle</h2>
             </div>
-            <div className="flex divide-x-2 justify-between p-1">
+            <div className="flex divide-x-2 justify-between p-1 border-b-2">
               <div className="flex space-x-5">
-                <div>Dias trabajados: 30</div>
-                <div>Feriados: 2</div>
-                <div>Ausentes: 0</div>
+                <div className="flex flex-col items-center">
+                  Dias trabajados: <span>30</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  Dias Feriados: <span>0</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  Dias Ausentes: <span>0</span>
+                </div>
               </div>
-              <div className="flex space-x-5">
-                <div>AFP: UNO</div>
-                <div>Tasa: 10.49%</div>
+              <div className="flex space-x-5 pl-5">
+                <div className="flex flex-col items-center">
+                  AFP: <span>Plan Vital</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  Tasa: <span>10.49%</span>
+                </div>
               </div>
-              <div className="flex space-x-5">
-                <div>Salud: Banmedica</div>
-                <div>Cargas: 0</div>
+              <div className="flex space-x-5 pl-5">
+                <div className="flex flex-col items-center">
+                  Salud: <span>Banmedica</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  Cargas: <span>0</span>
+                </div>
+              </div>
+            </div>
+            <div id="calculo" className="flex justify-around mt-3">
+              {/* left */}
+              <div className="w-1/2 px-14">
+                <div className="flex justify-between">
+                  Base: <span>$900.000</span>
+                </div>
+                <div className="flex justify-between">
+                  Proporcional: <span>$0</span>
+                </div>
+                <div className="flex justify-between">
+                  Atrasos: <span>$150.000</span>
+                </div>
+                <div className="flex justify-between">
+                  Total Bonificaciones: <span>$1.000.000</span>
+                </div>
+                {/* divider start */}
+                <div className="w-full h-[1px] mt-1 bg-black/30"></div>
+                <div className="flex justify-between py-1">
+                  Total Imponible:{" "}
+                  <span className="font-semibold">$1.500.000</span>
+                </div>
+                <div className="w-full h-[1px] mb-1 bg-black/30"></div>
+                {/* divider end */}
+                <div className="flex justify-between">
+                  Movilización: <span>$0</span>
+                </div>
+                <div className="flex justify-between">
+                  Colacion: <span>$0</span>
+                </div>
+                <div className="flex justify-between">
+                  Viatico: <span>$0</span>
+                </div>
+                <div className="flex justify-between">
+                  Asignacion Familiar: <span>$0</span>
+                </div>
+                {/* divider start */}
+                <div className="w-full h-[1px] mt-1 bg-black/30"></div>
+                <div className="flex justify-between py-1">
+                  Total no Imponible: <span>$0</span>
+                </div>
+                <div className="w-full h-[1px] mb-1 bg-black/30"></div>
+                {/* divider end */}
+                <div className="flex justify-between">
+                  Total Haberes: <span>$812.000</span>
+                </div>
+              </div>
+              {/* right */}
+              <div className="w-1/2 px-14">
+                <div className="flex justify-between">
+                  Prevision: <span>$90.000</span>
+                </div>
+                <div className="flex justify-between">
+                  APV: <span>$0</span>
+                </div>
+                <div className="flex justify-between">
+                  Salud: <span>$60.000</span>
+                </div>
+                <div className="flex justify-between">
+                  Adicional Salud: <span>$0</span>
+                </div>
+                <div className="flex justify-between">
+                  Impuesto Unico: <span>$0</span>
+                </div>
+                <div className="flex justify-between">
+                  Seguro de Cesantia: <span>$6.000</span>
+                </div>
+                {/* divider start */}
+                <div className="w-full h-[1px] mt-1 bg-black/30"></div>
+                <div className="flex justify-between py-1">
+                  Descuentos Previsionales: <span>$0</span>
+                </div>
+                <div className="w-full h-[1px] mb-1 bg-black/30"></div>
+                {/* divider end */}
+                <div className="flex justify-between font-semibold">
+                  Sueldo Liquido: <span>$6.000</span>
+                </div>
+                <div className="w-full h-[1px] mb-1 mt-1 bg-black/30"></div>
+                <div className="flex justify-between">
+                  Anticipos: <span>$0</span>
+                </div>
+                <div className="flex justify-between">
+                  Descuentos: <span>$0</span>
+                </div>
+                <div className="flex justify-between">
+                  Otros: <span>$0</span>
+                </div>
+                <div className="flex justify-between">
+                  Total Descuentos: <span>$0</span>
+                </div>
+                <div className="w-full h-[1px] mb-1 mt-1 bg-black/30"></div>
+                <div className="flex justify-between bg-black/10 rounded-md p-1 font-bold">
+                  Liquido a Pagar: <span>$1.450.000</span>
+                </div>
+                <div className="mt-3">
+                  <p className="text-center text-[10px] font-semibold leading-tight">
+                    SEISCIENTOS SESENTA Y CUATRO MIL SETECIENTOS OCHENTA Y SIETE
+                    PESOS
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+          <div
+            id="employee-data"
+            className="border rounded-md text-sm overflow-hidden mt-3"
+          >
+            <div className="bg-black/20 p-1 flex space-x-10">
+              <h2>Fecha de Emision: 20/10/2024</h2>
+              <h2>Emitido por: Admin Name</h2>
+            </div>
+            <div className="flex justify-between px-10 py-5">
+              <div className="w-1/2 mt-auto text-center pt-10">
+                <div className="w-[70%] mx-auto h-[1px] bg-black/30"></div>
+                <div className="mt-1">Humberto Chupete Suazo</div>
+                <div className="text-xs">Recibi Conforme</div>
+              </div>
+              <div className="w-1/2">
+                Recibi a plena conformidad el monto indicado en esta liquidacion
+                de sueldo, la cual corresponde plenamente a mi remuneración
+                acordada
+              </div>
+            </div>
+          </div>
+          {/* <div>
+            <Footnote>
+              <p>
+                Este documento es una representación impresa de un comprobante
+                de remuneración y es válido sin firma.
+              </p>
+            </Footnote>
+          </div> */}
         </div>
       </Tailwind>
     </div>
