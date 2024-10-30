@@ -272,8 +272,14 @@ export function AppSidebar() {
       <SidebarFooter>
         <SignedIn>
           <div className="flex gap-3">
-            <UserButton />
-            <div>
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonPopoverCard: { pointerEvents: "initial" },
+                },
+              }}
+            />
+            <div className="text-xs">
               <div>{user?.fullName}</div>
               <div>{user?.emailAddresses[0].emailAddress}</div>
             </div>
