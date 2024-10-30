@@ -1,6 +1,9 @@
+CREATE DATABASE payroll;
+
+\c payroll;
+
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    clerk_user_id VARCHAR(255) UNIQUE NOT NULL,
+    id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
@@ -9,7 +12,7 @@ CREATE TABLE users (
 
 CREATE TABLE companies (
     id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    user_id VARCHAR(255) REFERENCES users(id) ON DELETE CASCADE,
     name VARCHAR(200) NOT NULL,
     rut VARCHAR(50) NOT NULL,
     address VARCHAR(255),
@@ -38,7 +41,6 @@ CREATE TABLE workers (
 CREATE TABLE payrolls (
     id SERIAL PRIMARY KEY,
     worker_id INT REFERENCES workers(id) ON DELETE CASCADE,
-    generated_by INT REFERENCES users(id),
     calculation_date DATE NOT NULL,
     days_worked INT NOT NULL,
     overtime_hours INT DEFAULT 0,
@@ -88,3 +90,4 @@ $$;
 
 
 
+INSERT INTO users (id, name, email) VALUES ('1', 'Admin', 'admin@mail.com');

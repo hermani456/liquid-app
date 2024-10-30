@@ -4,8 +4,12 @@ import DashBoardTable from "@/components/Table";
 import PieChart from "@/components/charts/PieChart";
 import BarChart from "@/components/charts/BarChart";
 import AreaChart from "@/components/charts/AreaChart";
+import { currentUser } from '@clerk/nextjs/server'
 
-const page = () => {
+
+const page = async() => {
+  const { firstName, lastName } = await currentUser()
+
   const date = new Date();
   const day = date.getDate();
   const year = date.getFullYear();
@@ -15,7 +19,7 @@ const page = () => {
     <div className="">
       <div className="py-2 px-3">
         <h2 className="lg:text-2xl font-semibold">
-          Bienvenido, Humberto Chupete Suazo
+          Saludos, {firstName} {lastName}
         </h2>
         <p className="text-xs lg:text-sm">{`Hoy es ${dayName} ${day} de ${monthName} ${year}`}</p>
         <div className="flex flex-wrap gap-5 mt-5">
