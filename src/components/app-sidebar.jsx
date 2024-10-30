@@ -1,5 +1,6 @@
 "use client";
-
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import {
   Atom,
   Bird,
@@ -241,6 +242,7 @@ const data = {
 };
 
 export function AppSidebar() {
+  const { user } = useUser();
   return (
     <Sidebar>
       <SidebarHeader>
@@ -268,7 +270,15 @@ export function AppSidebar() {
         </SidebarItem>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <SignedIn>
+          <div className="flex gap-3">
+            <UserButton />
+            <div>
+              <div>{user?.fullName}</div>
+              <div>{user?.emailAddresses[0].emailAddress}</div>
+            </div>
+          </div>
+        </SignedIn>
       </SidebarFooter>
     </Sidebar>
   );
