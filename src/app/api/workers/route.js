@@ -8,7 +8,7 @@ export const GET = async (req, res) => {
 
   if (!userId) {
     return NextResponse.json(
-      { error: "not authorize" },
+      { error: "Unauthorized" },
       { status: 401 }
     );
   }
