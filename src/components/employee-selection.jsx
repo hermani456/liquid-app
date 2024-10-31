@@ -31,26 +31,21 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchWorkers } from "@/utils/fetchFuntions";
 
 export function EmployeeSelection() {
+  const { isPending, isError, data: employees } = useQuery({
+    queryKey: ["workers"],
+    queryFn: fetchWorkers,
+  });
+
+  useEffect(() => {
+    if(!isPending && employees) {
+      setFilteredEmployees(employees);
+    }
+  }, [isPending, employees]);
+
   const [searchTerm, setSearchTerm] = useState("");
-  const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    const fetchWorkers = async () => {
-      try {
-        const response = await fetch("/api/workers");
-        const data = await response.json();
-        setEmployees(data);
-        setFilteredEmployees(data);
-      } catch (error) {
-        console.error("Error fetching data", error);
-        throw error;
-      }
-    };
-    fetchWorkers();
-  }, []);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
@@ -91,6 +86,8 @@ export function EmployeeSelection() {
     }));
   };
 
+  if(isPending) return <div>Loading...</div>;
+
   return (
     <div className="md:p-6">
       <h2 className="text-2xl font-bold mb-6 text-center">
@@ -113,7 +110,7 @@ export function EmployeeSelection() {
               <TableHead>Nombre</TableHead>
               <TableHead>Apellido</TableHead>
               <TableHead>RUT</TableHead>
-              <TableHead className="hidden md:block">Cargo</TableHead>
+              <TableHead className="hidden md:table-cell">Cargo</TableHead>
               <TableHead>Acción</TableHead>
             </TableRow>
           </TableHeader>
@@ -123,7 +120,7 @@ export function EmployeeSelection() {
                 <TableCell>{employee.name}</TableCell>
                 <TableCell>{employee.last_name}</TableCell>
                 <TableCell>{employee.rut}</TableCell>
-                <TableCell className="hidden md:block">
+                <TableCell className="hidden md:table-cell">
                   {employee.position}
                 </TableCell>
                 <TableCell>

@@ -95,17 +95,20 @@ INSERT INTO users (id, name, email) VALUES ('1', 'Admin', 'admin@mail.com');
 INSERT INTO companies (user_id, name, rut) VALUES ('user_id', 'Empresa 1', '12345678-9');
 INSERT INTO companies (user_id, name, rut) VALUES ('user_id', 'Empresa 2', '98765432-1');
 
-INSERT INTO workers (company_id, name, last_name, rut, sex, home_address, phone, position, department, base_salary, email, created_at) VALUES
-(1, 'John', 'Doe', '12345678-9', 'M', '123 Main St', '123456789', 'Software Engineer', 'Engineering', 1000000, 'john.doe@example.com', NOW()),
-(1, 'Jane', 'Smith', '98765432-1', 'F', '456 Elm St', '987654321', 'Product Manager', 'Product', 1200000, 'jane.smith@example.com', NOW()),
-(1, 'Carlos', 'Gonzalez', '11223344-5', 'M', '789 Oak St', '112233445', 'Data Scientist', 'Data', 1100000, 'carlos.gonzalez@example.com', NOW()),
-(2, 'Maria', 'Lopez', '55667788-0', 'F', '321 Pine St', '556677880', 'UX Designer', 'Design', 900000, 'maria.lopez@example.com', NOW()),
-(2, 'Luis', 'Martinez', '99887766-3', 'M', '654 Cedar St', '998877663', 'DevOps Engineer', 'Operations', 1050000, 'luis.martinez@example.com', NOW());
+INSERT INTO workers (company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email, created_at) VALUES
+(1, 'John', 'Doe', '12345678-9', 'M', '123 Main St', '123456789', 'Software Engineer', 1000000, 'john.doe@example.com', NOW()),
+(1, 'Jane', 'Smith', '98765432-1', 'F', '456 Elm St', '987654321', 'Product Manager', 1200000, 'jane.smith@example.com', NOW()),
+(1, 'Carlos', 'Gonzalez', '11223344-5', 'M', '789 Oak St', '112233445', 'Data Scientist', 1100000, 'carlos.gonzalez@example.com', NOW()),
+(2, 'Maria', 'Lopez', '55667788-0', 'F', '321 Pine St', '556677880', 'UX Designer', 900000, 'maria.lopez@example.com', NOW()),
+(2, 'Luis', 'Martinez', '99887766-3', 'M', '654 Cedar St', '998877663', 'DevOps Engineer', 1050000, 'luis.martinez@example.com', NOW());
 
 SELECT w.*
 FROM workers w
 JOIN companies c ON w.company_id = c.id
 WHERE c.user_id = 'user_id' AND w.company_id = 1;
+
+ALTER TABLE workers DROP COLUMN department;
+
 
 
 
