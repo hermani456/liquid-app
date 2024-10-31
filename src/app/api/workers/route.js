@@ -13,5 +13,5 @@ export const GET = async (req, res) => {
     );
   }
 
-  return NextResponse.json({ workers: result }, { status: 200 });
+  return NextResponse.json(result, { status: 200 });
 };

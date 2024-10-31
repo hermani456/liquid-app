@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -27,54 +27,41 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Search, X } from "lucide-react";
-
-// Mock data - in a real application, this would come from your API or database
-const mockEmployees = [
-  {
-    id: "1",
-    nombre: "Juan",
-    apellido: "Pérez",
-    rut: "12345678-9",
-    cargo: "Desarrollador",
-    sexo: "masculino",
-    direccion: "Calle 123",
-    telefono: "123456789",
-    departamento: "it",
-    salario: "1000000",
-    email: "juan@example.com",
-  },
-  {
-    id: "2",
-    nombre: "María",
-    apellido: "González",
-    rut: "98765432-1",
-    cargo: "Diseñadora",
-    sexo: "femenino",
-    direccion: "Avenida 456",
-    telefono: "987654321",
-    departamento: "marketing",
-    salario: "1100000",
-    email: "maria@example.com",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { fetchWorkers } from "@/utils/fetchFuntions";
 
 export function EmployeeSelection() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [employees, setEmployees] = useState(mockEmployees);
+  const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchWorkers = async () => {
+      try {
+        const response = await fetch("/api/workers");
+        const data = await response.json();
+        setEmployees(data);
+        setFilteredEmployees(data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+        throw error;
+      }
+    };
+    fetchWorkers();
+  }, []);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
-    const filtered = mockEmployees.filter(
+    const filtered = employees.filter(
       (employee) =>
-        employee.nombre.toLowerCase().includes(term) ||
-        employee.apellido.toLowerCase().includes(term) ||
-        employee.rut.includes(term) ||
-        employee.cargo.toLowerCase().includes(term)
+        employee.name.toLowerCase().includes(term) ||
+        employee.last_name.toLowerCase().includes(term) ||
+        employee.position.toLowerCase().includes(term)
     );
-    setEmployees(filtered);
+    setFilteredEmployees(filtered);
   };
 
   const handleSelectEmployee = (employee) => {
@@ -94,6 +81,13 @@ export function EmployeeSelection() {
     setSelectedEmployee((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+
+  const handleSexChange = (value) => {
+    setSelectedEmployee((prevData) => ({
+      ...prevData,
+      sex: value === "masculino" ? "M" : "F",
     }));
   };
 
@@ -124,13 +118,13 @@ export function EmployeeSelection() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {employees.map((employee) => (
+            {filteredEmployees.map((employee) => (
               <TableRow key={employee.id}>
-                <TableCell>{employee.nombre}</TableCell>
-                <TableCell>{employee.apellido}</TableCell>
+                <TableCell>{employee.name}</TableCell>
+                <TableCell>{employee.last_name}</TableCell>
                 <TableCell>{employee.rut}</TableCell>
                 <TableCell className="hidden md:block">
-                  {employee.cargo}
+                  {employee.position}
                 </TableCell>
                 <TableCell>
                   <Button onClick={() => handleSelectEmployee(employee)}>
@@ -156,21 +150,21 @@ export function EmployeeSelection() {
           {selectedEmployee && (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="nombre">Nombre</Label>
+                <Label htmlFor="name">Nombre</Label>
                 <Input
-                  id="nombre"
-                  name="nombre"
-                  value={selectedEmployee.nombre}
+                  id="name"
+                  name="name"
+                  value={selectedEmployee.name}
                   onChange={handleChange}
                   required
                 />
               </div>
               <div>
-                <Label htmlFor="apellido">Apellido</Label>
+                <Label htmlFor="last_name">Apellido</Label>
                 <Input
-                  id="apellido"
-                  name="apellido"
-                  value={selectedEmployee.apellido}
+                  id="last_name"
+                  name="last_name"
+                  value={selectedEmployee.last_name}
                   onChange={handleChange}
                   required
                 />
@@ -188,11 +182,11 @@ export function EmployeeSelection() {
               <div>
                 <Label>Sexo</Label>
                 <RadioGroup
-                  name="sexo"
-                  value={selectedEmployee.sexo}
-                  onValueChange={(value) =>
-                    handleChange({ target: { name: "sexo", value } })
+                  name="sex"
+                  value={
+                    selectedEmployee.sex === "M" ? "masculino" : "femenino"
                   }
+                  onValueChange={handleSexChange}
                   required
                 >
                   <div className="flex items-center space-x-2">
@@ -206,41 +200,41 @@ export function EmployeeSelection() {
                 </RadioGroup>
               </div>
               <div>
-                <Label htmlFor="direccion">Dirección</Label>
+                <Label htmlFor="home_address">Dirección</Label>
                 <Input
-                  id="direccion"
-                  name="direccion"
-                  value={selectedEmployee.direccion}
+                  id="home_address"
+                  name="home_address"
+                  value={selectedEmployee.home_address}
                   onChange={handleChange}
                   required
                 />
               </div>
               <div>
-                <Label htmlFor="telefono">Teléfono</Label>
+                <Label htmlFor="phone">Teléfono</Label>
                 <Input
-                  id="telefono"
-                  name="telefono"
+                  id="phone"
+                  name="phone"
                   type="tel"
-                  value={selectedEmployee.telefono}
+                  value={selectedEmployee.phone}
                   onChange={handleChange}
                   required
                 />
               </div>
               <div>
-                <Label htmlFor="cargo">Cargo</Label>
+                <Label htmlFor="position">Cargo</Label>
                 <Input
-                  id="cargo"
-                  name="cargo"
-                  value={selectedEmployee.cargo}
+                  id="position"
+                  name="position"
+                  value={selectedEmployee.position}
                   onChange={handleChange}
                   required
                 />
               </div>
-              <div>
+              {/* <div>
                 <Label htmlFor="departamento">Departamento</Label>
                 <Select
                   name="departamento"
-                  value={selectedEmployee.departamento}
+                  value={selectedEmployee.department}
                   onValueChange={(value) =>
                     handleChange({ target: { name: "departamento", value } })
                   }
@@ -256,14 +250,14 @@ export function EmployeeSelection() {
                     <SelectItem value="marketing">Marketing</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
+              </div> */}
               <div>
-                <Label htmlFor="salario">Salario</Label>
+                <Label htmlFor="base_salary">Salario</Label>
                 <Input
-                  id="salario"
-                  name="salario"
+                  id="base_salary"
+                  name="base_salary"
                   type="number"
-                  value={selectedEmployee.salario}
+                  value={selectedEmployee.base_salary}
                   onChange={handleChange}
                   required
                 />
