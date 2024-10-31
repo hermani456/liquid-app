@@ -102,6 +102,7 @@ INSERT INTO workers (company_id, name, last_name, rut, sex, home_address, phone,
 (2, 'Maria', 'Lopez', '55667788-0', 'F', '321 Pine St', '556677880', 'UX Designer', 900000, 'maria.lopez@example.com', NOW()),
 (2, 'Luis', 'Martinez', '99887766-3', 'M', '654 Cedar St', '998877663', 'DevOps Engineer', 1050000, 'luis.martinez@example.com', NOW());
 
+
 SELECT w.*
 FROM workers w
 JOIN companies c ON w.company_id = c.id
@@ -109,6 +110,8 @@ WHERE c.user_id = 'user_id' AND w.company_id = 1;
 
 ALTER TABLE workers DROP COLUMN department;
 
+INSERT INTO workers (company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email) VALUES
+(1,'Maria', 'Gonzalez', '22334455-6', 'F', '123 Main St', '123456789', 'Software Engineer', 1000000, 'luis.martinez@example.com')
 
 
 

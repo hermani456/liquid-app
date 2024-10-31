@@ -11,7 +11,7 @@ export const selectWorkersByUserId = async (userId) => {
     );
     return rows;
   } catch (error) {
-    console.error('Error executing query', error);
+    console.error("Error executing query", error);
     throw error;
   }
 };
@@ -27,7 +27,7 @@ export const getWorkerByIdAndUserId = async (workerId, userId) => {
     );
     return rows[0]; // Return the worker if found
   } catch (error) {
-    console.error('Error fetching worker', error);
+    console.error("Error fetching worker", error);
     throw error;
   }
 };
@@ -62,6 +62,35 @@ export const updateWorker = async (
         base_salary,
         email,
         id,
+      ]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error executing query", error);
+    throw error;
+  }
+};
+
+export const postNewWorker = async (
+  company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email
+) => {
+  console.log("rut", rut);
+  try {
+    const result = await pool.query(
+      `INSERT INTO workers (company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        RETURNING *;`,
+      [
+        company_id,
+        name,
+        last_name,
+        rut,
+        sex,
+        home_address,
+        phone,
+        position,
+        base_salary,
+        email,
       ]
     );
     return result.rows[0];

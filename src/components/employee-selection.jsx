@@ -27,10 +27,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Search, X } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { fetchWorkers } from "@/utils/fetchFuntions";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchWorkers, fetchUpdateWorker } from "@/utils/fetchFuntions";
 
 export function EmployeeSelection() {
+  const queryClient = useQueryClient();
   const { isPending, isError, data: employees } = useQuery({
     queryKey: ["workers"],
     queryFn: fetchWorkers,
@@ -41,6 +42,17 @@ export function EmployeeSelection() {
       setFilteredEmployees(employees);
     }
   }, [isPending, employees]);
+
+  const updateWorkerMutation = useMutation({
+    mutationFn: fetchUpdateWorker,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['workers']);
+      setIsModalOpen(false);
+    },
+    onError: (error) => {
+      console.error('Error updating worker:', error);
+    }
+  });
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -68,6 +80,8 @@ export function EmployeeSelection() {
     e.preventDefault();
     // Here you would typically send the updated data to a server
     console.log(selectedEmployee);
+    const { ...worker} = selectedEmployee;
+    updateWorkerMutation.mutate(worker);
     setIsModalOpen(false);
   };
 

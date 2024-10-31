@@ -33,3 +33,23 @@ export const fetchUpdateWorker = async (worker) => {
     throw error;
   }
 };
+
+export const fetchCreateWorker = async (worker) => {
+  try {
+    const response = await fetch('/api/workers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(worker),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create worker');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error creating worker:', error);
+    throw error;
+  }
+}
