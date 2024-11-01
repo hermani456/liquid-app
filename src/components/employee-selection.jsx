@@ -35,6 +35,7 @@ export function EmployeeSelection() {
   const { isPending, isError, data: employees } = useQuery({
     queryKey: ["workers"],
     queryFn: fetchWorkers,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
@@ -78,8 +79,6 @@ export function EmployeeSelection() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the updated data to a server
-    console.log(selectedEmployee);
     const { ...worker} = selectedEmployee;
     updateWorkerMutation.mutate(worker);
     setIsModalOpen(false);
@@ -101,6 +100,8 @@ export function EmployeeSelection() {
   };
 
   if(isPending) return <div>Loading...</div>;
+
+  if(isError) return <div>Error loading employees</div>;
 
   return (
     <div className="md:p-6">
