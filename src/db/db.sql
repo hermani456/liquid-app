@@ -31,7 +31,6 @@ CREATE TABLE workers (
     home_address VARCHAR(200),
     phone VARCHAR(15),
     position VARCHAR(100),
-    department VARCHAR(100),
     base_salary INT NOT NULL,
     email VARCHAR(100),
     created_at TIMESTAMP DEFAULT NOW()
@@ -92,8 +91,8 @@ $$;
 
 INSERT INTO users (id, name, email) VALUES ('1', 'Admin', 'admin@mail.com');
 
-INSERT INTO companies (user_id, name, rut) VALUES ('user_id', 'Empresa 1', '12345678-9');
-INSERT INTO companies (user_id, name, rut) VALUES ('user_id', 'Empresa 2', '98765432-1');
+INSERT INTO companies (user_id, name, rut) VALUES ('user_', 'Empresa 1', '12345678-9');
+INSERT INTO companies (user_id, name, rut) VALUES ('user_', 'Empresa 2', '98765432-1');
 
 INSERT INTO workers (company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email, created_at) VALUES
 (1, 'John', 'Doe', '12345678-9', 'M', '123 Main St', '123456789', 'Software Engineer', 1000000, 'john.doe@example.com', NOW()),
