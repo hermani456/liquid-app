@@ -35,11 +35,12 @@ export function CompaniesManagement() {
     staleTime: Infinity,
   });
 
+
   useEffect(() => {
-    if (!isPending && companies) {
+    if (companies) {
       setFilteredCompanies(companies);
     }
-  }, [isPending, companies]);
+  }, [companies]);
 
   const updateCompanyMutation = useMutation({
     mutationFn: fetchUpdateCompany,
@@ -134,7 +135,7 @@ export function CompaniesManagement() {
           </TableBody>
         </Table>
       </div>
-      {companies.length === 0 && (
+      {companies?.length === 0 && (
         <p className="text-center mt-4 text-muted-foreground">
           No se encontraron empresas.
         </p>

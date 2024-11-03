@@ -12,11 +12,33 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useQuery } from "@tanstack/react-query";
+import { fetchCompanies } from "@/utils/fetchFuntions";
 
-export function TeamSwitcher({
-  teams
-}) {
-  const [activeTeam, setActiveTeam] = React.useState(teams[0])
+
+export function CompanySwitcher() {
+  const {
+    isPending,
+    isError,
+    data: companies,
+  } = useQuery({
+    queryKey: ["companies"],
+    queryFn: fetchCompanies,
+    staleTime: Infinity,
+  });
+
+
+  const [activeCompany, setActiveCompany] = React.useState([])
+
+  React.useEffect(() => {
+    if (!isPending && companies) {
+      console.log("companies", companies)
+      setActiveCompany(companies[0]);
+    }
+  }, [companies]);
+
+  if (isPending) return <div>Loading...</div>;
+  if (isError) return <div>Error loading companies</div>;
 
   return (
     (<DropdownMenu>
@@ -26,31 +48,31 @@ export function TeamSwitcher({
           className="flex items-center gap-1.5 overflow-hidden px-2 py-1.5 text-left text-sm transition-all">
           <div
             className="flex h-5 w-5 items-center justify-center rounded-sm bg-primary text-primary-foreground">
-            <activeTeam.logo className="h-3.5 w-3.5 shrink-0" />
+            {/* <activeTeam.logo className="h-3.5 w-3.5 shrink-0" /> */}
           </div>
           <div className="line-clamp-1 flex-1 pr-2 font-medium">
-            {activeTeam.name}
+            {activeCompany.name}
           </div>
           <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground/50" />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-64" align="start" side="right" sideOffset={4}>
         <DropdownMenuLabel className="text-xs text-muted-foreground">
-          Teams
+          Empresas
         </DropdownMenuLabel>
-        {teams.map((team, index) => (
+        {companies.map((company, index) => (
           <DropdownMenuItem
-            key={team.name}
-            onClick={() => setActiveTeam(team)}
+            key={company.name}
+            onClick={() => setActiveCompany(company)}
             className="items-start gap-2 px-1.5">
             <div
               className="flex h-8 w-8 items-center justify-center rounded-sm bg-primary text-primary-foreground">
-              <team.logo className="h-5 w-5 shrink-0" />
+              {/* <team.logo className="h-5 w-5 shrink-0" /> */}
             </div>
             <div className="grid flex-1 leading-tight">
-              <div className="line-clamp-1 font-medium">{team.name}</div>
+              <div className="line-clamp-1 font-medium">{company.name}</div>
               <div className="overflow-hidden text-xs text-muted-foreground">
-                <div className="line-clamp-1">{team.plan}</div>
+                {/* <div className="line-clamp-1">{team.plan}</div> */}
               </div>
             </div>
             <DropdownMenuShortcut className="self-center">

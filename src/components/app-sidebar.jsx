@@ -30,7 +30,7 @@ import { NavProjects } from "@/components/nav-projects";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
 import { StorageCard } from "@/components/storage-card";
-import { TeamSwitcher } from "@/components/team-switcher";
+import { CompanySwitcher } from "@/components/company-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -246,7 +246,7 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <CompanySwitcher />
       </SidebarHeader>
       <SidebarContent>
         <SidebarItem>
@@ -271,7 +271,7 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <SignedIn>
-          <div className="flex gap-3">
+          <div className="flex gap-3 overflow-auto">
             <UserButton
               appearance={{
                 elements: {
@@ -279,9 +279,11 @@ export function AppSidebar() {
                 },
               }}
             />
-            <div className="text-xs">
+            <div className="text-xs max-w-44">
               <div>{user?.fullName}</div>
-              <div>{user?.emailAddresses[0].emailAddress}</div>
+              <div className="truncate">
+                {user?.emailAddresses[0].emailAddress}
+              </div>
             </div>
           </div>
         </SignedIn>
