@@ -25,14 +25,18 @@ import { SheetDescription } from "./ui/sheet";
 
 export function EmployeeSelection() {
   const queryClient = useQueryClient();
-  const { isPending, isError, data: employees } = useQuery({
+  const {
+    isPending,
+    isError,
+    data: employees,
+  } = useQuery({
     queryKey: ["workers"],
     queryFn: fetchWorkers,
     staleTime: Infinity,
   });
 
   useEffect(() => {
-    if(!isPending && employees) {
+    if (!isPending && employees) {
       setFilteredEmployees(employees);
     }
   }, [isPending, employees]);
@@ -40,12 +44,12 @@ export function EmployeeSelection() {
   const updateWorkerMutation = useMutation({
     mutationFn: fetchUpdateWorker,
     onSuccess: () => {
-      queryClient.invalidateQueries(['workers']);
+      queryClient.invalidateQueries(["workers"]);
       setIsModalOpen(false);
     },
     onError: (error) => {
-      console.error('Error updating worker:', error);
-    }
+      console.error("Error updating worker:", error);
+    },
   });
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,7 +76,7 @@ export function EmployeeSelection() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { ...worker} = selectedEmployee;
+    const { ...worker } = selectedEmployee;
     updateWorkerMutation.mutate(worker);
     setIsModalOpen(false);
   };
@@ -92,9 +96,9 @@ export function EmployeeSelection() {
     }));
   };
 
-  if(isPending) return <div>Loading...</div>;
+  if (isPending) return <div>Loading...</div>;
 
-  if(isError) return <div>Error loading employees</div>;
+  if (isError) return <div>Error loading employees</div>;
 
   return (
     <div className="md:p-6">
@@ -151,7 +155,9 @@ export function EmployeeSelection() {
         <DialogContent className="max-w-[300px] sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Editar Empleado</DialogTitle>
-            <SheetDescription className="sr-only">Modal edicion empleado</SheetDescription>
+            <SheetDescription className="sr-only">
+              Modal edicion empleado
+            </SheetDescription>
           </DialogHeader>
           {selectedEmployee && (
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -236,27 +242,6 @@ export function EmployeeSelection() {
                   required
                 />
               </div>
-              {/* <div>
-                <Label htmlFor="departamento">Departamento</Label>
-                <Select
-                  name="departamento"
-                  value={selectedEmployee.department}
-                  onValueChange={(value) =>
-                    handleChange({ target: { name: "departamento", value } })
-                  }
-                  required
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccione departamento" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="rrhh">Recursos Humanos</SelectItem>
-                    <SelectItem value="it">IT</SelectItem>
-                    <SelectItem value="ventas">Ventas</SelectItem>
-                    <SelectItem value="marketing">Marketing</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div> */}
               <div>
                 <Label htmlFor="base_salary">Salario</Label>
                 <Input

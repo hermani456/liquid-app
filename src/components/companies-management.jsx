@@ -23,24 +23,6 @@ import { fetchCompanies } from "@/utils/fetchFuntions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SheetDescription } from "./ui/sheet";
 
-// Mock data - in a real application, this would come from your API or database
-const mockCompanies = [
-  {
-    id: "1",
-    nombre: "TechCorp",
-    rut: "12345678-9",
-    address: "Calle Tecnología 123",
-    phone: "+56 2 1234 5678",
-  },
-  {
-    id: "2",
-    nombre: "EcoSolutions",
-    rut: "98765432-1",
-    address: "Avenida Verde 456",
-    phone: "+56 2 8765 4321",
-  },
-];
-
 export function CompaniesManagement() {
   const {
     isPending,
@@ -69,7 +51,7 @@ export function CompaniesManagement() {
     const filtered = companies.filter(
       (company) =>
         company.name.toLowerCase().includes(term) ||
-        // company.rut.includes(term) ||
+        company.rut.includes(term) ||
         company.address.toLowerCase().includes(term) ||
         company.phone.includes(term)
     );
