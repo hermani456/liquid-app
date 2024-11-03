@@ -19,11 +19,12 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Search, X } from "lucide-react";
-import { fetchCompanies } from "@/utils/fetchFuntions";
+import { fetchCompanies, fetchUpdateCompany } from "@/utils/fetchFuntions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SheetDescription } from "./ui/sheet";
 
 export function CompaniesManagement() {
+  const queryClient = useQueryClient();
   const {
     isPending,
     isError,
@@ -40,6 +41,17 @@ export function CompaniesManagement() {
     }
   }, [isPending, companies]);
 
+  const updateCompanyMutation = useMutation({
+    mutationFn: fetchUpdateCompany,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["companies"]);
+      setIsModalOpen(false);
+    },
+    onError: (error) => {
+      console.error("Error updating company:", error);
+    },
+  });
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [filteredCompanies, setFilteredCompanies] = useState([]);
@@ -50,10 +62,10 @@ export function CompaniesManagement() {
     setSearchTerm(term);
     const filtered = companies.filter(
       (company) =>
-        company.name.toLowerCase().includes(term) ||
-        company.rut.includes(term) ||
-        company.address.toLowerCase().includes(term) ||
-        company.phone.includes(term)
+        company?.name?.toLowerCase().includes(term) ||
+        company?.rut?.includes(term) ||
+        company?.address?.toLowerCase().includes(term) ||
+        company?.phone?.includes(term)
     );
     setFilteredCompanies(filtered);
   };
@@ -65,8 +77,7 @@ export function CompaniesManagement() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the updated data to a server
-    console.log(selectedCompany);
+    updateCompanyMutation.mutate(selectedCompany);
     setIsModalOpen(false);
   };
 
@@ -141,7 +152,7 @@ export function CompaniesManagement() {
                 <Input
                   id="name"
                   name="name"
-                  value={selectedCompany.name}
+                  value={selectedCompany?.name}
                   onChange={handleChange}
                   required
                 />
@@ -151,7 +162,7 @@ export function CompaniesManagement() {
                 <Input
                   id="rut"
                   name="rut"
-                  value={selectedCompany.rut}
+                  value={selectedCompany?.rut}
                   onChange={handleChange}
                   required
                 />
@@ -161,7 +172,7 @@ export function CompaniesManagement() {
                 <Input
                   id="address"
                   name="address"
-                  value={selectedCompany.address}
+                  value={selectedCompany?.address}
                   onChange={handleChange}
                   required
                 />
@@ -172,7 +183,7 @@ export function CompaniesManagement() {
                   id="phone"
                   name="phone"
                   type="tel"
-                  value={selectedCompany.phone}
+                  value={selectedCompany?.phone}
                   onChange={handleChange}
                   required
                 />

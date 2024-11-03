@@ -62,9 +62,9 @@ export function EmployeeSelection() {
     setSearchTerm(term);
     const filtered = employees.filter(
       (employee) =>
-        employee.name.toLowerCase().includes(term) ||
-        employee.last_name.toLowerCase().includes(term) ||
-        employee.position.toLowerCase().includes(term)
+        employee?.name?.toLowerCase().includes(term) ||
+        employee?.last_name?.toLowerCase().includes(term) ||
+        employee?.position?.toLowerCase().includes(term)
     );
     setFilteredEmployees(filtered);
   };
@@ -76,8 +76,7 @@ export function EmployeeSelection() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { ...worker } = selectedEmployee;
-    updateWorkerMutation.mutate(worker);
+    updateWorkerMutation.mutate(selectedEmployee);
     setIsModalOpen(false);
   };
 
@@ -129,11 +128,11 @@ export function EmployeeSelection() {
           <TableBody>
             {filteredEmployees.map((employee) => (
               <TableRow key={employee.id}>
-                <TableCell>{employee.name}</TableCell>
-                <TableCell>{employee.last_name}</TableCell>
-                <TableCell>{employee.rut}</TableCell>
+                <TableCell>{employee?.name}</TableCell>
+                <TableCell>{employee?.last_name}</TableCell>
+                <TableCell>{employee?.rut}</TableCell>
                 <TableCell className="hidden md:table-cell">
-                  {employee.position}
+                  {employee?.position}
                 </TableCell>
                 <TableCell>
                   <Button onClick={() => handleSelectEmployee(employee)}>
@@ -166,7 +165,7 @@ export function EmployeeSelection() {
                 <Input
                   id="name"
                   name="name"
-                  value={selectedEmployee.name}
+                  value={selectedEmployee?.name}
                   onChange={handleChange}
                   required
                 />
@@ -176,7 +175,7 @@ export function EmployeeSelection() {
                 <Input
                   id="last_name"
                   name="last_name"
-                  value={selectedEmployee.last_name}
+                  value={selectedEmployee?.last_name}
                   onChange={handleChange}
                   required
                 />
@@ -186,7 +185,7 @@ export function EmployeeSelection() {
                 <Input
                   id="rut"
                   name="rut"
-                  value={selectedEmployee.rut}
+                  value={selectedEmployee?.rut}
                   onChange={handleChange}
                   required
                 />
@@ -196,7 +195,7 @@ export function EmployeeSelection() {
                 <RadioGroup
                   name="sex"
                   value={
-                    selectedEmployee.sex === "M" ? "masculino" : "femenino"
+                    selectedEmployee?.sex === "M" ? "masculino" : "femenino"
                   }
                   onValueChange={handleSexChange}
                   required

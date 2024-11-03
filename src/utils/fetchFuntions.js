@@ -89,3 +89,23 @@ export const fetchCompanies = async () => {
     throw error;
   }
 };
+
+export const fetchUpdateCompany = async (company) => {
+  try {
+    const response = await fetch(`/api/companies/${company.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(company),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update company");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error updating company:", error);
+    throw error;
+  }
+}

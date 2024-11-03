@@ -29,3 +29,19 @@ export const selectCompaniesByUserId = async (userId) => {
 };
 
 // edit company should check if userid is the same as the company that is being edited
+
+export const editCompany = async (userId, company) => {
+  try {
+    const result = await pool.query(
+      `UPDATE companies
+        SET name = $1, rut = $2, address = $3, phone = $4
+        WHERE user_id = $5 AND id = $6
+        RETURNING *`,
+      [company.name, company.rut, company.address, company.phone, userId, company.id]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error executing query", error);
+    throw error;
+  }
+}
