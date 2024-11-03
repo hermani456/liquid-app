@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ThemeSwitcher() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -16,18 +16,18 @@ export default function ThemeSwitcher() {
     return null;
   }
 
-  const isDark = theme === "dark";
+  const isDark = resolvedTheme === "dark";
 
   return (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 size-10"
+      className="p-2 rounded-full bg-gray-200 dark:bg-gray-800 size-10"
     >
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence mode="wait" >
         {isDark ? (
           <motion.span
             key="dark"
-            initial={{ opacity: 0, rotate: -90 }}
+            initial={{ opacity: 0, rotate: -90}}
             animate={{ opacity: 1, rotate: 0 }}
             exit={{ opacity: 0, rotate: 90 }}
             transition={{ duration: 0.5 }}
@@ -38,7 +38,7 @@ export default function ThemeSwitcher() {
         ) : (
           <motion.span
             key="light"
-            initial={{ opacity: 0, rotate: -90 }}
+            initial={{ opacity: 0, rotate: -90}}
             animate={{ opacity: 1, rotate: 0 }}
             exit={{ opacity: 0, rotate: 90 }}
             transition={{ duration: 0.5 }}

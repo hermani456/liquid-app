@@ -53,3 +53,23 @@ export const fetchCreateWorker = async (worker) => {
     throw error;
   }
 }
+
+export const fetchCreateCompany = async (company) => {
+  try {
+    const response = await fetch('/api/companies', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(company),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create company');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error creating company:', error);
+    throw error;
+  }
+}

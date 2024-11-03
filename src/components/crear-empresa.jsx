@@ -4,13 +4,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { fetchCreateCompany } from "@/utils/fetchFuntions";
 
 export function CrearEmpresa() {
   const [formData, setFormData] = useState({
-    nombre: "",
+    name: "",
     rut: "",
-    direccion: "",
-    telefono: "",
+    address: "",
+    phone: "",
   });
 
   const handleChange = (e) => {
@@ -21,11 +22,15 @@ export function CrearEmpresa() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Here you would typically send the data to a server
-    console.log(formData);
-    alert("Empresa creada!");
+    await fetchCreateCompany(formData);
+    setFormData({
+      name: "",
+      rut: "",
+      address: "",
+      phone: "",
+    });
   };
 
   return (
@@ -33,11 +38,11 @@ export function CrearEmpresa() {
       <h2 className="text-2xl lg:text-3xl font-bold mb-6">Crear Empresa</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Label htmlFor="nombre">Nombre de la Empresa</Label>
+          <Label htmlFor="name">Nombre de la Empresa</Label>
           <Input
-            id="nombre"
-            name="nombre"
-            value={formData.nombre}
+            id="name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
           />
@@ -53,22 +58,22 @@ export function CrearEmpresa() {
           />
         </div>
         <div className="md:col-span-2">
-          <Label htmlFor="direccion">Dirección</Label>
+          <Label htmlFor="address">Dirección</Label>
           <Input
-            id="direccion"
-            name="direccion"
-            value={formData.direccion}
+            id="address"
+            name="address"
+            value={formData.address}
             onChange={handleChange}
             required
           />
         </div>
         <div className="md:col-span-2">
-          <Label htmlFor="telefono">Teléfono</Label>
+          <Label htmlFor="phone">Teléfono</Label>
           <Input
-            id="telefono"
-            name="telefono"
+            id="phone"
+            name="phone"
             type="tel"
-            value={formData.telefono}
+            value={formData.phone}
             onChange={handleChange}
             required
           />
