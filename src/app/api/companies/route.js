@@ -1,6 +1,6 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { createCompany } from "@/db/queries/companies";
+import { createCompany, selectCompaniesByUserId } from "@/db/queries/companies";
 
 export const POST = async (req, res) => {
   const { userId } = getAuth(req);
@@ -24,6 +24,25 @@ export const POST = async (req, res) => {
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     console.error("Error inserting company:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+};
+
+export const GET = async (req, res) => {
+  const { userId } = getAuth(req);
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const result = await selectCompaniesByUserId(userId);
+    return NextResponse.json(result, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching companies:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

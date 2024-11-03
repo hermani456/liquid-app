@@ -21,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Search } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchWorkers, fetchUpdateWorker } from "@/utils/fetchFuntions";
+import { SheetDescription } from "./ui/sheet";
 
 export function EmployeeSelection() {
   const queryClient = useQueryClient();
@@ -150,6 +151,7 @@ export function EmployeeSelection() {
         <DialogContent className="max-w-[300px] sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Editar Empleado</DialogTitle>
+            <SheetDescription className="sr-only">Modal edicion empleado</SheetDescription>
           </DialogHeader>
           {selectedEmployee && (
             <form onSubmit={handleSubmit} className="space-y-4">

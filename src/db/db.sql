@@ -92,6 +92,7 @@ $$;
 INSERT INTO users (id, name, email) VALUES ('1', 'Admin', 'admin@mail.com');
 
 INSERT INTO companies (user_id, name, rut) VALUES ('user_', 'Empresa 1', '12345678-9');
+update companies set address = '123 Main St', phone = '123456789' where id = 1;
 INSERT INTO companies (user_id, name, rut) VALUES ('user_', 'Empresa 2', '98765432-1');
 
 INSERT INTO workers (company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email, created_at) VALUES
