@@ -1,6 +1,19 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { getWorkerByIdAndUserId, updateWorker } from "@/db/queries/workers";
+import { selectWorkersByUserId, updateWorker } from "@/db/queries/workers";
+
+export const GET = async (req, { params }) => {
+  const { id: companyId } = params;
+  const { userId } = getAuth(req);
+  // console.log("userId", userId, "companyId", companyId);
+  const result = await selectWorkersByUserId(userId, companyId);
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  return NextResponse.json(result, { status: 200 });
+};
 
 export const PUT = async (req, { params }) => {
 //   const { userId } = getAuth(req);

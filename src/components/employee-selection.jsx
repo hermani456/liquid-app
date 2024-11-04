@@ -22,17 +22,22 @@ import { Search } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchWorkers, fetchUpdateWorker } from "@/utils/fetchFuntions";
 import { SheetDescription } from "./ui/sheet";
+import { useCompanyStore } from "@/store/CompanyStore";
 
 export function EmployeeSelection() {
+  const companyId = useCompanyStore((state) => state.companyId);
+
   const queryClient = useQueryClient();
+
   const {
     isPending,
     isError,
     data: employees,
   } = useQuery({
-    queryKey: ["workers"],
-    queryFn: fetchWorkers,
+    queryKey: ["workers", companyId],
+    queryFn: () => fetchWorkers(companyId),
     staleTime: Infinity,
+    enabled: !!companyId,
   });
 
   useEffect(() => {
@@ -53,7 +58,7 @@ export function EmployeeSelection() {
   });
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [selectedEmployee, setSelectedEmployee] = useState("");
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

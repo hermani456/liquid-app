@@ -1,6 +1,6 @@
-export const fetchWorkers = async () => {
+export const fetchWorkers = async (companyId) => {
   try {
-    const response = await fetch("/api/workers");
+    const response = await fetch(`/api/workers/${companyId}`);
 
     if (!response.ok) {
       throw new Error("Error fetching workers");

@@ -12,10 +12,14 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCompanies } from "@/utils/fetchFuntions";
+import { useCompanyStore } from "@/store/CompanyStore";
 
 export function CompanySwitcher() {
+  const { companyId, setCompanyId } = useCompanyStore();
+  const queryClient = useQueryClient();
+
   const {
     isPending,
     isError,
@@ -26,24 +30,16 @@ export function CompanySwitcher() {
     staleTime: Infinity,
   });
 
-  // save to localStorage
-  const [activeCompany, setActiveCompany] = useState(() => {
-    const storedCompany = localStorage.getItem("activeCompany");
-    return storedCompany ? JSON.parse(storedCompany) : [];
-  });
-
   useEffect(() => {
-    if (activeCompany) {
-      localStorage.setItem("activeCompany", JSON.stringify(activeCompany));
+    if (!isPending && companies && !companyId) {
+      setCompanyId(companies[0]?.id);
     }
-  }, [activeCompany]);
+  }, [companies, isPending, companyId, setCompanyId]);
 
-  useEffect(() => {
-    if (!isPending && companies) {
-      console.log("companies", companies);
-      setActiveCompany(companies[0]);
-    }
-  }, [companies]);
+  const handleCompanyChange = (company) => {
+    setCompanyId(company.id);
+    queryClient.invalidateQueries(["workers"]);
+  };
 
   if (isPending) return <div>Loading...</div>;
   if (isError) return <div>Error loading companies</div>;
@@ -56,7 +52,7 @@ export function CompanySwitcher() {
             {/* <activeTeam.logo className="h-3.5 w-3.5 shrink-0" /> */}
           </div>
           <div className="line-clamp-1 flex-1 pr-2 font-medium">
-            {activeCompany.name}
+            {companies.find((c) => c.id === companyId)?.name}
           </div>
           <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground/50" />
         </div>
@@ -73,7 +69,7 @@ export function CompanySwitcher() {
         {companies.map((company, index) => (
           <DropdownMenuItem
             key={company.name}
-            onClick={() => setActiveCompany(company)}
+            onClick={() => handleCompanyChange(company)}
             className="items-start gap-2 px-1.5"
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-primary text-primary-foreground">
