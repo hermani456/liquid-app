@@ -22,7 +22,6 @@ export function EmployeeForm() {
     direccion: "",
     telefono: "",
     cargo: "",
-    departamento: "",
     salario: "",
     email: "",
   });
@@ -37,7 +36,7 @@ export function EmployeeForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the data to a server
+    // TODO
     console.log(formData);
   };
 
@@ -119,43 +118,22 @@ export function EmployeeForm() {
           />
         </div>
         <div>
-          <Label htmlFor="cargo">Cargo</Label>
-          <Input
-            id="cargo"
-            name="cargo"
-            value={formData.cargo}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="departamento">Departamento</Label>
-          <Select
-            name="departamento"
-            value={formData.departamento}
-            onValueChange={(value) =>
-              setFormData((prev) => ({ ...prev, departamento: value }))
-            }
-            required
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Seleccione departamento" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="rrhh">Recursos Humanos</SelectItem>
-              <SelectItem value="it">IT</SelectItem>
-              <SelectItem value="ventas">Ventas</SelectItem>
-              <SelectItem value="marketing">Marketing</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
           <Label htmlFor="salario">Salario</Label>
           <Input
             id="salario"
             name="salario"
             type="number"
             value={formData.salario}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="md:col-span-2">
+          <Label htmlFor="cargo">Cargo</Label>
+          <Input
+            id="cargo"
+            name="cargo"
+            value={formData.cargo}
             onChange={handleChange}
             required
           />
