@@ -1,23 +1,41 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { postNewWorker } from "@/db/queries/workers";
-
+import { createNewWorker } from "@/db/queries/workers";
 
 export const POST = async (req, res) => {
-  // const { userId } = getAuth(req);
+  const { userId } = getAuth(req);
   const body = await req.json();
-  console.log(body)
+
   const {
-    company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email
+    company_id,
+    name,
+    last_name,
+    rut,
+    sex,
+    home_address,
+    phone,
+    position,
+    base_salary,
+    email,
   } = body;
 
-  // if (!userId) {
-  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  // }
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   try {
-    const result = await postNewWorker(
-      company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email
+    const result = await createNewWorker(
+      userId,
+      company_id,
+      name,
+      last_name,
+      rut,
+      sex,
+      home_address,
+      phone,
+      position,
+      base_salary,
+      email
     );
     return NextResponse.json(result, { status: 200 });
   } catch (error) {

@@ -16,6 +16,7 @@ export const selectWorkersByUserId = async (userId, companyID) => {
   }
 };
 
+
 // export const getWorkerByIdAndUserId = async (workerId, userId) => {
 //   try {
 //     const { rows } = await pool.query(
@@ -71,11 +72,25 @@ export const updateWorker = async (
   }
 };
 
-export const postNewWorker = async (
-  company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email
+export const createNewWorker = async (
+  userId, company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email
 ) => {
-  console.log("rut", rut);
   try {
+    const companyResult = await pool.query(
+      `SELECT user_id FROM companies WHERE id = $1`,
+      [company_id]
+    );
+
+    if (companyResult.rows.length === 0) {
+      throw new Error('Company not found');
+    }
+
+    const companyOwnerId = companyResult.rows[0].user_id;
+    
+    if (companyOwnerId !== userId) {
+      throw new Error('You do not have permission to add workers to this company');
+    }
+    
     const result = await pool.query(
       `INSERT INTO workers (company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
@@ -99,3 +114,29 @@ export const postNewWorker = async (
     throw error;
   }
 };
+
+export const deleteWorker = async (userId, workerId) => {
+  try {
+    const result = await pool.query(
+      `SELECT w.id
+       FROM workers w
+       JOIN companies c ON w.company_id = c.id
+       WHERE w.id = $1 AND c.user_id = $2;`,
+      [workerId, userId]
+    );
+
+    if (result.rows.length === 0) {
+      throw new Error('You do not have permission to delete this worker or the worker does not exist.');
+    }
+    const deletedWorker = await pool.query(
+      `DELETE FROM workers
+        WHERE id = $1
+        RETURNING *;`,
+      [workerId]
+    );
+    return deletedWorker.rows[0];
+  } catch (error) {
+    console.error("Error executing query", error);
+    throw error;
+  }
+}

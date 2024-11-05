@@ -13,6 +13,8 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -20,12 +22,20 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Search } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchWorkers, fetchUpdateWorker } from "@/utils/fetchFuntions";
+import {
+  fetchWorkers,
+  fetchUpdateWorker,
+  fetchDeleteWorker,
+} from "@/utils/fetchFuntions";
 import { SheetDescription } from "./ui/sheet";
 import { useCompanyStore } from "@/store/CompanyStore";
+import { LoaderCircle } from "lucide-react";
 
 export function EmployeeSelection() {
   const companyId = useCompanyStore((state) => state.companyId);
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [employeeToDelete, setEmployeeToDelete] = useState(null);
 
   const queryClient = useQueryClient();
 
@@ -54,6 +64,17 @@ export function EmployeeSelection() {
     },
     onError: (error) => {
       console.error("Error updating worker:", error);
+    },
+  });
+
+  const deleteWorkerMutation = useMutation({
+    mutationFn: fetchDeleteWorker,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["workers"]);
+      // setIsModalOpen(false);
+    },
+    onError: (error) => {
+      console.error("Error deleting worker:", error);
     },
   });
 
@@ -100,6 +121,11 @@ export function EmployeeSelection() {
     }));
   };
 
+  const handleDeleteEmployee = (employee) => {
+    setEmployeeToDelete(employee);
+    setIsDeleteDialogOpen(true);
+  };
+
   if (isPending) return <div>Loading...</div>;
 
   if (isError) return <div>Error loading employees</div>;
@@ -140,9 +166,17 @@ export function EmployeeSelection() {
                   {employee?.position}
                 </TableCell>
                 <TableCell>
-                  <Button onClick={() => handleSelectEmployee(employee)}>
-                    Editar
-                  </Button>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button onClick={() => handleSelectEmployee(employee)}>
+                      Editar
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={() => handleDeleteEmployee(employee)}
+                    >
+                      Eliminar
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -154,6 +188,47 @@ export function EmployeeSelection() {
           No se encontraron empleados.
         </p>
       )}
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirmar Eliminación</DialogTitle>
+            <DialogDescription>
+              ¿Estás seguro de que deseas eliminar a {employeeToDelete?.name}{" "}
+              {employeeToDelete?.last_name}?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="secondary"
+              onClick={() => setIsDeleteDialogOpen(false)}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                deleteWorkerMutation.mutate(employeeToDelete.id, {
+                  onSuccess: () => {
+                    setIsDeleteDialogOpen(false);
+                    setEmployeeToDelete(null);
+                  },
+                });
+              }}
+              disabled={deleteWorkerMutation.isPending}
+            >
+              {deleteWorkerMutation.isPending ? (
+            <>
+              <LoaderCircle  className="mr-2 h-4 w-4 animate-spin" />
+              Eliminando...
+            </>
+          ) : (
+            "Eliminar"
+          )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-[300px] sm:max-w-[425px] max-h-[90vh] overflow-y-auto">

@@ -109,3 +109,21 @@ export const fetchUpdateCompany = async (company) => {
     throw error;
   }
 }
+
+export const fetchDeleteWorker = async (workerId) => {
+  try {
+    const response = await fetch(`/api/workers/${workerId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete worker");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error deleting worker:", error);
+    throw error;
+  }
+}

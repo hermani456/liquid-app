@@ -1,6 +1,10 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { selectWorkersByUserId, updateWorker } from "@/db/queries/workers";
+import {
+  selectWorkersByUserId,
+  updateWorker,
+  deleteWorker,
+} from "@/db/queries/workers";
 
 export const GET = async (req, { params }) => {
   const { id: companyId } = params;
@@ -37,13 +41,6 @@ export const PUT = async (req, { params }) => {
       email,
     } = body;
 
-    // // TODO Uncomment when frontend handling of worker authorization
-    // const worker = await getWorkerByIdAndUserId(id, userId);
-
-    // if (!worker) {
-    //   return NextResponse.json({ error: "Worker not found or unauthorized" }, { status: 403 });
-    // }
-
     const result = await updateWorker(
       id,
       name,
@@ -60,6 +57,27 @@ export const PUT = async (req, { params }) => {
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     console.error("Error updating worker:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+};
+
+export const DELETE = async (req, { params }) => {
+  const { userId } = getAuth(req);
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id } = params;
+
+  try {
+    const result = await deleteWorker(userId, id);
+    return NextResponse.json(result, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting worker:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
