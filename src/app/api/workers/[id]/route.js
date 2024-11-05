@@ -5,7 +5,6 @@ import { selectWorkersByUserId, updateWorker } from "@/db/queries/workers";
 export const GET = async (req, { params }) => {
   const { id: companyId } = params;
   const { userId } = getAuth(req);
-  // console.log("userId", userId, "companyId", companyId);
   const result = await selectWorkersByUserId(userId, companyId);
 
   if (!userId) {
@@ -16,17 +15,16 @@ export const GET = async (req, { params }) => {
 };
 
 export const PUT = async (req, { params }) => {
-//   const { userId } = getAuth(req);
+  const { userId } = getAuth(req);
 
-//   if (!userId) {
-//     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-//   }
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   const { id } = params;
 
   try {
     const body = await req.json();
-
     const {
       name,
       last_name,
@@ -39,7 +37,7 @@ export const PUT = async (req, { params }) => {
       email,
     } = body;
 
-    // TODO Uncomment when frontend handling of worker authorization
+    // // TODO Uncomment when frontend handling of worker authorization
     // const worker = await getWorkerByIdAndUserId(id, userId);
 
     // if (!worker) {

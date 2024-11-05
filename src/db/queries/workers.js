@@ -1,7 +1,6 @@
 import pool from "@/utils/db";
 
 export const selectWorkersByUserId = async (userId, companyID) => {
-  console.log("queryuserId", userId, "companyID", companyID);
   try {
     const { rows } = await pool.query(
       `SELECT w.*
@@ -17,21 +16,21 @@ export const selectWorkersByUserId = async (userId, companyID) => {
   }
 };
 
-export const getWorkerByIdAndUserId = async (workerId, userId) => {
-  try {
-    const { rows } = await pool.query(
-      `SELECT w.*
-       FROM workers w
-       JOIN companies c ON w.company_id = c.id
-       WHERE w.id = $1 AND c.user_id = $2;`,
-      [workerId, userId]
-    );
-    return rows[0]; // Return the worker if found
-  } catch (error) {
-    console.error("Error fetching worker", error);
-    throw error;
-  }
-};
+// export const getWorkerByIdAndUserId = async (workerId, userId) => {
+//   try {
+//     const { rows } = await pool.query(
+//       `SELECT w.*
+//        FROM workers w
+//        JOIN companies c ON w.company_id = c.id
+//        WHERE w.id = $1 AND c.user_id = $2;`,
+//       [workerId, userId]
+//     );
+//     return rows[0]; // Return the worker if found
+//   } catch (error) {
+//     console.error("Error fetching worker", error);
+//     throw error;
+//   }
+// };
 
 export const updateWorker = async (
   id,

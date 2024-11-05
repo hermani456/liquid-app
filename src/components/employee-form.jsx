@@ -15,14 +15,14 @@ import {
 
 export function EmployeeForm() {
   const [formData, setFormData] = useState({
-    nombre: "",
-    apellido: "",
+    name: "",
+    last_name: "",
     rut: "",
-    sexo: "",
-    direccion: "",
-    telefono: "",
-    cargo: "",
-    salario: "",
+    sex: "",
+    address: "",
+    phone: "",
+    position: "",
+    salary: "",
     email: "",
   });
 
@@ -47,21 +47,21 @@ export function EmployeeForm() {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Label htmlFor="nombre">Nombre</Label>
+          <Label htmlFor="name">name</Label>
           <Input
-            id="nombre"
-            name="nombre"
-            value={formData.nombre}
+            id="name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
           />
         </div>
         <div>
-          <Label htmlFor="apellido">Apellido</Label>
+          <Label htmlFor="last_name">Apellido</Label>
           <Input
-            id="apellido"
-            name="apellido"
-            value={formData.apellido}
+            id="last_name"
+            name="last_name"
+            value={formData.last_name}
             onChange={handleChange}
             required
           />
@@ -79,10 +79,10 @@ export function EmployeeForm() {
         <div>
           <Label>Sexo</Label>
           <RadioGroup
-            name="sexo"
-            value={formData.sexo}
+            name="sex"
+            value={formData.sex}
             onValueChange={(value) =>
-              setFormData((prev) => ({ ...prev, sexo: value }))
+              setFormData((prev) => ({ ...prev, sex: value }))
             }
             required
           >
@@ -97,43 +97,43 @@ export function EmployeeForm() {
           </RadioGroup>
         </div>
         <div className="md:col-span-2">
-          <Label htmlFor="direccion">Dirección</Label>
+          <Label htmlFor="address">Dirección</Label>
           <Input
-            id="direccion"
-            name="direccion"
-            value={formData.direccion}
+            id="address"
+            name="address"
+            value={formData.address}
             onChange={handleChange}
             required
           />
         </div>
         <div>
-          <Label htmlFor="telefono">Teléfono</Label>
+          <Label htmlFor="phone">Teléfono</Label>
           <Input
-            id="telefono"
-            name="telefono"
+            id="phone"
+            name="phone"
             type="tel"
-            value={formData.telefono}
+            value={formData.phone}
             onChange={handleChange}
             required
           />
         </div>
         <div>
-          <Label htmlFor="salario">Salario</Label>
+          <Label htmlFor="salary">Salario</Label>
           <Input
-            id="salario"
-            name="salario"
+            id="salary"
+            name="salary"
             type="number"
-            value={formData.salario}
+            value={formData.salary}
             onChange={handleChange}
             required
           />
         </div>
         <div className="md:col-span-2">
-          <Label htmlFor="cargo">Cargo</Label>
+          <Label htmlFor="position">Cargo</Label>
           <Input
-            id="cargo"
-            name="cargo"
-            value={formData.cargo}
+            id="position"
+            name="position"
+            value={formData.position}
             onChange={handleChange}
             required
           />
