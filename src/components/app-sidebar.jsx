@@ -86,12 +86,6 @@ const data = {
           icon: Star,
           description: "Browse your starred prompts",
         },
-        {
-          title: "Eliminar Empresa",
-          url: "/dashboard/company/delete-company",
-          icon: Settings2,
-          description: "Configure your playground",
-        },
       ],
     },
     {
@@ -110,12 +104,6 @@ const data = {
           url: "/dashboard/employee/edit-employee",
           icon: Bird,
           description: "Performance and speed for efficiency.",
-        },
-        {
-          title: "Eliminar Personal",
-          url: "/dashboard/employee/delete-employee",
-          icon: Turtle,
-          description: "The most powerful model for complex computations.",
         },
       ],
     },
@@ -153,29 +141,6 @@ const data = {
         },
       ],
     },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: Settings2,
-    //   items: [
-    //     {
-    //       title: "General",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Team",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Billing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Limits",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
   ],
 
   navSecondary: [
