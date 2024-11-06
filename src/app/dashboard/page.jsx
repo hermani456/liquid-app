@@ -52,7 +52,7 @@ const page = async() => {
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap min-h-[18rem] items-center lg:pr-20">
+        <div className="flex flex-wrap w-full border-box-all">
           <div className="max-w-[25rem] lg:w-[25rem]">
             <AreaChart />
           </div>

@@ -14,7 +14,7 @@ const chartConfig = {
 };
 
 export function PieChartComponent({ data }) {
-  console.log(data);
+  // console.log(data);
   const COLORS = [
     'hsl(var(--chart-1))',
     'hsl(var(--chart-2))',
