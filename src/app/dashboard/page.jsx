@@ -5,9 +5,20 @@ import PieChart from "@/components/charts/PieChart";
 import BarChart from "@/components/charts/BarChart";
 import AreaChart from "@/components/charts/AreaChart";
 import { currentUser } from '@clerk/nextjs/server'
+import pool from "@/utils/db";
+
 
 
 const page = async() => {
+  const { rows } = await pool.query(`SELECT
+    c.name AS company,
+    COUNT(w.id) AS workers
+  FROM
+    companies c
+  LEFT JOIN
+    workers w ON c.id = w.company_id
+  GROUP BY
+    c.id;`);
   const { firstName, lastName } = await currentUser()
 
   const date = new Date();
@@ -49,7 +60,7 @@ const page = async() => {
             <BarChart />
           </div>
           <div className="max-w-[25rem] lg:w-[25rem]">
-            <PieChart />
+            <PieChart data={rows}/>
           </div>
         </div>
       </div>
