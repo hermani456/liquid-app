@@ -10,6 +10,7 @@ import pool from "@/utils/db";
 
 
 const page = async() => {
+  // TODO: pasar usuario en query
   const { rows } = await pool.query(`SELECT
     c.name AS company,
     COUNT(w.id) AS workers
