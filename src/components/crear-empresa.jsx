@@ -24,14 +24,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 
 export function CrearEmpresa() {
+  const queryClient = useQueryClient();
+
   const [formData, setFormData] = useState({
     name: "",
     rut: "",
     address: "",
     phone: "",
     icon: "",
+  });
+
+  const updateCompanyMutation = useMutation({
+    mutationFn: fetchCreateCompany,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["companies"]);
+    },
+    onError: (error) => {
+      console.error("Error creating company:", error);
+    },
   });
 
   const iconOptions = [
@@ -71,8 +85,7 @@ export function CrearEmpresa() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetchCreateCompany(formData);
-    console.log(formData);
+    updateCompanyMutation.mutate(formData);
     setFormData({
       name: "",
       rut: "",
