@@ -33,26 +33,26 @@ const page = async() => {
           Saludos, {firstName} {lastName}
         </h2>
         <p className="text-xs lg:text-sm">{`Hoy es ${dayName} ${day} de ${monthName} ${year}`}</p>
-        <div className="flex flex-wrap gap-5 mt-5">
+        <div className="flex flex-wrap flexflex-grow gap-5 mt-5">
           {infoCardsContent.map((card, index) => (
             <InfoCard key={index} {...card} />
           ))}
         </div>
-        <div className="flex gap-5 flex-wrap flex-grow">
-          <div className="h-[15rem] mt-5 p-2 rounded overflow-hidden shadow">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+          <div className="h-[15rem] col-span-1 mt-5 p-2 rounded overflow-hidden shadow-lg">
             <h2 className="py-3 pl-2">Empresas</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
               <DashBoardTable />
             </div>
           </div>
-          <div className="h-[15rem] mt-5 p-2 rounded overflow-hidden shadow">
+          <div className="h-[15rem] col-span-1 mt-5 p-2 rounded overflow-hidden shadow-lg">
             <h2 className="py-3 pl-2">Empresas</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
               <DashBoardTable />
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap w-full border-box-all">
+        <div className="flex flex-wrap w-full border-box-all mt-5">
           <div className="max-w-[25rem] lg:w-[25rem]">
             <AreaChart />
           </div>
