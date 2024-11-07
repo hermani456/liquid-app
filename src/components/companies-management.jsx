@@ -14,16 +14,27 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Search, X } from "lucide-react";
-import { fetchCompanies, fetchUpdateCompany, fetchDeleteCompany } from "@/utils/fetchFuntions";
+import {
+  fetchCompanies,
+  fetchUpdateCompany,
+  fetchDeleteCompany,
+} from "@/utils/fetchFuntions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SheetDescription } from "./ui/sheet";
+import { Trash, Loader2 } from "lucide-react";
+import { FilePenLine } from "lucide-react";
 
 export function CompaniesManagement() {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [companyToDelete, setCompanyToDelete] = useState(null);
+
   const queryClient = useQueryClient();
   const {
     isPending,
@@ -52,7 +63,7 @@ export function CompaniesManagement() {
     },
   });
 
-  const deleteWorkerMutation = useMutation({
+  const deleteCompanyMutation = useMutation({
     mutationFn: fetchDeleteCompany,
     onSuccess: () => {
       queryClient.invalidateQueries(["companies"]);
@@ -99,8 +110,9 @@ export function CompaniesManagement() {
     }));
   };
 
-  const handleDeleteCompany = async (id) => {
-    deleteWorkerMutation.mutate(id);
+  const handleDeleteClick = (company) => {
+    setCompanyToDelete(company);
+    setIsDeleteDialogOpen(true);
   };
 
   if (isPending) return <p>Cargando empresas...</p>;
@@ -126,8 +138,8 @@ export function CompaniesManagement() {
             <TableRow>
               <TableHead>Nombre</TableHead>
               <TableHead>RUT</TableHead>
-              <TableHead>Dirección</TableHead>
-              <TableHead>Teléfono</TableHead>
+              <TableHead className="hidden md:table-cell">Dirección</TableHead>
+              <TableHead className="hidden md:table-cell">Telefono</TableHead>
               <TableHead>Acción</TableHead>
             </TableRow>
           </TableHeader>
@@ -136,17 +148,19 @@ export function CompaniesManagement() {
               <TableRow key={company.id}>
                 <TableCell>{company.name}</TableCell>
                 <TableCell>{company.rut}</TableCell>
-                <TableCell>{company.address}</TableCell>
-                <TableCell>{company.phone}</TableCell>
+                <TableCell className="hidden md:table-cell">{company.address}</TableCell>
+                <TableCell className="hidden md:table-cell">{company.phone}</TableCell>
                 <TableCell>
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Button onClick={() => handleSelectCompany(company)}>
+                      <FilePenLine className="mr-2 h-4 w-4" />
                       Editar
                     </Button>
                     <Button
                       variant="destructive"
-                      onClick={() => handleDeleteCompany(company.id)}
+                      onClick={() => handleDeleteClick(company)}
                     >
+                      <Trash className="mr-2 h-4 w-4" />
                       Eliminar
                     </Button>
                   </div>
@@ -161,6 +175,48 @@ export function CompaniesManagement() {
           No se encontraron empresas.
         </p>
       )}
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirmar Eliminación</DialogTitle>
+            <DialogDescription>
+              ¿Estás seguro de que deseas eliminar la empresa{" "}
+              <span className="font-semibold">{companyToDelete?.name}</span>?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="secondary"
+              onClick={() => setIsDeleteDialogOpen(false)}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                deleteCompanyMutation.mutate(companyToDelete.id, {
+                  onSuccess: () => {
+                    setIsDeleteDialogOpen(false);
+                    setCompanyToDelete(null);
+                  },
+                });
+              }}
+              disabled={deleteCompanyMutation.isPending}
+            >
+              {deleteCompanyMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Eliminando...
+                </>
+              ) : (
+                "Eliminar"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>

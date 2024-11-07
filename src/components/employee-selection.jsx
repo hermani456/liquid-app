@@ -30,6 +30,8 @@ import {
 import { SheetDescription } from "./ui/sheet";
 import { useCompanyStore } from "@/store/CompanyStore";
 import { LoaderCircle } from "lucide-react";
+import { FilePenLine } from "lucide-react";
+import { Trash } from "lucide-react";
 
 export function EmployeeSelection() {
   const companyId = useCompanyStore((state) => state.companyId);
@@ -132,7 +134,9 @@ export function EmployeeSelection() {
 
   return (
     <div className="md:p-6">
-      <h2 className="text-2xl lg:text-3xl font-bold mb-6">Gestión de Empleados</h2>
+      <h2 className="text-2xl lg:text-3xl font-bold mb-6">
+        Gestión de Empleados
+      </h2>
       <div className="relative mb-6">
         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
@@ -151,27 +155,29 @@ export function EmployeeSelection() {
               <TableHead>Apellido</TableHead>
               <TableHead>RUT</TableHead>
               <TableHead className="hidden md:table-cell">Cargo</TableHead>
-              <TableHead className="mx-auto">Acción</TableHead>
+              <TableHead>Acción</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredEmployees.map((employee) => (
               <TableRow key={employee.id}>
-                <TableCell>{employee?.name}</TableCell>
-                <TableCell>{employee?.last_name}</TableCell>
-                <TableCell>{employee?.rut}</TableCell>
+                <TableCell className="min-w-10 break-all">{employee?.name}</TableCell>
+                <TableCell className="min-w-10 break-all">{employee?.last_name}</TableCell>
+                <TableCell className="min-w-10 break-all">{employee?.rut}</TableCell>
                 <TableCell className="hidden md:table-cell">
                   {employee?.position}
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Button onClick={() => handleSelectEmployee(employee)}>
+                      <FilePenLine className="mr-2 h-4 w-4" />
                       Editar
                     </Button>
                     <Button
                       variant="destructive"
                       onClick={() => handleDeleteEmployee(employee)}
                     >
+                      <Trash className="mr-2 h-4 w-4" />
                       Eliminar
                     </Button>
                   </div>
@@ -216,13 +222,13 @@ export function EmployeeSelection() {
               disabled={deleteWorkerMutation.isPending}
             >
               {deleteWorkerMutation.isPending ? (
-            <>
-              <LoaderCircle  className="mr-2 h-4 w-4 animate-spin" />
-              Eliminando...
-            </>
-          ) : (
-            "Eliminar"
-          )}
+                <>
+                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                  Eliminando...
+                </>
+              ) : (
+                "Eliminar"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
