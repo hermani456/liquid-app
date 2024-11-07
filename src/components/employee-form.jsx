@@ -73,7 +73,7 @@ export function EmployeeForm() {
       <h2 className="text-2xl lg:text-3xl font-bold mb-6">Agregar Empleado</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Label htmlFor="name">name</Label>
+          <Label htmlFor="name">Nombre</Label>
           <Input
             id="name"
             name="name"
