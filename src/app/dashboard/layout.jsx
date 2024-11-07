@@ -4,9 +4,11 @@ import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 export default async function Page({ children }) {
   const { cookies } = await import("next/headers");
+  const sidebarStateCookie = cookies().get("sidebar:state");
+  const defaultOpen = sidebarStateCookie ? sidebarStateCookie.value === "true" : true;
   return (
     <SidebarLayout
-      defaultOpen={cookies().get("sidebar:state")?.value === "true"}
+      defaultOpen={defaultOpen}
     >
       <AppSidebar />
       <main className="flex flex-1 flex-col p-2 transition-all duration-300 ease-in-out">
