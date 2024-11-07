@@ -124,6 +124,7 @@ export function CompanySwitcher() {
             <Plus className="h-5 w-5" />
           </div>
           <div className="font-medium text-muted-foreground">
+            {/* TODO: IMPLEMENTAR PARA AGREGAR EMPRESAS */}
             Agregar Empresa
           </div>
         </DropdownMenuItem>
