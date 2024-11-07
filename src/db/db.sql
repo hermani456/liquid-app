@@ -17,6 +17,7 @@ CREATE TABLE companies (
     rut VARCHAR(50) NOT NULL,
     address VARCHAR(255),
     phone VARCHAR(20),
+    icon VARCHAR(100),
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -87,7 +88,8 @@ BEGIN
 END;
 $$;
 
-
+-- add icon to companies table
+ALTER TABLE companies ADD COLUMN icon VARCHAR(100);
 
 INSERT INTO users (id, name, email) VALUES ('1', 'Admin', 'admin@mail.com');
 

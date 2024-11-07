@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ChevronsUpDown, Plus } from "lucide-react";
 
 import {
@@ -15,6 +15,18 @@ import {
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCompanies } from "@/utils/fetchFuntions";
 import { useCompanyStore } from "@/store/CompanyStore";
+import {
+  Home,
+  Briefcase,
+  Building,
+  Globe,
+  Star,
+  Users,
+  Settings,
+  ShoppingCart,
+  DollarSign,
+  Shield,
+} from "lucide-react";
 
 export function CompanySwitcher() {
   const { companyId, setCompanyId } = useCompanyStore();
@@ -44,12 +56,28 @@ export function CompanySwitcher() {
   if (isPending) return <div>Loading...</div>;
   if (isError) return <div>Error loading companies</div>;
 
+  const Icons = {
+    Home,
+    Briefcase,
+    Building,
+    Globe,
+    Star,
+    Users,
+    Settings,
+    ShoppingCart,
+    DollarSign,
+    Shield,
+  };
+
+  const iconName = companies.find((i) => i.id === companyId)?.icon || "Home";
+  const Icon = Icons[iconName] || Icons["Home"];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="w-full rounded-md ring-ring hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 data-[state=open]:bg-accent">
         <div className="flex items-center gap-1.5 overflow-hidden px-2 py-1.5 text-left text-sm transition-all">
           <div className="flex h-5 w-5 items-center justify-center rounded-sm bg-primary text-primary-foreground">
-            {/* <activeTeam.logo className="h-3.5 w-3.5 shrink-0" /> */}
+            <Icon className="h-3.5 w-3.5 shrink-0" />
           </div>
           <div className="line-clamp-1 flex-1 pr-2 font-medium">
             {companies.find((c) => c.id === companyId)?.name}
@@ -66,26 +94,30 @@ export function CompanySwitcher() {
         <DropdownMenuLabel className="text-xs text-muted-foreground">
           Empresas
         </DropdownMenuLabel>
-        {companies.map((company, index) => (
-          <DropdownMenuItem
-            key={company.name}
-            onClick={() => handleCompanyChange(company)}
-            className="items-start gap-2 px-1.5"
-          >
-            <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-primary text-primary-foreground">
-              {/* <team.logo className="h-5 w-5 shrink-0" /> */}
-            </div>
-            <div className="grid flex-1 leading-tight">
-              <div className="line-clamp-1 font-medium">{company.name}</div>
-              <div className="overflow-hidden text-xs text-muted-foreground">
-                {/* <div className="line-clamp-1">{team.plan}</div> */}
+        {companies.map((company, index) => {
+          const iconName = company.icon || "Home";
+          const Icon = Icons[iconName] || Icons["Home"];
+          return (
+            <DropdownMenuItem
+              key={company.name}
+              onClick={() => handleCompanyChange(company)}
+              className="items-start gap-2 px-1.5"
+            >
+              <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-primary text-primary-foreground">
+                <Icon className="h-5 w-5 shrink-0" />
               </div>
-            </div>
-            <DropdownMenuShortcut className="self-center">
-              ⌘{index + 1}
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
-        ))}
+              <div className="grid flex-1 leading-tight">
+                <div className="line-clamp-1 font-medium">{company.name}</div>
+                <div className="overflow-hidden text-xs text-muted-foreground">
+                  {/* <div className="line-clamp-1">{team.plan}</div> */}
+                </div>
+              </div>
+              <DropdownMenuShortcut className="self-center">
+                ⌘{index + 1}
+              </DropdownMenuShortcut>
+            </DropdownMenuItem>
+          );
+        })}
         <DropdownMenuSeparator />
         <DropdownMenuItem className="gap-2 px-1.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-md border bg-background">

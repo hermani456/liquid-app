@@ -5,6 +5,25 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { fetchCreateCompany } from "@/utils/fetchFuntions";
+import {
+  Home,
+  Briefcase,
+  Building,
+  Globe,
+  Star,
+  Users,
+  Settings,
+  ShoppingCart,
+  DollarSign,
+  Shield,
+} from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 export function CrearEmpresa() {
   const [formData, setFormData] = useState({
@@ -12,7 +31,35 @@ export function CrearEmpresa() {
     rut: "",
     address: "",
     phone: "",
+    icon: "",
   });
+
+  const iconOptions = [
+    { name: "Home", component: Home },
+    { name: "Briefcase", component: Briefcase },
+    { name: "Building", component: Building },
+    { name: "Globe", component: Globe },
+    { name: "Star", component: Star },
+    { name: "Users", component: Users },
+    { name: "Settings", component: Settings },
+    { name: "ShoppingCart", component: ShoppingCart },
+    { name: "DollarSign", component: DollarSign },
+    { name: "Shield", component: Shield },
+  ];
+
+  const IconComponent = ({ iconName }) => {
+    const IconFound = iconOptions.find(
+      (icon) => icon.name === iconName
+    )?.component;
+    return IconFound ? <IconFound className="h-4 w-4 mr-2" /> : null;
+  };
+
+  const handleIconSelect = (iconName) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      icon: iconName,
+    }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,14 +69,16 @@ export function CrearEmpresa() {
     }));
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     await fetchCreateCompany(formData);
+    console.log(formData);
     setFormData({
       name: "",
       rut: "",
       address: "",
       phone: "",
+      icon: "",
     });
   };
 
@@ -77,6 +126,35 @@ export function CrearEmpresa() {
             onChange={handleChange}
             required
           />
+        </div>
+        <div className="md:col-span-2">
+          <Label htmlFor="icon">Icono</Label>
+          <Select
+            name="icon"
+            value={formData.icon}
+            onValueChange={handleIconSelect}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Seleccione un icono">
+                {iconOptions.name && (
+                  <div className="flex items-center">
+                    <IconComponent iconName={selectedEmployee.component} />
+                    {selectedEmployee.component}
+                  </div>
+                )}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {iconOptions.map((icon) => (
+                <SelectItem key={icon.name} value={icon.name}>
+                  <div className="flex items-center">
+                    <icon.component className="h-4 w-4 mr-2" />
+                    {icon.name}
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
       <div className="flex justify-center">

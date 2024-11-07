@@ -38,7 +38,7 @@ export function PieChartComponent({ data }) {
       config={chartConfig}
       className="mx-auto aspect-square max-h-[250px] w-full"
     >
-      <PieChart width={250} height={250}>
+      <PieChart>
         <ChartTooltip
           cursor={false}
           content={<ChartTooltipContent hideLabel />}

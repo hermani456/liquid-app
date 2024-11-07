@@ -3,10 +3,10 @@ import pool from "@/utils/db";
 export const createCompany = async (userId, company) => {
   try {
     const result = await pool.query(
-      `INSERT INTO companies (user_id, name, rut, address, phone)
-        VALUES ($1, $2, $3, $4, $5)
+      `INSERT INTO companies (user_id, name, rut, address, phone, icon)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *`,
-      [userId, company.name, company.rut, company.address, company.phone]
+      [userId, company.name, company.rut, company.address, company.phone, company.icon]
     );
     return result.rows[0];
   } catch (error) {
