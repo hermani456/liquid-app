@@ -25,9 +25,10 @@ import {
   SelectValue,
 } from "./ui/select";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import { Loader2 } from "lucide-react";
 
 export function CrearEmpresa() {
+  const [isSuccess, setIsSuccess] = useState(false);
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
@@ -42,6 +43,10 @@ export function CrearEmpresa() {
     mutationFn: fetchCreateCompany,
     onSuccess: () => {
       queryClient.invalidateQueries(["companies"]);
+      setIsSuccess(true);
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000);
     },
     onError: (error) => {
       console.error("Error creating company:", error);
@@ -83,15 +88,18 @@ export function CrearEmpresa() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    updateCompanyMutation.mutate(formData);
-    setFormData({
-      name: "",
-      rut: "",
-      address: "",
-      phone: "",
-      icon: "",
+    updateCompanyMutation.mutate(formData, {
+      onSuccess: () => {
+        setFormData({
+          name: "",
+          rut: "",
+          address: "",
+          phone: "",
+          icon: "",
+        });
+      },
     });
   };
 
@@ -172,11 +180,22 @@ export function CrearEmpresa() {
       </div>
       <div className="flex justify-center">
         <Button
+          disabled={updateCompanyMutation.isPending}
           type="submit"
           className="mt-6 min-w-[10%] hover:scale-105 transition-all ease-in-out"
         >
-          Crear
+          {updateCompanyMutation.isPending ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Creando
+            </>
+          ) : (
+            "Crear Empresa"
+          )}
         </Button>
+      </div>
+      <div className="h-10 text-emerald-600 dark:text-green-400 text-center mt-5 font-semibold transition-all">
+        {isSuccess && <p>Empresa creada con exito</p>}
       </div>
     </form>
   );
