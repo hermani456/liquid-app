@@ -35,7 +35,6 @@ export function CompaniesManagement() {
     staleTime: Infinity,
   });
 
-
   useEffect(() => {
     if (companies) {
       setFilteredCompanies(companies);
@@ -94,9 +93,7 @@ export function CompaniesManagement() {
 
   return (
     <div className="md:p-6">
-      <h2 className="text-2xl font-bold mb-6 text-center">
-        Gestión de Empresas
-      </h2>
+      <h2 className="text-2xl lg:text-3xl font-bold mb-6">Gestión de Empresa</h2>
       <div className="relative mb-6">
         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
@@ -144,7 +141,9 @@ export function CompaniesManagement() {
         <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Editar Empresa</DialogTitle>
-            <SheetDescription className="sr-only">modal edicion empresa</SheetDescription>
+            <SheetDescription className="sr-only">
+              modal edicion empresa
+            </SheetDescription>
           </DialogHeader>
           {selectedCompany && (
             <form onSubmit={handleSubmit} className="space-y-4">

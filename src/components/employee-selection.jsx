@@ -132,9 +132,7 @@ export function EmployeeSelection() {
 
   return (
     <div className="md:p-6">
-      <h2 className="text-2xl font-bold mb-6 text-center">
-        Gestión de Empleados
-      </h2>
+      <h2 className="text-2xl lg:text-3xl font-bold mb-6">Gestión de Empleados</h2>
       <div className="relative mb-6">
         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
@@ -153,7 +151,7 @@ export function EmployeeSelection() {
               <TableHead>Apellido</TableHead>
               <TableHead>RUT</TableHead>
               <TableHead className="hidden md:table-cell">Cargo</TableHead>
-              <TableHead>Acción</TableHead>
+              <TableHead className="mx-auto">Acción</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
