@@ -195,7 +195,7 @@ export function CrearEmpresa() {
         </Button>
       </div>
       <div className="h-10 text-emerald-600 dark:text-green-400 text-center mt-5 font-semibold transition-all">
-        {isSuccess && <p>Empresa creada con exito</p>}
+        {isSuccess && <p>Empresa creada con éxito</p>}
       </div>
     </form>
   );
