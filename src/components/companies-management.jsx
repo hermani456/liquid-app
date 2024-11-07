@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Search, X } from "lucide-react";
-import { fetchCompanies, fetchUpdateCompany } from "@/utils/fetchFuntions";
+import { fetchCompanies, fetchUpdateCompany, fetchDeleteCompany } from "@/utils/fetchFuntions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SheetDescription } from "./ui/sheet";
 
@@ -49,6 +49,16 @@ export function CompaniesManagement() {
     },
     onError: (error) => {
       console.error("Error updating company:", error);
+    },
+  });
+
+  const deleteWorkerMutation = useMutation({
+    mutationFn: fetchDeleteCompany,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["companies"]);
+    },
+    onError: (error) => {
+      console.error("Error deleting company:", error);
     },
   });
 
@@ -89,11 +99,17 @@ export function CompaniesManagement() {
     }));
   };
 
+  const handleDeleteCompany = async (id) => {
+    deleteWorkerMutation.mutate(id);
+  };
+
   if (isPending) return <p>Cargando empresas...</p>;
 
   return (
     <div className="md:p-6">
-      <h2 className="text-2xl lg:text-3xl font-bold mb-6">Gestión de Empresa</h2>
+      <h2 className="text-2xl lg:text-3xl font-bold mb-6">
+        Gestión de Empresa
+      </h2>
       <div className="relative mb-6">
         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
@@ -123,9 +139,17 @@ export function CompaniesManagement() {
                 <TableCell>{company.address}</TableCell>
                 <TableCell>{company.phone}</TableCell>
                 <TableCell>
-                  <Button onClick={() => handleSelectCompany(company)}>
-                    Editar
-                  </Button>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button onClick={() => handleSelectCompany(company)}>
+                      Editar
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={() => handleDeleteCompany(company.id)}
+                    >
+                      Eliminar
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

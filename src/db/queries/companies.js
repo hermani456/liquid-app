@@ -45,3 +45,17 @@ export const editCompany = async (userId, company) => {
     throw error;
   }
 }
+
+export const deleteCompany = async (userId, companyId) => {
+  try {
+    const result = await pool.query(
+      `DELETE FROM companies WHERE user_id = $1 AND id = $2 RETURNING *`,
+      [userId, companyId]
+    );
+    return result.rows[0];
+  }
+  catch (error) {
+    console.error("Error executing query", error);
+    throw error;
+  }
+}

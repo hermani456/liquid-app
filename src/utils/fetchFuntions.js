@@ -108,7 +108,7 @@ export const fetchUpdateCompany = async (company) => {
     console.error("Error updating company:", error);
     throw error;
   }
-}
+};
 
 export const fetchDeleteWorker = async (workerId) => {
   try {
@@ -126,4 +126,22 @@ export const fetchDeleteWorker = async (workerId) => {
     console.error("Error deleting worker:", error);
     throw error;
   }
-}
+};
+
+export const fetchDeleteCompany = async (companyId) => {
+  try {
+    const response = await fetch(`/api/companies/${companyId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete company");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error deleting company:", error);
+    throw error;
+  }
+};
