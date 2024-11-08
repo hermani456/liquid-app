@@ -34,7 +34,8 @@ import { FilePenLine } from "lucide-react";
 import { Trash } from "lucide-react";
 
 export function EmployeeSelection() {
-  const companyId = useCompanyStore((state) => state.companyId);
+  const { companyId } = useCompanyStore();
+
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
