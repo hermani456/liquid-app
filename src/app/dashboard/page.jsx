@@ -34,7 +34,7 @@ const page = async() => {
           Saludos, {firstName} {lastName}
         </h2>
         <p className="text-xs lg:text-sm">{`Hoy es ${dayName} ${day} de ${monthName} ${year}`}</p>
-        <div className="flex flex-wrap flexflex-grow gap-5 mt-5">
+        <div className="flex flex-wrap gap-5 mt-5">
           {infoCardsContent.map((card, index) => (
             <InfoCard key={index} {...card} />
           ))}
@@ -53,14 +53,14 @@ const page = async() => {
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap w-full border-box-all mt-5">
-          <div className="max-w-[25rem] lg:w-[25rem]">
+        <div className="flex flex-wrap mt-5">
+          <div className="flex-1 min-w-[18rem]">
             <AreaChart />
           </div>
-          <div className="max-w-[25rem] lg:w-[25rem] pl-20">
+          <div className="flex-1 min-w-[18rem]">
             <BarChart />
           </div>
-          <div className="max-w-[25rem] lg:w-[25rem]">
+          <div className="flex-1 min-w-[18rem]">
             <PieChart data={rows}/>
           </div>
         </div>

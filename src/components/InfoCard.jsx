@@ -1,6 +1,6 @@
 const InfoCard = ({ number, name, Icon, description, bgColor, textColor }) => {
   return (
-    <div className="min-w-[10rem] w-[19rem] h-[9rem] rounded-md bg-background shadow-md p-4 space-y-5 cursor-pointer hover:scale-105  transition-all">
+    <div className="flex-1 min-w-[17rem] h-[9rem] rounded-md bg-secondary shadow-md p-4 space-y-5 cursor-pointer hover:scale-105  transition-all">
       <div className="flex items-center justify-between">
         <div>
           <h6 className="text-xl font-semibold">{number}</h6>
