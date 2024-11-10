@@ -17,7 +17,7 @@ const createUser = async () => {
 
     const {
       rows: [user],
-    } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+    } = await pool.query("SELECT id FROM users WHERE id = $1", [id]);
 
     if (user) {
       userExists = true;
