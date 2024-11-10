@@ -3,26 +3,36 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 const createUser = async () => {
-  let createdUser = false;
+  let userExists = false;
+  let userCreated = false;
   try {
-    const { id, firstName, lastName, emailAddresses } = await currentUser();
+    const {
+      id,
+      firstName,
+      lastName,
+      emailAddresses: [{ emailAddress }],
+    } = await currentUser();
+
+    const fullName = lastName ? `${firstName} ${lastName}` : firstName;
 
     const {
       rows: [user],
     } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
 
-    if (!user) {
+    if (user) {
+      userExists = true;
+    } else {
       const result = await pool.query(
-        "INSERT INTO users (id, name, email) VALUES ($1, $2, $3)",
-        [id, firstName + " " + lastName, emailAddresses[0].emailAddress]
+        "INSERT INTO users (id, name, email) VALUES ($1, $2, $3) RETURNING *",
+        [id, fullName, emailAddress]
       );
-      createdUser = result.rowCount > 0;
+      userCreated = result.rowCount > 0;
     }
   } catch (e) {
     console.error("Failed to create user:", e);
     throw e;
   } finally {
-    if (user || createdUser) {
+    if (userExists || userCreated) {
       redirect("/dashboard");
     }
   }
