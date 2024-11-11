@@ -43,3 +43,30 @@ export const infoCardsContent = [
     textColor: "#F29425",
   },
 ];
+
+export const navLinks = [
+  {
+    id: 1,
+    name: "Home",
+    path: "#home",
+    icon: Building
+  },
+  {
+    id: 2,
+    name: "About",
+    path: "#about",
+    icon: Folder
+  },
+  {
+    id: 3,
+    name: "Projects",
+    path: "#projects",
+    icon: List
+  },
+  {
+    id: 4,
+    name: "Contact",
+    path: "#contact",
+    icon: Users
+  },
+];
