@@ -8,6 +8,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        bebasNeue: ["var(--font-bebas-neue)", "sans"],
+        roboto: ["var(--font-roboto)", "sans"],
+      },
       colors: {
         text: "#ffffff",
         bg: "#101723",
