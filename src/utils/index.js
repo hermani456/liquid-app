@@ -59,8 +59,8 @@ export const navLinks = [
   },
   {
     id: 3,
-    name: "Projects",
-    path: "#projects",
+    name: "Features",
+    path: "#features",
     icon: List
   },
   {
