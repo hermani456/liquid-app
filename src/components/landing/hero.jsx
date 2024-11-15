@@ -6,7 +6,7 @@ const Hero = () => {
       <Container>
         <div className="flex flex-col h-screen justify-center items-center space-y-5 overflow-hidden">
           <div className="absolute -bottom-36 -left-36 blur-3xl rounded-full size-[10rem] lg:size-[37rem] bg-pri -z-10"></div>
-          <div className="absolute -top-36 -right-36 blur-3xl rounded-full size-[10rem] lg:size-[37rem] bg-sec/50 -z-10"></div>
+          <div className="absolute -top-36 -right-36 blur-3xl rounded-full size-[10rem] lg:size-[37rem] bg-teal-600/30 -z-10"></div>
           <h1 className="text-6xl lg:text-8xl font-bebasNeue font-semibold bg-gradient-to-br from-teal-400 to-violet-700 text-transparent bg-clip-text">
             Bienvenido a LiquidApp
           </h1>
