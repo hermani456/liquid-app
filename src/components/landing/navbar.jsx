@@ -6,7 +6,7 @@ import { LogInIcon } from "lucide-react";
 
 export default function Component() {
   return (
-    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
+    <header className="relative z-10 flex h-20 w-full shrink-0 items-center px-4 md:px-6">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="lg:hidden">
@@ -29,7 +29,7 @@ export default function Component() {
         </SheetContent>
       </Sheet>
       <div className="w-full hidden lg:flex justify-center fixed">
-        <div className="flex justify-center items-center bg-bg/40 backdrop-blur-lg px-10 py-5 rounded-full">
+        <div className="flex justify-center items-center bg-pri/30 backdrop-blur-lg px-10 py-5 rounded-full">
           <div className="flex items-center gap-10">
             {navLinks.map((link) => (
               <Link

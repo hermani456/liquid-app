@@ -8,14 +8,15 @@ export default function Home() {
     <div className="relative overflow-hidden">
       <NavBar />
       <Hero />
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <SignedOut>
           <SignInButton />
         </SignedOut>
         <SignedIn>
           <UserButton />
         </SignedIn>
-      </div>
+      </div> */}
+      <div className="h-[300vh]"></div>
     </div>
   );
 }
