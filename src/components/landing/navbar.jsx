@@ -1,10 +1,20 @@
+"use client";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { navLinks } from "@/utils";
 import { LogInIcon } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 export default function Component() {
+  const container = useRef();
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start start", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   return (
     <header className="relative z-10 flex h-20 w-full shrink-0 items-center px-4 md:px-6">
       <Sheet>
@@ -28,7 +38,11 @@ export default function Component() {
           </div>
         </SheetContent>
       </Sheet>
-      <div className="w-full hidden lg:flex justify-center fixed">
+      <div
+        className="w-full hidden lg:flex justify-center fixed top-5"
+        ref={container}
+        style={{ opacity }}
+      >
         <div className="flex justify-center items-center bg-pri/30 backdrop-blur-lg px-10 py-5 rounded-full">
           <div className="flex items-center gap-10">
             {navLinks.map((link) => (

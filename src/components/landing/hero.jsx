@@ -11,25 +11,30 @@ const Hero = () => {
   const container = useRef();
   const { scrollYProgress } = useScroll({
     target: container,
-    offset: ["start end", "end start"],
+    offset: ["start start", "end start"],
   });
 
-  const desktopSs = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  const desktopSs = useTransform(scrollYProgress, [0, 1], [0, -550]);
   const scaleDesktopSs = useTransform(scrollYProgress, [0, 1], [1, 1.5]);
   const mobileSs = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const text = useTransform(scrollYProgress, [0, 1], [1, .5])
+  const con = useTransform(scrollYProgress, [0, 1], [1, .5]);
 
   return (
-    <div className="relative">
+    <motion.div ref={container} className="relative mt-10">
       <Container>
         <div className="flex flex-col h-screen justify-around items-center">
           <div className="absolute -bottom-36 -left-36 blur-3xl rounded-full size-[10rem] lg:size-[37rem] bg-pri -z-10"></div>
           <div className="absolute -top-36 -right-36 blur-3xl rounded-full size-[10rem] lg:size-[37rem] bg-[#32c6c1]/20 -z-10"></div>
-          <div className="flex flex-col items-center gap-5">
-            <h1 className="text-6xl lg:text-8xl font-bebasNeue font-semibold bg-gradient-to-br from-teal-400 to-violet-700 text-transparent bg-clip-text">
-              Bienvenido a LiquidApp
+          <motion.dev
+            style={{ scale: con, opacity: text }}
+            className="flex flex-col items-center gap-5"
+          >
+            <h1 className="text-6xl text-center lg:text-8xl font-bebasNeue font-semibold bg-gradient-to-br from-teal-400 to-violet-700 text-transparent bg-clip-text">
+            Gestiona tus liquidaciones de sueldo de manera fácil y eficiente
             </h1>
-            <p className="font-roboto">
-              La mejor aplicación para gestion de liquidaciones de sueldo
+            <p className="font-roboto max-w-prose">
+            Simplifica la administración de tu equipo. Nuestra plataforma te permite generar, enviar y organizar liquidaciones de sueldo en minutos, sin complicaciones.
             </p>
             <div className="flex gap-5">
               <button className="bg-acc px-5 py-2 text-bg rounded-xl hover:scale-105 transition-all">
@@ -39,12 +44,12 @@ const Hero = () => {
                 Conocer mas
               </button>
             </div>
-          </div>
-          <div ref={container} className="relative hidden lg:block">
+          </motion.dev>
+          <div className="relative hidden lg:block">
             <motion.div style={{ y: desktopSs, scale: scaleDesktopSs }}>
               <Image src={ss} alt="ss" />
             </motion.div>
-            <div style={{y: mobileSs}}>
+            <div style={{ y: mobileSs }}>
               <Image
                 src={ssmobile}
                 width={250}
@@ -55,7 +60,7 @@ const Hero = () => {
           </div>
         </div>
       </Container>
-    </div>
+    </motion.div>
   );
 };
 
