@@ -23,7 +23,7 @@ const Hero = () => {
   return (
     <motion.div ref={container} className="relative">
       <Container>
-        <div className="flex flex-col justify-around items-center h-[225dvh] relative">
+        <div className="h-[225dvh] relative">
           {/* <div className="absolute -bottom-36 -left-36 blur-3xl rounded-full size-[10rem] lg:size-[37rem] bg-pri -z-10"></div>
           <div className="absolute -top-36 -right-36 blur-3xl rounded-full size-[10rem] lg:size-[37rem] bg-[#32c6c1]/20 -z-10"></div> */}
           {/* title */}
@@ -55,7 +55,7 @@ const Hero = () => {
             </motion.div>
           </div>
           {/* image 2 */}
-          <div className="hidden lg:block h-[25dvh]">
+          <div className="hidden lg:flex justify-center items-center h-[25dvh]">
             <motion.div style={{  scale: scaleDesktopSs }}>
               <Image
                 src={ssmobile}
