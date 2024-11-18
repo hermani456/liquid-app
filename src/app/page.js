@@ -5,7 +5,7 @@ import Hero from "@/components/landing/hero";
 
 export default function Home() {
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative">
       <NavBar />
       <Hero />
       {/* <div className="flex justify-center">
