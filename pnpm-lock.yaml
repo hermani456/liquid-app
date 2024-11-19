@@ -65,6 +65,9 @@ importers:
       framer-motion:
         specifier: ^11.11.11
         version: 11.11.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      lenis:
+        specifier: ^1.1.16
+        version: 1.1.16(react@18.3.1)
       lucide-react:
         specifier: ^0.452.0
         version: 0.452.0(react@18.3.1)
@@ -2775,6 +2778,17 @@ packages:
 
   leac@0.6.0:
     resolution: {integrity: sha512-y+SqErxb8h7nE/fiEX07jsbuhrpO9lL8eca7/Y1nuWV2moNlXhyd59iDGcRf6moVyDMbmTNzL40SUyrFU/yDpg==}
+
+  lenis@1.1.16:
+    resolution: {integrity: sha512-bGS8IxJW3x310gTwFylgYU6bGzeVnTALmgyLP8RZ9DFSYC/hN3fi+urCWspr5otljbDAGF4ND2GKCFtemAd45Q==}
+    peerDependencies:
+      react: '>=17.0.0'
+      vue: '>=3.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      vue:
+        optional: true
 
   leven@3.1.0:
     resolution: {integrity: sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==}
@@ -7151,6 +7165,10 @@ snapshots:
       language-subtag-registry: 0.3.23
 
   leac@0.6.0: {}
+
+  lenis@1.1.16(react@18.3.1):
+    optionalDependencies:
+      react: 18.3.1
 
   leven@3.1.0: {}
 
