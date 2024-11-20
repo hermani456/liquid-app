@@ -70,17 +70,6 @@ export default function CreatePayRoll() {
     },
   });
 
-  const deleteWorkerMutation = useMutation({
-    mutationFn: fetchDeleteWorker,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["workers"]);
-      // setIsModalOpen(false);
-    },
-    onError: (error) => {
-      console.error("Error deleting worker:", error);
-    },
-  });
-
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState("");
   const [filteredEmployees, setFilteredEmployees] = useState([]);
@@ -101,32 +90,6 @@ export default function CreatePayRoll() {
   const handleSelectEmployee = (employee) => {
     setSelectedEmployee(employee);
     setIsModalOpen(true);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    updateWorkerMutation.mutate(selectedEmployee);
-    setIsModalOpen(false);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSelectedEmployee((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSexChange = (value) => {
-    setSelectedEmployee((prevData) => ({
-      ...prevData,
-      sex: value === "masculino" ? "M" : "F",
-    }));
-  };
-
-  const handleDeleteEmployee = (employee) => {
-    setEmployeeToDelete(employee);
-    setIsDeleteDialogOpen(true);
   };
 
   if (isPending) return <div>Loading...</div>;
