@@ -1,0 +1,16 @@
+para gregar cotizacion: 
+
+dias trabajdos,
+dias ausentes,
+licensia,
+vacaciones,
+horas extras,
+Movilización: $0
+Colacion: $0
+Viatico: $0
+Asignacion Familiar: 
+afp,
+salud,
+anticipos,
+
+descuentos debe ser uno solo, que se reste a total haberes = suelto liquido

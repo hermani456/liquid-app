@@ -6,6 +6,7 @@ import ss from "@/public/ss.png";
 import ssmobile from "@/public/ss-mobile.png";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import Link from "next/link";
 
 const Hero = () => {
   const container = useRef();
@@ -16,7 +17,7 @@ const Hero = () => {
 
   const desktopImageOpacity = useTransform(scrollYProgress, [0.5, 1], [1, 0]);
   const scaleDesktopSs = useTransform(scrollYProgress, [0.5, 1], [1, 0.5]);
-  const titleOpacity = useTransform(scrollYProgress, [0, .6], [1, 0]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   const con = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
   // const desktopImageOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
@@ -40,9 +41,11 @@ const Hero = () => {
               minutos, sin complicaciones.
             </p>
             <div className="flex gap-5">
-              <button className="bg-acc px-5 py-2 text-bg rounded-xl hover:scale-105 transition-all">
-                Comenzar
-              </button>
+              <Link href="/dashboard">
+                <button className="bg-acc px-5 py-2 text-bg rounded-xl hover:scale-105 transition-all">
+                  Comenzar
+                </button>
+              </Link>
               <button className="px-5 py-2 border rounded-xl hover:scale-105 transition-all">
                 Conocer mas
               </button>
@@ -50,18 +53,16 @@ const Hero = () => {
           </motion.dev>
           {/* image 1 */}
           <div className="hidden lg:block h-screen sticky top-24 ">
-            <motion.div style={{ opacity: desktopImageOpacity, scale: scaleDesktopSs }}>
+            <motion.div
+              style={{ opacity: desktopImageOpacity, scale: scaleDesktopSs }}
+            >
               <Image src={ss} alt="ss" />
             </motion.div>
           </div>
           {/* image 2 */}
           <div className="hidden lg:flex justify-center items-center h-[25dvh]">
-            <motion.div style={{  scale: scaleDesktopSs }}>
-              <Image
-                src={ssmobile}
-                width={250}
-                alt="ssmobile"
-              />
+            <motion.div style={{ scale: scaleDesktopSs }}>
+              <Image src={ssmobile} width={250} alt="ssmobile" />
             </motion.div>
           </div>
         </div>

@@ -212,7 +212,7 @@ export default function CreatePayRoll() {
                 id="totalSalary"
                 name="totalSalary"
                 type="number"
-                value={""}
+                value={selectedEmployee?.total_salary}
                 readOnly
               />
             </div>
