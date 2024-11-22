@@ -22,6 +22,7 @@
 ## Introducción
 
 Bienvenido/a al manual de usuario de la aplicación **LiquidApp**. Esta guía detalla los pasos para utilizar cada una de las funcionalidades de la aplicación, incluyendo gestión de empresas, trabajadores, y generación de liquidaciones de sueldo. Si tienes alguna duda adicional, consulta la sección de [Soporte Técnico](#soporte-técnico).
+Hola
 
 ---
 
