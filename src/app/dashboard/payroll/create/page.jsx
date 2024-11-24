@@ -33,12 +33,29 @@ import { LoaderCircle } from "lucide-react";
 import { FilePenLine } from "lucide-react";
 import { Trash } from "lucide-react";
 import { X } from "lucide-react";
+import { afpOptions } from "@/utils/index";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function CreatePayRoll() {
   const { companyId } = useCompanyStore();
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
+  const [payrollData, setPayrollData] = useState({
+    daysWorked: "",
+    daysAbsent: "",
+    afp: "",
+    overtimeHours: "",
+    baseSalary: "",
+    overtimePay: "",
+    totalSalary: "",
+  });
 
   const queryClient = useQueryClient();
 
@@ -90,6 +107,7 @@ export default function CreatePayRoll() {
   const handleSelectEmployee = (employee) => {
     setSelectedEmployee(employee);
     setIsModalOpen(true);
+    console.log(employee);
   };
 
   if (isPending) return <div>Loading...</div>;
@@ -168,10 +186,41 @@ export default function CreatePayRoll() {
                 id="daysWorked"
                 name="daysWorked"
                 type="number"
+                value={payrollData.daysWorked}
+                onChange={(e) => setPayrollData(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="daysAbsent">Días Ausentes</Label>
+              <Input
+                id="daysAbsent"
+                name="daysAbsent"
+                type="number"
                 value={""}
                 onChange={""}
                 required
               />
+            </div>
+            {/* select from afpOptions */}
+            <div>
+              <Label htmlFor="afp">AFP</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue>{""}</SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {afpOptions.map((option) => (
+                    <SelectItem
+                      key={option.id}
+                      onClick={() => ""}
+                      selected={""}
+                    >
+                      {option.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <Label htmlFor="overtimeHours">Horas Extras</Label>
@@ -207,12 +256,13 @@ export default function CreatePayRoll() {
               />
             </div>
             <div>
-              <Label htmlFor="totalSalary">Salario Total</Label>
+              <Label htmlFor="totalSalary">Sueldo base</Label>
               <Input
                 id="totalSalary"
                 name="totalSalary"
                 type="number"
-                value={selectedEmployee?.total_salary}
+                value={selectedEmployee?.base_salary}
+                disabled
                 readOnly
               />
             </div>
