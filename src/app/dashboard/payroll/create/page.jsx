@@ -47,15 +47,33 @@ export default function CreatePayRoll() {
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
-  const [payrollData, setPayrollData] = useState({
-    daysWorked: "",
-    daysAbsent: "",
+  const [selectedAfp, setSelectedAfp] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    last_name: "",
+    rut: "",
+    position: "",
+    email: "",
+    sueldoBase: "",
+    movilizacion: "",
+    colacion: "",
+    viatico: "",
+    asignacionFamiliar: "",
+    diasTrabajados: "",
+    diasAusentes: "",
     afp: "",
-    overtimeHours: "",
-    baseSalary: "",
-    overtimePay: "",
-    totalSalary: "",
+    horasExtras: "",
+    salarioBase: "",
+    pagoHorasExtras: "",
   });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const queryClient = useQueryClient();
 
@@ -107,7 +125,33 @@ export default function CreatePayRoll() {
   const handleSelectEmployee = (employee) => {
     setSelectedEmployee(employee);
     setIsModalOpen(true);
+    setFormData((prev) => ({
+      ...prev,
+      name: employee.name,
+      last_name: employee.last_name,
+      rut: employee.rut,
+      position: employee.position,
+      email: employee.email,
+      sueldoBase: employee.base_salary,
+    }));
     console.log(employee);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch("/api/pdf", {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+  };
+
+  const handleAfpChange = (value) => {
+    const selected = afpOptions.find((option) => option.name === value);
+    setFormData((prev) => ({
+      ...prev,
+      afp: selected,
+    }));
+    setSelectedAfp(value);
   };
 
   if (isPending) return <div>Loading...</div>;
@@ -177,45 +221,41 @@ export default function CreatePayRoll() {
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Editar Información Salarial</DialogTitle>
+            <DialogTitle>{`${selectedEmployee.name} ${selectedEmployee.last_name}`} Información Salarial</DialogTitle>
           </DialogHeader>
-          <form onSubmit={""} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="daysWorked">Días Trabajados</Label>
+              <Label htmlFor="diasTrabajados">Días Trabajados</Label>
               <Input
-                id="daysWorked"
-                name="daysWorked"
+                id="diasTrabajados"
+                name="diasTrabajados"
                 type="number"
-                value={payrollData.daysWorked}
-                onChange={(e) => setPayrollData(e.target.value)}
+                value={formData.diasTrabajados}
+                onChange={handleChange}
                 required
               />
             </div>
             <div>
-              <Label htmlFor="daysAbsent">Días Ausentes</Label>
+              <Label htmlFor="diasAusentes">Días Ausentes</Label>
               <Input
-                id="daysAbsent"
-                name="daysAbsent"
+                id="diasAusentes"
+                name="diasAusentes"
                 type="number"
-                value={""}
-                onChange={""}
+                value={formData.diasAusentes}
+                onChange={handleChange}
                 required
               />
             </div>
             {/* select from afpOptions */}
             <div>
               <Label htmlFor="afp">AFP</Label>
-              <Select>
+              <Select value={selectedAfp} onValueChange={handleAfpChange}>
                 <SelectTrigger>
-                  <SelectValue>{""}</SelectValue>
+                  <SelectValue placeholder="Selecciona AFP" />
                 </SelectTrigger>
                 <SelectContent>
                   {afpOptions.map((option) => (
-                    <SelectItem
-                      key={option.id}
-                      onClick={() => ""}
-                      selected={""}
-                    >
+                    <SelectItem key={option.id} value={option.name}>
                       {option.name}
                     </SelectItem>
                   ))}
@@ -223,13 +263,13 @@ export default function CreatePayRoll() {
               </Select>
             </div>
             <div>
-              <Label htmlFor="overtimeHours">Horas Extras</Label>
+              <Label htmlFor="horasExtras">Horas Extras</Label>
               <Input
-                id="overtimeHours"
-                name="overtimeHours"
+                id="horasExtras"
+                name="horasExtras"
                 type="number"
-                value={""}
-                onChange={""}
+                value={formData.horasExtras}
+                onChange={handleChange}
                 required
               />
             </div>

@@ -11,7 +11,15 @@ const ff = new FileforgeClient({
 });
 
 export const POST = async (req) => {
-  const HTML = await compile(<Template />);
+  const body = await req.json();
+  const { sueldoBase, horasExtras } = body;
+  console.log(sueldoBase)
+  const valorHoraExtra = Math.round(sueldoBase * 0.0079545)
+  const pagoHoraExtra = valorHoraExtra * horasExtras
+  console.log("pagoHoraExtra", pagoHoraExtra)
+  console.log("horaExtra", valorHoraExtra)
+  console.log(body);
+  const HTML = await compile(<Template {...body}/>);
 
   const pdfStream = await ff.pdf.generate(
     [
