@@ -3,6 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 const createUser = async () => {
+  console.log("Creating user...");
   let userExists = false;
   let userCreated = false;
   try {
