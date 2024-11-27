@@ -1,26 +1,116 @@
-import { infoCardsContent } from "@/utils";
 import InfoCard from "@/components/InfoCard";
 import DashBoardTable from "@/components/Table";
 import PieChart from "@/components/charts/PieChart";
 import BarChart from "@/components/charts/BarChart";
 import AreaChart from "@/components/charts/AreaChart";
-import { currentUser } from '@clerk/nextjs/server'
+import { currentUser } from "@clerk/nextjs/server";
 import pool from "@/utils/db";
+import { Building, DollarSign, List, Mail, Users } from "lucide-react";
+import { formatToClp } from "@/utils/index";
 
+const page = async () => {
+  const { firstName, lastName, id } = await currentUser();
 
-
-const page = async() => {
   // TODO: pasar usuario en query
-  const { rows } = await pool.query(`SELECT
-    c.name AS company,
-    COUNT(w.id) AS workers
-  FROM
+  const { rows: totalEmpleados } = await pool.query(`
+    SELECT
+        c.name AS company,
+        COUNT(w.id) AS workers
+    FROM
+        companies c
+    LEFT JOIN
+        workers w ON c.id = w.company_id
+    WHERE
+        c.user_id = '${id}'
+    GROUP BY
+        c.id;
+    `);
+
+  console.log(totalEmpleados);
+
+  const { rows: totalEmpresas } = await pool.query(`
+    SELECT
+        COUNT(id) AS companies
+    FROM
+        companies
+    WHERE
+        user_id = '${id}';
+    `);
+
+  console.log(totalEmpresas);
+
+  const { rows: avgPayment } = await pool.query(
+    `
+    SELECT
+      AVG(w.base_salary) AS average_base_salary
+    FROM
+      workers w
+    JOIN
+      companies c ON w.company_id = c.id
+    WHERE
+      c.user_id = '${id}';
+    `
+  );
+
+  const { rows: totalEmployees } = await pool.query(
+    `
+    SELECT
+    COUNT(w.id) AS total_employees
+FROM
     companies c
-  LEFT JOIN
+LEFT JOIN
     workers w ON c.id = w.company_id
-  GROUP BY
-    c.id;`);
-  const { firstName, lastName } = await currentUser()
+WHERE
+    c.user_id = '${id}';
+    `
+  );
+
+  console.log(totalEmployees)
+
+  const infoCardsContent = [
+    {
+      number: totalEmpresas[0].companies,
+      name: "Empresas",
+      Icon: Building,
+      description: "A tu cargo",
+      bgColor: "#FFF4E8",
+      textColor: "#F29425",
+    },
+    {
+      number: totalEmployees[0].total_employees,
+      name: "Empleados",
+      Icon: Users,
+      description: "Registrados",
+      bgColor: "#E8F5FF",
+      textColor: "#248CD8",
+    },
+    {
+      number: 300,
+      name: "Liquidaciones",
+      Icon: List,
+      description: "Generadas",
+      bgColor: "#F9EFFF",
+      textColor: "#A601FF",
+    },
+    {
+      number: 10,
+      name: "Emails",
+      Icon: Mail,
+      description: "Enviados",
+      bgColor: "#ECFFF2",
+      textColor: "#10A142",
+    },
+    {
+      number: `${formatToClp(Math.round(avgPayment[0].average_base_salary))}`,
+      name: "Promedio de sueldos",
+      Icon: DollarSign,
+      description: "Mensual",
+      bgColor: "#FFF4E8",
+      textColor: "#F29425",
+    },
+  ];
+
+  console.log(avgPayment);
 
   const date = new Date();
   const day = date.getDate();
@@ -61,7 +151,7 @@ const page = async() => {
             <BarChart />
           </div>
           <div className="flex-1 min-w-[18rem]">
-            <PieChart data={rows}/>
+            <PieChart data={totalEmpleados} />
           </div>
         </div>
       </div>

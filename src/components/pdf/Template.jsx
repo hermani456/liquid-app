@@ -198,7 +198,7 @@ const page = ({name, last_name, rut, position, email, diasAusentes, afp, sueldoB
                 </div>
                 <div className="w-full h-[1px] mb-1 mt-1 bg-black/30"></div>
                 <div className="flex justify-between bg-black/10 rounded-md p-1 font-bold">
-                  Liquido a Pagar: <span>${sueldoBase}</span>
+                  Liquido a Pagar: <span>{formatToClp(sueldoBase)}</span>
                 </div>
                 <div className="mt-3">
                   <p className="text-center text-[10px] font-semibold leading-tight">
