@@ -286,11 +286,11 @@ export function EmployeeSelection() {
                   required
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="masculino" id="masculino" />
+                    <RadioGroupItem value="masculino" id="masculino" className="border-emerald-500 text-white"/>
                     <Label htmlFor="masculino">Masculino</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="femenino" id="femenino" />
+                    <RadioGroupItem value="femenino" id="femenino" className="border-emerald-500 text-white"/>
                     <Label htmlFor="femenino">Femenino</Label>
                   </div>
                 </RadioGroup>

@@ -113,11 +113,11 @@ export function EmployeeForm() {
             required
           >
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="M" id="masculino" />
+              <RadioGroupItem value="M" id="masculino" className="border-emerald-500 text-white"/>
               <Label htmlFor="masculino">Masculino</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="F" id="femenino" />
+              <RadioGroupItem value="F" id="femenino" className="border-emerald-500 text-white"/>
               <Label htmlFor="femenino">Femenino</Label>
             </div>
           </RadioGroup>
