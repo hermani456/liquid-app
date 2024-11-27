@@ -26,7 +26,6 @@ const page = async () => {
         c.id;
     `);
 
-  console.log(totalEmpleados);
 
   const { rows: totalEmpresas } = await pool.query(`
     SELECT
@@ -37,7 +36,6 @@ const page = async () => {
         user_id = '${id}';
     `);
 
-  console.log(totalEmpresas);
 
   const { rows: avgPayment } = await pool.query(
     `
@@ -65,7 +63,6 @@ WHERE
     `
   );
 
-  console.log(totalEmployees)
 
   const infoCardsContent = [
     {
@@ -110,7 +107,6 @@ WHERE
     },
   ];
 
-  console.log(avgPayment);
 
   const date = new Date();
   const day = date.getDate();
