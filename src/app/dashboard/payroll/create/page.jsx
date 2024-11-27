@@ -238,7 +238,6 @@ export default function CreatePayRoll() {
                 required
               />
             </div>
-            {/* select from afpOptions */}
             <div>
               <Label htmlFor="afp">AFP</Label>
               <Select value={selectedAfp} onValueChange={handleAfpChange}>
@@ -261,6 +260,50 @@ export default function CreatePayRoll() {
                 name="horasExtras"
                 type="number"
                 value={formData.horasExtras}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="movilizacion">Movilización</Label>
+              <Input
+                id="movilizacion"
+                name="movilizacion"
+                type="number"
+                value={formData.movilizacion}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="colacion">Colación</Label>
+              <Input
+                id="colacion"
+                name="colacion"
+                type="number"
+                value={formData.colacion}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="viatico">Viático</Label>
+              <Input
+                id="viatico"
+                name="viatico"
+                type="number"
+                value={formData.viatico}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="asignacionFamiliar">Asignación Familiar</Label>
+              <Input
+                id="asignacionFamiliar"
+                name="asignacionFamiliar"
+                type="number"
+                value={formData.asignacionFamiliar}
                 onChange={handleChange}
                 required
               />

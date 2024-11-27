@@ -7,11 +7,34 @@ import {
 import { Building } from "lucide-react";
 import { NumberAsString, formatToClp } from "@/utils/index";
 
-const page = ({name, last_name, rut, position, email, diasAusentes, afp, sueldoBase, dias }) => {
+const page = ({
+  name,
+  last_name,
+  rut,
+  position,
+  email,
+  diasAusentes,
+  afp,
+  sueldoBase,
+  dias,
+  pagoHoraExtra,
+  gratificacion,
+  totalImponible,
+  movilizacion,
+  colacion,
+  viatico,
+  asignacionFamiliar,
+}) => {
   const date = new Date();
   const year = date.getFullYear();
   const day = date.getDate();
   const month = date.getMonth();
+  const totalNoImponible =
+    Number(movilizacion) +
+    Number(colacion) +
+    Number(viatico) +
+    Number(asignacionFamiliar);
+  const totalHaberes = totalImponible + totalNoImponible
   return (
     <div
       className="h-[1056px] w-[816px]"
@@ -49,7 +72,8 @@ const page = ({name, last_name, rut, position, email, diasAusentes, afp, sueldoB
             <div className="flex justify-between p-1">
               <div className="flex flex-col">
                 <h6 className="font-semibold">
-                  Nombre: <span className="font-normal">{`${name} ${last_name}`}</span>
+                  Nombre:{" "}
+                  <span className="font-normal">{`${name} ${last_name}`}</span>
                 </h6>
                 <h6 className="font-semibold">
                   Rut: <span className="font-normal">{rut}</span>
@@ -114,43 +138,52 @@ const page = ({name, last_name, rut, position, email, diasAusentes, afp, sueldoB
                   Base: <span>{formatToClp(sueldoBase)}</span>
                 </div>
                 <div className="flex justify-between">
+                  Horas Extras: <span>{formatToClp(pagoHoraExtra)}</span>
+                </div>
+                {/* <div className="flex justify-between">
                   Proporcional: <span>$0</span>
-                </div>
+                </div> */}
                 <div className="flex justify-between">
-                  Grat. Legal: <span>$150.000</span>
+                  Grat. Legal: <span>{formatToClp(gratificacion)}</span>
                 </div>
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   Total Bonificaciones: <span>$1.000.000</span>
-                </div>
+                </div> */}
                 {/* divider start */}
                 <div className="w-full h-[1px] mt-1 bg-black/30"></div>
                 <div className="flex justify-between py-1">
                   Total Imponible:{" "}
-                  <span className="font-semibold">$1.500.000</span>
+                  <span className="font-semibold">
+                    {formatToClp(totalImponible)}
+                  </span>
                 </div>
                 <div className="w-full h-[1px] mb-1 bg-black/30"></div>
                 {/* divider end */}
                 <div className="flex justify-between">
-                  Movilización: <span>$0</span>
+                  Movilización: <span>{formatToClp(movilizacion)}</span>
                 </div>
                 <div className="flex justify-between">
-                  Colacion: <span>$0</span>
+                  Colacion: <span>{formatToClp(colacion)}</span>
                 </div>
                 <div className="flex justify-between">
-                  Viatico: <span>$0</span>
+                  Viatico: <span>{formatToClp(viatico)}</span>
                 </div>
                 <div className="flex justify-between">
-                  Asignacion Familiar: <span>$0</span>
+                  Asignacion Familiar:{" "}
+                  <span>{formatToClp(asignacionFamiliar)}</span>
                 </div>
                 {/* divider start */}
                 <div className="w-full h-[1px] mt-1 bg-black/30"></div>
                 <div className="flex justify-between py-1">
-                  Total no Imponible: <span>$0</span>
+                  Total no Imponible:{" "}
+                  <span>
+                    {formatToClp(totalNoImponible)}
+                  </span>
                 </div>
                 <div className="w-full h-[1px] mb-1 bg-black/30"></div>
                 {/* divider end */}
                 <div className="flex justify-between">
-                  Total Haberes: <span>$812.000</span>
+                  Total Haberes: <span>{formatToClp(totalHaberes)}</span>
                 </div>
               </div>
               {/* right */}
