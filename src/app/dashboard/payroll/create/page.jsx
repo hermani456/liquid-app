@@ -221,20 +221,12 @@ export default function CreatePayRoll() {
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{`${selectedEmployee.name} ${selectedEmployee.last_name}`} Información Salarial</DialogTitle>
+            <DialogTitle>
+              {`${selectedEmployee.name} ${selectedEmployee.last_name}`}{" "}
+              Información Salarial
+            </DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="diasTrabajados">Días Trabajados</Label>
-              <Input
-                id="diasTrabajados"
-                name="diasTrabajados"
-                type="number"
-                value={formData.diasTrabajados}
-                onChange={handleChange}
-                required
-              />
-            </div>
             <div>
               <Label htmlFor="diasAusentes">Días Ausentes</Label>
               <Input
@@ -270,17 +262,6 @@ export default function CreatePayRoll() {
                 type="number"
                 value={formData.horasExtras}
                 onChange={handleChange}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="baseSalary">Salario Base</Label>
-              <Input
-                id="baseSalary"
-                name="baseSalary"
-                type="number"
-                value={""}
-                onChange={""}
                 required
               />
             </div>

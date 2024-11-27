@@ -5,9 +5,9 @@ import {
   Margins,
 } from "@fileforge/react-print";
 import { Building } from "lucide-react";
-import { NumberAsString } from "@/utils/index";
+import { NumberAsString, formatToClp } from "@/utils/index";
 
-const page = ({name, last_name, rut, position, email, diasTrabajados, diasAusentes, afp, sueldoBase }) => {
+const page = ({name, last_name, rut, position, email, diasAusentes, afp, sueldoBase, dias }) => {
   const date = new Date();
   const year = date.getFullYear();
   const day = date.getDate();
@@ -81,7 +81,7 @@ const page = ({name, last_name, rut, position, email, diasTrabajados, diasAusent
             <div className="flex divide-x-2 justify-between p-1 border-b-2">
               <div className="flex space-x-5">
                 <div className="flex flex-col items-center">
-                  Dias trabajados: <span>{Number(diasTrabajados)}</span>
+                  Dias trabajados: <span>{Number(dias)}</span>
                 </div>
                 <div className="flex flex-col items-center">
                   Dias Feriados: <span>0</span>
@@ -111,7 +111,7 @@ const page = ({name, last_name, rut, position, email, diasTrabajados, diasAusent
               {/* left */}
               <div className="w-1/2 px-14">
                 <div className="flex justify-between">
-                  Base: <span>${sueldoBase}</span>
+                  Base: <span>{formatToClp(sueldoBase)}</span>
                 </div>
                 <div className="flex justify-between">
                   Proporcional: <span>$0</span>

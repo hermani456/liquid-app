@@ -114,7 +114,7 @@ const data = {
       items: [
         {
           title: "Crear Liquidación",
-          url: "/dashboard/payroll",
+          url: "/dashboard/payroll/create",
         },
         {
           title: "Editar Liquidación",
