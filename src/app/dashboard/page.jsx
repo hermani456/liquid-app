@@ -9,6 +9,7 @@ import { Building, DollarSign, List, Mail, Users } from "lucide-react";
 import { formatToClp } from "@/utils/index";
 
 const page = async () => {
+  console.log("dashboard page");
   const { firstName, lastName, id } = await currentUser();
 
   // TODO: pasar usuario en query
