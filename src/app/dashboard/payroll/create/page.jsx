@@ -266,17 +266,6 @@ export default function CreatePayRoll() {
               />
             </div>
             <div>
-              <Label htmlFor="overtimePay">Pago por Horas Extras</Label>
-              <Input
-                id="overtimePay"
-                name="overtimePay"
-                type="number"
-                value={""}
-                onChange={""}
-                required
-              />
-            </div>
-            <div>
               <Label htmlFor="totalSalary">Sueldo base</Label>
               <Input
                 id="totalSalary"
@@ -288,7 +277,7 @@ export default function CreatePayRoll() {
               />
             </div>
             <Button type="submit" className="w-full">
-              Actualizar Información Salarial
+              Enviar Liquidación
             </Button>
           </form>
         </DialogContent>
