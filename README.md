@@ -40,6 +40,7 @@ Bienvenido/a al manual de usuario de la aplicación **LiquidApp**. Esta guía de
    - Pulsa en **Iniciar Sesión**.
    
 > **Nota**: Agrega una captura de pantalla de la página de inicio de sesión y registro.
+![Inicio de Sesión](src/public/ss-iniciosesion.png)
 
 ---
 
@@ -51,6 +52,7 @@ Al iniciar sesión, serás dirigido al panel principal, donde encontrarás:
 - Configuración de usuario.
 
 > **Nota**: Agrega una captura de pantalla de la vista del panel principal.
+![Panel Principal](src/public/panelprincipal.png)
 
 ---
 
@@ -64,6 +66,7 @@ Al iniciar sesión, serás dirigido al panel principal, donde encontrarás:
 4. Haz clic en **Guardar** para registrar la empresa.
 
 > **Captura de pantalla recomendada**: formulario de agregar empresa.
+![Agregar Empresa](src/public/ss-crearempresa.png)
 
 ### Editar Empresa
 
@@ -72,6 +75,7 @@ Al iniciar sesión, serás dirigido al panel principal, donde encontrarás:
 3. Pulsa **Guardar** para aplicar los cambios.
 
 > **Captura de pantalla recomendada**: ejemplo de vista de edición de empresa.
+![Editar Empresa](src/public/ss-editarempresa.png)
 
 ### Eliminar Empresa
 
@@ -90,6 +94,7 @@ Al iniciar sesión, serás dirigido al panel principal, donde encontrarás:
 4. Haz clic en **Guardar** para registrar al trabajador.
 
 > **Captura de pantalla recomendada**: formulario de agregar trabajador.
+![Agregar Trabajador](src/public/ss-agregartrabajador.png)
 
 ### Editar Trabajador
 
@@ -98,6 +103,7 @@ Al iniciar sesión, serás dirigido al panel principal, donde encontrarás:
 3. Haz clic en **Guardar** para confirmar los cambios.
 
 > **Captura de pantalla recomendada**: vista de edición de trabajador.
+![Editar Trabajador](src/public/ss-editartrabajador.png)
 
 ### Eliminar Trabajador
 
@@ -114,6 +120,7 @@ Al iniciar sesión, serás dirigido al panel principal, donde encontrarás:
 4. Haz clic en **Emitir Liquidación** para crear el documento PDF.
 
 > **Captura de pantalla recomendada**: ejemplo del modal o formulario de generación de liquidación de sueldo.
+![Generar Liquidación](src/public/ss-generarliquidacion.png)
 
 ---
 
@@ -124,6 +131,7 @@ Al iniciar sesión, serás dirigido al panel principal, donde encontrarás:
 3. Haz clic en **Guardar Cambios** para aplicar cualquier modificación.
 
 > **Captura de pantalla recomendada**: vista de configuración de usuario.
+![Configuración Usuario](src/public/ss-configuracionusuario.png)
 
 ---
 
