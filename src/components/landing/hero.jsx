@@ -7,6 +7,7 @@ import ssmobile from "@/public/ss-mobile.png";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 const Hero = () => {
   const container = useRef();
@@ -41,11 +42,20 @@ const Hero = () => {
               minutos, sin complicaciones.
             </p>
             <div className="flex gap-5">
-              <Link href="/dashboard">
-                <button className="bg-acc px-5 py-2 text-bg rounded-xl hover:scale-105 transition-all">
-                  Comenzar
-                </button>
-              </Link>
+              <SignedOut>
+                <SignInButton>
+                  <button className="bg-acc px-5 py-2 text-bg rounded-xl hover:scale-105 transition-all">
+                    Comenzar
+                  </button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <Link href="/dashboard">
+                  <button className="bg-acc px-5 py-2 text-bg rounded-xl hover:scale-105 transition-all">
+                    Dashboard
+                  </button>
+                </Link>
+              </SignedIn>
               <button className="px-5 py-2 border rounded-xl hover:scale-105 transition-all">
                 Conocer mas
               </button>
