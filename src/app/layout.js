@@ -37,10 +37,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider
-      signInFallbackRedirectUrl="/new-user"
-      signUpFallbackRedirectUrl="/new-user"
-    >
+    <ClerkProvider>
       <html lang="en">
         <body
           className={`${roboto.variable} ${bebasNeue.variable} antialiased`}
