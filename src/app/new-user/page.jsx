@@ -3,7 +3,6 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 const createUser = async () => {
-  console.log("Creating user...");
   let userExists = false;
   let userCreated = false;
   try {
@@ -22,7 +21,9 @@ const createUser = async () => {
 
     if (user) {
       userExists = true;
+      console.log("User already exists");
     } else {
+      console.log("Creating new user...");
       const result = await pool.query(
         "INSERT INTO users (id, name, email) VALUES ($1, $2, $3) RETURNING *",
         [id, fullName, emailAddress]
