@@ -22,7 +22,6 @@
 ## Introducción
 
 Bienvenido/a al manual de usuario de la aplicación **LiquidApp**. Esta guía detalla los pasos para utilizar cada una de las funcionalidades de la aplicación, incluyendo gestión de empresas, trabajadores, y generación de liquidaciones de sueldo. Si tienes alguna duda adicional, consulta la sección de [Soporte Técnico](#soporte-técnico).
-Hola
 
 ---
 
@@ -142,7 +141,7 @@ Al iniciar sesión, serás dirigido al panel principal, donde encontrarás:
 ## Soporte Técnico
 
 Si necesitas asistencia adicional, contacta a nuestro equipo de soporte:
-- **Correo electrónico**: support@[dominio].com
+- **Correo electrónico**: diego.campuzano@inacapmail.cl o fransheska.ruiz@inacapmail.cl
 - **Horario de atención**: Lunes a Viernes, de 9:00 a 18:00 hrs (GMT-4).
 
 ---
