@@ -47,6 +47,7 @@ export default function CreatePayRoll() {
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedAfp, setSelectedAfp] = useState("");
   const [formData, setFormData] = useState({
     name: "",
@@ -133,15 +134,29 @@ export default function CreatePayRoll() {
       position: employee.position,
       email: employee.email,
       sueldoBase: employee.base_salary,
+      diasAusentes: 0,
+      afp: {},
+      horasExtras: 0,
+      movilizacion: 0,
+      colacion: 0,
+      viatico: 0,
+      asignacionFamiliar: 0,
     }));
+    setSelectedAfp("");
     console.log(employee);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     fetch("/api/pdf", {
       method: "POST",
       body: JSON.stringify(formData),
+    }).then((res) => {
+      if (res.ok) {
+        setIsModalOpen(false);
+        setIsLoading(false);
+      }
     });
   };
 
@@ -319,9 +334,18 @@ export default function CreatePayRoll() {
                 readOnly
               />
             </div>
-            <Button type="submit" className="w-full">
-              Enviar Liquidación
-            </Button>
+            {isLoading ? (
+              <>
+                <LoaderCircle className="mx-auto animate-spin" />
+                <p className="text-center text-muted-foreground">
+                  Enviando liquidación...
+                </p>
+              </>
+            ) : (
+              <div className="flex justify-center items-center">
+                <Button type="submit">Enviar Liquidación</Button>
+              </div>
+            )}
           </form>
         </DialogContent>
       </Dialog>

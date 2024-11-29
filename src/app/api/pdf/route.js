@@ -95,7 +95,8 @@ export const POST = async (req) => {
 
   if (error) {
     console.log(error);
+    return NextResponse.json("error", { status: 500 });
   }
 
-  return NextResponse.json("email sent", { status: 200 });
+  // return NextResponse.json("email sent", { status: 200 });
 };
