@@ -116,31 +116,19 @@ const data = {
           title: "Crear Liquidación",
           url: "/dashboard/payroll/create",
         },
-        {
-          title: "Editar Liquidación",
-          url: "#",
-        },
-        {
-          title: "Eliminar Liquidación",
-          url: "#",
-        },
-        {
-          title: "Historial Liquidaciones",
-          url: "#",
-        },
       ],
     },
-    {
-      title: "Enviar Liquidaciones",
-      url: "#",
-      icon: Mails,
-      items: [
-        {
-          title: "Email",
-          url: "#",
-        },
-      ],
-    },
+    // {
+    //   title: "Enviar Liquidaciones",
+    //   url: "#",
+    //   icon: Mails,
+    //   items: [
+    //     {
+    //       title: "Email",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
   ],
 
   navSecondary: [
