@@ -307,32 +307,38 @@ export function formatRut(str) {
 }
 
 export const checkRut = (rut) => {
-  let valor = rut.replace(/\./g, "");
-  valor = valor.replace(/-/g, "");
-  const cuerpo = valor.slice(0, -1);
-  if (cuerpo.length > 8) {
-    return false;
+  if (!rut || typeof rut !== "string") return false;
+
+  const trimmedRut = rut.trim();
+
+  const parts = trimmedRut.split("-");
+  if (parts.length === 2 && parts[1].length !== 1) return false;
+
+  const cleanRut = trimmedRut.replace(/[.-]/g, "");
+
+  if (cleanRut.length < 2 || cleanRut.length > 9) return false;
+
+  const body = cleanRut.slice(0, -1);
+  const dv = cleanRut.slice(-1).toLowerCase();
+
+  if (!/^\d+$/.test(body) || !/^[0-9kK]$/.test(dv)) return false;
+
+  let sum = 0;
+  let multiplier = 2;
+
+  for (let i = body.length - 1; i >= 0; i--) {
+    sum += parseInt(body[i], 10) * multiplier;
+    multiplier = multiplier === 7 ? 2 : multiplier + 1;
   }
-  let dv = valor.slice(-1).toUpperCase();
-  rut = cuerpo + "-" + dv;
-  let suma = 0;
-  let multiplo = 2;
-  for (let i = 1; i <= cuerpo.length; i++) {
-    let index = multiplo * valor.charAt(cuerpo.length - i);
-    suma = suma + index;
-    if (multiplo < 7) {
-      multiplo = multiplo + 1;
-    } else {
-      multiplo = 2;
-    }
-  }
-  let dvEsperado = 11 - (suma % 11);
-  dv = dv == "K" ? 10 : dv;
-  dv = dv == 0 ? 11 : dv;
-  if (dvEsperado != dv) {
-    return false;
-  }
-  return true;
+
+  const expectedDv = 11 - (sum % 11);
+  let calculatedDv;
+
+  if (expectedDv === 11) calculatedDv = "0";
+  else if (expectedDv === 10) calculatedDv = "k";
+  else calculatedDv = expectedDv.toString();
+
+  return calculatedDv === dv;
 };
 
 // capitalize first letter

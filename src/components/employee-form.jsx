@@ -7,9 +7,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { fetchCreateWorker } from "@/utils/fetchFuntions";
 import { useCompanyStore } from "@/store/CompanyStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import { capitalizeAll, checkRut } from "@/utils";
 
 export function EmployeeForm() {
   const { companyId } = useCompanyStore();
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isRutValid, setIsRutValid] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const queryClient = useQueryClient();
 
@@ -17,7 +22,7 @@ export function EmployeeForm() {
     mutationFn: (newWorker) => fetchCreateWorker(newWorker),
     onSuccess: () => {
       // Invalidate and refetch the "workers" query
-      queryClient.invalidateQueries(['workers', companyId]);
+      queryClient.invalidateQueries(["workers", companyId]);
     },
   });
 
@@ -35,6 +40,17 @@ export function EmployeeForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "rut") {
+      const valid = checkRut(value);
+      setIsRutValid(checkRut(value));
+      if (!valid) {
+        setErrorMessage("Rut inválido");
+      } else {
+        setErrorMessage("");
+      }
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -43,6 +59,10 @@ export function EmployeeForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!isRutValid) {
+      setErrorMessage("RUT inválido. Por favor, corrige el RUT antes de enviar.");
+      return;
+    }
     const data = {
       company_id: companyId,
       ...formData,
@@ -60,6 +80,10 @@ export function EmployeeForm() {
           base_salary: "",
           email: "",
         });
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+        }, 3000);
       },
       onError: (error) => {
         console.error("Error creating worker:", error);
@@ -77,7 +101,7 @@ export function EmployeeForm() {
           <Input
             id="name"
             name="name"
-            value={formData.name}
+            value={capitalizeAll(formData.name)}
             onChange={handleChange}
             required
           />
@@ -87,7 +111,7 @@ export function EmployeeForm() {
           <Input
             id="last_name"
             name="last_name"
-            value={formData.last_name}
+            value={capitalizeAll(formData.last_name)}
             onChange={handleChange}
             required
           />
@@ -100,7 +124,9 @@ export function EmployeeForm() {
             value={formData.rut}
             onChange={handleChange}
             required
+            className={!isRutValid ? "border-red-500" : ""}
           />
+          {!isRutValid && <span className="text-red-500">{errorMessage}</span>}
         </div>
         <div>
           <Label>Sexo</Label>
@@ -113,11 +139,19 @@ export function EmployeeForm() {
             required
           >
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="M" id="masculino" className="border-emerald-500 text-white"/>
+              <RadioGroupItem
+                value="M"
+                id="masculino"
+                className="border-emerald-500 text-white"
+              />
               <Label htmlFor="masculino">Masculino</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="F" id="femenino" className="border-emerald-500 text-white"/>
+              <RadioGroupItem
+                value="F"
+                id="femenino"
+                className="border-emerald-500 text-white"
+              />
               <Label htmlFor="femenino">Femenino</Label>
             </div>
           </RadioGroup>
@@ -127,7 +161,7 @@ export function EmployeeForm() {
           <Input
             id="home_address"
             name="home_address"
-            value={formData.home_address}
+            value={capitalizeAll(formData.home_address)}
             onChange={handleChange}
             required
           />
@@ -178,11 +212,22 @@ export function EmployeeForm() {
       </div>
       <div className="flex justify-center">
         <Button
+          disabled={mutation.isPending}
           type="submit"
           className="mt-6 min-w-[10%] hover:scale-105 transition-all ease-in-out"
         >
-          Crear
+          {mutation.isPending ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Creando
+            </>
+          ) : (
+            "Crear Empleado"
+          )}
         </Button>
+      </div>
+      <div className="h-10 text-emerald-600 dark:text-green-400 text-center mt-5 font-semibold transition-all">
+        {isSuccess && <p>Empleado creado con éxito</p>}
       </div>
     </form>
   );
