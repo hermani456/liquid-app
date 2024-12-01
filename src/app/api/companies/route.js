@@ -1,6 +1,10 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { createCompany, selectCompaniesByUserId, editCompany } from "@/db/queries/companies";
+import {
+  createCompany,
+  selectCompaniesByUserId,
+  editCompany,
+} from "@/db/queries/companies";
 
 export const POST = async (req, res) => {
   const { userId } = getAuth(req);
@@ -18,8 +22,10 @@ export const POST = async (req, res) => {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const sanitizedRut = rut.replace(/[.-]/g, "");
+
   try {
-    const result = await createCompany(userId, body);
+    const result = await createCompany(userId, { ...body, rut: sanitizedRut });
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     console.error("Error inserting company:", error);

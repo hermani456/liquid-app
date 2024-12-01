@@ -32,6 +32,7 @@ import { useCompanyStore } from "@/store/CompanyStore";
 import { LoaderCircle } from "lucide-react";
 import { FilePenLine } from "lucide-react";
 import { Trash } from "lucide-react";
+import { capitalizeAll, formatRut } from "@/utils";
 
 export function EmployeeSelection() {
   const { companyId } = useCompanyStore();
@@ -164,7 +165,7 @@ export function EmployeeSelection() {
               <TableRow key={employee.id}>
                 <TableCell className="min-w-10 break-all">{employee?.name}</TableCell>
                 <TableCell className="min-w-10 break-all">{employee?.last_name}</TableCell>
-                <TableCell className="min-w-10 break-all">{employee?.rut}</TableCell>
+                <TableCell className="min-w-10 break-all">{formatRut(employee?.rut)}</TableCell>
                 <TableCell className="hidden md:table-cell">
                   {employee?.position}
                 </TableCell>
@@ -250,7 +251,7 @@ export function EmployeeSelection() {
                 <Input
                   id="name"
                   name="name"
-                  value={selectedEmployee?.name}
+                  value={capitalizeAll(selectedEmployee?.name)}
                   onChange={handleChange}
                   required
                 />
@@ -260,7 +261,7 @@ export function EmployeeSelection() {
                 <Input
                   id="last_name"
                   name="last_name"
-                  value={selectedEmployee?.last_name}
+                  value={capitalizeAll(selectedEmployee?.last_name)}
                   onChange={handleChange}
                   required
                 />
@@ -300,7 +301,7 @@ export function EmployeeSelection() {
                 <Input
                   id="home_address"
                   name="home_address"
-                  value={selectedEmployee.home_address}
+                  value={capitalizeAll(selectedEmployee.home_address)}
                   onChange={handleChange}
                   required
                 />
@@ -321,7 +322,7 @@ export function EmployeeSelection() {
                 <Input
                   id="position"
                   name="position"
-                  value={selectedEmployee.position}
+                  value={capitalizeAll(selectedEmployee.position)}
                   onChange={handleChange}
                   required
                 />

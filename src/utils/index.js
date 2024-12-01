@@ -345,3 +345,9 @@ export const checkRut = (rut) => {
 export const capitalizeAll = (string) => {
   return string.toLowerCase().replace(/(^|\s)\S/g, (L) => L.toUpperCase());
 };
+
+export const inputCleaner = (sueldo) => {
+  let cleanSueldo = sueldo.replace(/\./g, "");
+  cleanSueldo = cleanSueldo.replace(/\$/g, "");
+  return cleanSueldo;
+};

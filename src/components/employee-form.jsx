@@ -8,7 +8,9 @@ import { fetchCreateWorker } from "@/utils/fetchFuntions";
 import { useCompanyStore } from "@/store/CompanyStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { capitalizeAll, checkRut } from "@/utils";
+import { capitalizeAll, checkRut, inputCleaner } from "@/utils";
+import { NumericFormat } from "react-number-format";
+
 
 export function EmployeeForm() {
   const { companyId } = useCompanyStore();
@@ -39,7 +41,7 @@ export function EmployeeForm() {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
 
     if (name === "rut") {
       const valid = checkRut(value);
@@ -49,6 +51,10 @@ export function EmployeeForm() {
       } else {
         setErrorMessage("");
       }
+    }
+
+    if (name === "base_salary") {
+      value = inputCleaner(value);
     }
 
     setFormData((prevData) => ({
@@ -67,6 +73,7 @@ export function EmployeeForm() {
       company_id: companyId,
       ...formData,
     };
+    console.log(data);
     mutation.mutate(data, {
       onSuccess: () => {
         setFormData({
@@ -179,12 +186,16 @@ export function EmployeeForm() {
         </div>
         <div>
           <Label htmlFor="base_salary">Salario</Label>
-          <Input
+          <NumericFormat
             id="base_salary"
             name="base_salary"
-            type="number"
             value={formData.base_salary}
             onChange={handleChange}
+            thousandSeparator="."
+            decimalSeparator=","
+            prefix="$"
+            allowNegative={false}
+            customInput={Input}
             required
           />
         </div>
@@ -193,7 +204,7 @@ export function EmployeeForm() {
           <Input
             id="position"
             name="position"
-            value={formData.position}
+            value={capitalizeAll(formData.position)}
             onChange={handleChange}
             required
           />

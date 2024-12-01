@@ -6,37 +6,16 @@ export const POST = async (req, res) => {
   const { userId } = getAuth(req);
   const body = await req.json();
 
-  const {
-    company_id,
-    name,
-    last_name,
-    rut,
-    sex,
-    home_address,
-    phone,
-    position,
-    base_salary,
-    email,
-  } = body;
+  const { rut } = body;
 
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const sanatizedRut = rut.replace(/[.-]/g, "");
+
   try {
-    const result = await createNewWorker(
-      userId,
-      company_id,
-      name,
-      last_name,
-      rut,
-      sex,
-      home_address,
-      phone,
-      position,
-      base_salary,
-      email
-    );
+    const result = await createNewWorker(userId, { ...body, rut: sanatizedRut });
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     console.error("Error inserting worker:", error);

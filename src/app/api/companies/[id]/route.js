@@ -6,7 +6,7 @@ export const PUT = async (req, { params }) => {
   const { userId } = getAuth(req);
   const { id } = params;
   const body = await req.json();
-  const { user_id } = body;
+  const { user_id, rut } = body;
 
   if (userId !== user_id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -16,8 +16,10 @@ export const PUT = async (req, { params }) => {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const sanatizedRut = rut.replace(/[.-]/g, "");
+
   try {
-    const result = await editCompany(userId, body);
+    const result = await editCompany(userId, {...body, rut: sanatizedRut});
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     console.error("Error updating company:", error);

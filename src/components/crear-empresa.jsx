@@ -26,7 +26,7 @@ import {
 } from "./ui/select";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { checkRut } from "@/utils";
+import { capitalizeAll, checkRut } from "@/utils";
 
 export function CrearEmpresa() {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -131,7 +131,7 @@ export function CrearEmpresa() {
           <Input
             id="name"
             name="name"
-            value={formData.name}
+            value={capitalizeAll(formData.name)}
             onChange={handleChange}
             required
           />
@@ -153,7 +153,7 @@ export function CrearEmpresa() {
           <Input
             id="address"
             name="address"
-            value={formData.address}
+            value={capitalizeAll(formData.address)}
             onChange={handleChange}
             required
           />

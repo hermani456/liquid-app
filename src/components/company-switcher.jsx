@@ -27,6 +27,7 @@ import {
   DollarSign,
   Shield,
 } from "lucide-react";
+import Link from "next/link";
 
 export function CompanySwitcher() {
   const { companyId, setCompanyId } = useCompanyStore();
@@ -43,10 +44,10 @@ export function CompanySwitcher() {
   });
 
   useEffect(() => {
-    if (!isPending && companies && !companyId) {
+    if (!isPending && companies && companies.length > 0) {
       setCompanyId(companies[0]?.id);
     }
-  }, [companies, isPending, companyId, setCompanyId]);
+  }, [companies, isPending, setCompanyId]);
 
   const handleCompanyChange = (company) => {
     setCompanyId(company.id);
@@ -80,7 +81,7 @@ export function CompanySwitcher() {
             <Icon className="h-3.5 w-3.5 shrink-0" />
           </div>
           <div className="line-clamp-1 flex-1 pr-2 font-medium">
-            {companies.find((c) => c.id === companyId)?.name}
+            {companies.length > 0 ? companies.find((i) => i.id === companyId)?.name : "Seleccionar Empresa"}
           </div>
           <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground/50" />
         </div>
@@ -119,15 +120,16 @@ export function CompanySwitcher() {
           );
         })}
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="gap-2 px-1.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md border bg-background">
-            <Plus className="h-5 w-5" />
-          </div>
-          <div className="font-medium text-muted-foreground">
-            {/* TODO: REDIRECCIONAR A AGREGAR EMPRESAS */}
-            Agregar Empresa
-          </div>
-        </DropdownMenuItem>
+        <Link href="/dashboard/company/create-company">
+          <DropdownMenuItem className="gap-2 px-1.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md border bg-background">
+              <Plus className="h-5 w-5" />
+            </div>
+            <div className="font-medium text-muted-foreground">
+              Agregar Empresa
+            </div>
+          </DropdownMenuItem>
+        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -30,6 +30,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SheetDescription } from "./ui/sheet";
 import { Trash, Loader2 } from "lucide-react";
 import { FilePenLine } from "lucide-react";
+import { capitalizeAll, formatRut } from "@/utils";
 
 export function CompaniesManagement() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -147,7 +148,7 @@ export function CompaniesManagement() {
             {filteredCompanies.map((company) => (
               <TableRow key={company.id}>
                 <TableCell>{company.name}</TableCell>
-                <TableCell>{company.rut}</TableCell>
+                <TableCell>{formatRut(company.rut)}</TableCell>
                 <TableCell className="hidden md:table-cell">{company.address}</TableCell>
                 <TableCell className="hidden md:table-cell">{company.phone}</TableCell>
                 <TableCell>
@@ -232,7 +233,7 @@ export function CompaniesManagement() {
                 <Input
                   id="name"
                   name="name"
-                  value={selectedCompany?.name}
+                  value={capitalizeAll(selectedCompany?.name)}
                   onChange={handleChange}
                   required
                 />
@@ -252,7 +253,7 @@ export function CompaniesManagement() {
                 <Input
                   id="address"
                   name="address"
-                  value={selectedCompany?.address}
+                  value={capitalizeAll(selectedCompany?.address)}
                   onChange={handleChange}
                   required
                 />
