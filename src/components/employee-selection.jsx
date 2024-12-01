@@ -32,11 +32,11 @@ import { useCompanyStore } from "@/store/CompanyStore";
 import { LoaderCircle } from "lucide-react";
 import { FilePenLine } from "lucide-react";
 import { Trash } from "lucide-react";
-import { capitalizeAll, formatRut } from "@/utils";
+import { capitalizeAll, formatRut, inputCleaner } from "@/utils";
+import { NumericFormat } from "react-number-format";
 
 export function EmployeeSelection() {
   const { companyId } = useCompanyStore();
-
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
@@ -111,7 +111,10 @@ export function EmployeeSelection() {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    if (name === "base_salary") {
+      value = inputCleaner(value);
+    }
     setSelectedEmployee((prevData) => ({
       ...prevData,
       [name]: value,
@@ -163,9 +166,15 @@ export function EmployeeSelection() {
           <TableBody>
             {filteredEmployees.map((employee) => (
               <TableRow key={employee.id}>
-                <TableCell className="min-w-10 break-all">{employee?.name}</TableCell>
-                <TableCell className="min-w-10 break-all">{employee?.last_name}</TableCell>
-                <TableCell className="min-w-10 break-all">{formatRut(employee?.rut)}</TableCell>
+                <TableCell className="min-w-10 break-all">
+                  {employee?.name}
+                </TableCell>
+                <TableCell className="min-w-10 break-all">
+                  {employee?.last_name}
+                </TableCell>
+                <TableCell className="min-w-10 break-all">
+                  {formatRut(employee?.rut)}
+                </TableCell>
                 <TableCell className="hidden md:table-cell">
                   {employee?.position}
                 </TableCell>
@@ -287,11 +296,19 @@ export function EmployeeSelection() {
                   required
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="masculino" id="masculino" className="border-emerald-500 text-white"/>
+                    <RadioGroupItem
+                      value="masculino"
+                      id="masculino"
+                      className="border-emerald-500 text-white"
+                    />
                     <Label htmlFor="masculino">Masculino</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="femenino" id="femenino" className="border-emerald-500 text-white"/>
+                    <RadioGroupItem
+                      value="femenino"
+                      id="femenino"
+                      className="border-emerald-500 text-white"
+                    />
                     <Label htmlFor="femenino">Femenino</Label>
                   </div>
                 </RadioGroup>
@@ -329,12 +346,16 @@ export function EmployeeSelection() {
               </div>
               <div>
                 <Label htmlFor="base_salary">Salario</Label>
-                <Input
+                <NumericFormat
                   id="base_salary"
                   name="base_salary"
-                  type="number"
                   value={selectedEmployee.base_salary}
                   onChange={handleChange}
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  prefix="$"
+                  allowNegative={false}
+                  customInput={Input}
                   required
                 />
               </div>

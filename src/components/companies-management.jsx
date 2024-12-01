@@ -30,11 +30,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SheetDescription } from "./ui/sheet";
 import { Trash, Loader2 } from "lucide-react";
 import { FilePenLine } from "lucide-react";
-import { capitalizeAll, formatRut } from "@/utils";
+import { capitalizeAll, formatRut, checkRut } from "@/utils";
 
 export function CompaniesManagement() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [companyToDelete, setCompanyToDelete] = useState(null);
+  const [rutValidation, setRutValidation] = useState({
+    isValid: true,
+    message: "",
+    companyId: null,
+  });
 
   const queryClient = useQueryClient();
   const {
@@ -105,6 +110,14 @@ export function CompaniesManagement() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "rut") {
+      const valid = checkRut(value);
+      setRutValidation({
+        isValid: valid,
+        message: valid ? "" : "RUT inválido",
+        companyId: selectedCompany.id,
+      });
+    }
     setSelectedCompany((prevData) => ({
       ...prevData,
       [name]: value,
@@ -149,8 +162,12 @@ export function CompaniesManagement() {
               <TableRow key={company.id}>
                 <TableCell>{company.name}</TableCell>
                 <TableCell>{formatRut(company.rut)}</TableCell>
-                <TableCell className="hidden md:table-cell">{company.address}</TableCell>
-                <TableCell className="hidden md:table-cell">{company.phone}</TableCell>
+                <TableCell className="hidden md:table-cell">
+                  {company.address}
+                </TableCell>
+                <TableCell className="hidden md:table-cell">
+                  {company.phone}
+                </TableCell>
                 <TableCell>
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Button onClick={() => handleSelectCompany(company)}>
@@ -246,7 +263,19 @@ export function CompaniesManagement() {
                   value={selectedCompany?.rut}
                   onChange={handleChange}
                   required
+                  className={
+                    rutValidation.companyId === selectedCompany?.id &&
+                    !rutValidation.isValid
+                      ? "border-red-500"
+                      : ""
+                  }
                 />
+                {rutValidation.companyId === selectedCompany?.id &&
+                  !rutValidation.isValid && (
+                    <span className="text-red-500 text-sm">
+                      {rutValidation.message}
+                    </span>
+                  )}
               </div>
               <div>
                 <Label htmlFor="address">Dirección</Label>
