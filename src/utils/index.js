@@ -294,16 +294,22 @@ export const formatToClp = (num) => {
   }).format(num);
 };
 
-export function formatRut(str) {
-  return (
-    str.slice(0, 2) +
-    "." +
-    str.slice(2, 5) +
-    "." +
-    str.slice(5, 8) +
-    "-" +
-    str.slice(8)
-  );
+export function formatRut(rut) {
+  const cleanRut = rut.replace(/[.-]/g, '');
+
+  const body = cleanRut.slice(0, -1);
+  const dv = cleanRut.slice(-1);
+
+  let formattedBody;
+  if (body.length === 7) {
+    formattedBody = `${body.slice(0, 1)}.${body.slice(1, 4)}.${body.slice(4)}`;
+  } else if (body.length === 8) {
+    formattedBody = `${body.slice(0, 2)}.${body.slice(2, 5)}.${body.slice(5)}`;
+  } else {
+    return rut;
+  }
+
+  return `${formattedBody}-${dv}`;
 }
 
 export const checkRut = (rut) => {
