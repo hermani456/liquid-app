@@ -26,10 +26,13 @@ import {
 } from "./ui/select";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+import { checkRut } from "@/utils";
 
 export function CrearEmpresa() {
   const [isSuccess, setIsSuccess] = useState(false);
   const queryClient = useQueryClient();
+  const [isRutValid, setIsRutValid] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -82,6 +85,16 @@ export function CrearEmpresa() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "rut") {
+      const valid = checkRut(value);
+      setIsRutValid(checkRut(value));
+      if (!valid) {
+        setErrorMessage("Rut inválido");
+      } else {
+        setErrorMessage("");
+      }
+    }
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -90,6 +103,12 @@ export function CrearEmpresa() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!isRutValid) {
+      setErrorMessage(
+        "RUT inválido. Por favor, corrige el RUT antes de enviar."
+      );
+      return;
+    }
     updateCompanyMutation.mutate(formData, {
       onSuccess: () => {
         setFormData({
@@ -125,7 +144,9 @@ export function CrearEmpresa() {
             value={formData.rut}
             onChange={handleChange}
             required
+            className={!isRutValid ? "border-red-500" : ""}
           />
+          {!isRutValid && <span className="text-red-500">{errorMessage}</span>}
         </div>
         <div className="md:col-span-2">
           <Label htmlFor="address">Dirección</Label>
