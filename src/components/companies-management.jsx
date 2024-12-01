@@ -105,7 +105,6 @@ export function CompaniesManagement() {
   const handleSubmit = (e) => {
     e.preventDefault();
     updateCompanyMutation.mutate(selectedCompany);
-    setIsModalOpen(false);
   };
 
   const handleChange = (e) => {
@@ -299,7 +298,14 @@ export function CompaniesManagement() {
                 />
               </div>
               <Button type="submit" className="w-full">
-                Actualizar Empresa
+                {updateCompanyMutation.isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Editando...
+                  </>
+                ) : (
+                  "Editar"
+                )}
               </Button>
             </form>
           )}

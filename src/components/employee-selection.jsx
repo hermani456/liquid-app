@@ -107,7 +107,7 @@ export function EmployeeSelection() {
   const handleSubmit = (e) => {
     e.preventDefault();
     updateWorkerMutation.mutate(selectedEmployee);
-    setIsModalOpen(false);
+    // setIsModalOpen(false);
   };
 
   const handleChange = (e) => {
@@ -371,7 +371,14 @@ export function EmployeeSelection() {
                 />
               </div>
               <Button type="submit" className="w-full">
-                Actualizar Empleado
+                {updateWorkerMutation.isPending ? (
+                  <>
+                    <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                    Editando...
+                  </>
+                ) : (
+                  "Editar"
+                )}
               </Button>
             </form>
           )}
