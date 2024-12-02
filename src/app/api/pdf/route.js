@@ -61,10 +61,6 @@ export const POST = async (req) => {
 
   // const pdfFile = pdfStream.pipe(fs.createWriteStream("output.pdf"));
 
-  // if (pdfFile) {
-  //   return NextResponse.json("pdf created", { status: 200 });
-  // }
-
   const chunks = [];
 
   for await (const chunk of pdfStream) {
