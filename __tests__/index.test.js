@@ -1,5 +1,4 @@
-// index.test.js
-import { checkRut, NumberAsString } from "@/utils/index";
+import { checkRut } from "@/utils/index";
 
 describe("checkRut", () => {
   test("valid RUTs should return true", () => {
