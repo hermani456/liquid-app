@@ -14,30 +14,38 @@ const ff = new FileforgeClient({
 
 export const POST = async (req) => {
   const body = await req.json();
-  const { sueldoBase, horasExtras, diasAusentes } = body;
+  const { sueldoBase, horasExtras, diasAusentes, afp, descuento } = body;
   let dias = 30 - diasAusentes;
   const gratificacion =
     sueldoBase * 0.25 >= 197917 ? 197917 : sueldoBase * 0.25 || 0;
-  console.log("sueldo base", sueldoBase);
   const valorDiaTrabajado = sueldoBase / 30;
-  console.log("valor dia trabajado", valorDiaTrabajado);
-  const valorDiaPresente = valorDiaTrabajado * dias;
-  console.log("valor dia presente", valorDiaPresente);
+  const valorDiaPresente = Math.round(valorDiaTrabajado * dias)
   const valorHoraExtra = Math.round(sueldoBase * 0.0079545);
   const pagoHoraExtra = valorHoraExtra * horasExtras;
-  console.log("pagoHoraExtra", pagoHoraExtra);
-  console.log("horaExtra", valorHoraExtra);
-  console.log(body);
-
+  const salud = valorDiaPresente * 0.07;
   const totalImponible = valorDiaPresente + pagoHoraExtra + gratificacion;
+  const seguroCesantia = totalImponible * 0.006;
+  const fonasa = totalImponible * 0.07;
+  const prevision = Math.round(totalImponible * afp?.value)
+  const descuentosPrevisionales = prevision + seguroCesantia + fonasa;
+  const liquido = totalImponible - descuentosPrevisionales;
+  const totalLiquido = liquido - Number(descuento);
 
   const templateProps = {
     ...body,
+    valorDiaPresente,
     dias,
     valorDiaTrabajado,
     pagoHoraExtra,
     gratificacion,
     totalImponible,
+    salud,
+    prevision,
+    seguroCesantia,
+    fonasa,
+    descuentosPrevisionales,
+    liquido,
+    totalLiquido
   };
 
   const HTML = await compile(<Template {...templateProps} />);
@@ -60,6 +68,10 @@ export const POST = async (req) => {
   );
 
   // const pdfFile = pdfStream.pipe(fs.createWriteStream("output.pdf"));
+
+  // if (pdfFile) {
+  //   return NextResponse.json("pdf created", { status: 200 });
+  // }
 
   const chunks = [];
 
@@ -94,5 +106,5 @@ export const POST = async (req) => {
     return NextResponse.json("error", { status: 500 });
   }
 
-  // return NextResponse.json("email sent", { status: 200 });
+  return NextResponse.json("email sent", { status: 200 });
 };

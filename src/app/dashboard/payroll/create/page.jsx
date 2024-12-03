@@ -33,7 +33,7 @@ import { LoaderCircle } from "lucide-react";
 import { FilePenLine } from "lucide-react";
 import { Trash } from "lucide-react";
 import { X } from "lucide-react";
-import { afpOptions } from "@/utils/index";
+import { afpOptions, formatRut, meses } from "@/utils/index";
 import {
   Select,
   SelectContent,
@@ -66,6 +66,8 @@ export default function CreatePayRoll() {
     horasExtras: 0,
     salarioBase: "",
     pagoHorasExtras: "",
+    mes: "",
+    descuento: 0,
   });
 
   const handleChange = (e) => {
@@ -141,9 +143,10 @@ export default function CreatePayRoll() {
       colacion: 0,
       viatico: 0,
       asignacionFamiliar: 0,
+      mes: "",
+      descuento: 0,
     }));
     setSelectedAfp("");
-    console.log(employee);
   };
 
   const handleSubmit = (e) => {
@@ -209,7 +212,7 @@ export default function CreatePayRoll() {
                   {employee?.last_name}
                 </TableCell>
                 <TableCell className="min-w-10 break-all">
-                  {employee?.rut}
+                  {formatRut(employee?.rut)}
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
                   {employee?.position}
@@ -241,7 +244,10 @@ export default function CreatePayRoll() {
               Información Salarial
             </DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form
+            onSubmit={handleSubmit}
+            className="gap-y-4 grid grid-cols-2 gap-x-2"
+          >
             <div>
               <Label htmlFor="diasAusentes">Días Ausentes</Label>
               <Input
@@ -254,6 +260,17 @@ export default function CreatePayRoll() {
               />
             </div>
             <div>
+              <Label htmlFor="horasExtras">Horas Extras</Label>
+              <Input
+                id="horasExtras"
+                name="horasExtras"
+                type="number"
+                value={formData.horasExtras}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="col-span-2">
               <Label htmlFor="afp">AFP</Label>
               <Select value={selectedAfp} onValueChange={handleAfpChange}>
                 <SelectTrigger>
@@ -267,17 +284,6 @@ export default function CreatePayRoll() {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div>
-              <Label htmlFor="horasExtras">Horas Extras</Label>
-              <Input
-                id="horasExtras"
-                name="horasExtras"
-                type="number"
-                value={formData.horasExtras}
-                onChange={handleChange}
-                required
-              />
             </div>
             <div>
               <Label htmlFor="movilizacion">Movilización</Label>
@@ -324,6 +330,37 @@ export default function CreatePayRoll() {
               />
             </div>
             <div>
+              <Label htmlFor="descuento">Descuento</Label>
+              <Input
+                id="descuento"
+                name="descuento"
+                type="number"
+                value={formData.descuento}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="col-span-2">
+              <Label htmlFor="mes">Mes</Label>
+              <Select
+                value={formData.mes}
+                onValueChange={(value) =>
+                  setFormData((prev) => ({ ...prev, mes: value }))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona mes" />
+                </SelectTrigger>
+                <SelectContent>
+                  {meses.map((mes) => (
+                    <SelectItem key={mes.id} value={mes.name}>
+                      {mes.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="col-span-2">
               <Label htmlFor="totalSalary">Sueldo base</Label>
               <Input
                 id="totalSalary"
@@ -334,18 +371,20 @@ export default function CreatePayRoll() {
                 readOnly
               />
             </div>
-            {isLoading ? (
-              <>
-                <LoaderCircle className="mx-auto animate-spin" />
-                <p className="text-center text-muted-foreground">
-                  Enviando liquidación...
-                </p>
-              </>
-            ) : (
-              <div className="flex justify-center items-center">
-                <Button type="submit">Enviar Liquidación</Button>
-              </div>
-            )}
+            <div className="col-span-2">
+              {isLoading ? (
+                <>
+                  <LoaderCircle className="mx-auto animate-spin" />
+                  <p className="text-center text-muted-foreground">
+                    Enviando liquidación...
+                  </p>
+                </>
+              ) : (
+                <div className="flex justify-center items-center">
+                  <Button type="submit">Enviar Liquidación</Button>
+                </div>
+              )}
+            </div>
           </form>
         </DialogContent>
       </Dialog>

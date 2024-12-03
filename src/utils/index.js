@@ -80,13 +80,13 @@ export const navLinks = [
 // AFP Uno: 0,49%
 
 export const afpOptions = [
-  { id: 1, name: "AFP Capital", value: 1.44 },
-  { id: 2, name: "AFP Cuprum", value: 1.44 },
-  { id: 3, name: "AFP Habitat", value: 1.27 },
-  { id: 4, name: "AFP Modelo", value: 0.58 },
-  { id: 5, name: "AFP Planvital", value: 1.16 },
-  { id: 6, name: "AFP Provida", value: 1.45 },
-  { id: 7, name: "AFP Uno", value: 0.49 },
+  { id: 1, name: "AFP Capital", value: 0.1144 },
+  { id: 2, name: "AFP Cuprum", value: 0.1144 },
+  { id: 3, name: "AFP Habitat", value: 0.1127 },
+  { id: 4, name: "AFP Modelo", value: 0.1058 },
+  { id: 5, name: "AFP Planvital", value: 0.1116 },
+  { id: 6, name: "AFP Provida", value: 0.1145 },
+  { id: 7, name: "AFP Uno", value: 0.1049 },
 ];
 
 const Unidades = (num) => {
@@ -357,3 +357,18 @@ export const inputCleaner = (sueldo) => {
   cleanSueldo = cleanSueldo.replace(/\$/g, "");
   return cleanSueldo;
 };
+
+export const meses = [
+  { id: 1, name: "Enero" },
+  { id: 2, name: "Febrero" },
+  { id: 3, name: "Marzo" },
+  { id: 4, name: "Abril" },
+  { id: 5, name: "Mayo" },
+  { id: 6, name: "Junio" },
+  { id: 7, name: "Julio" },
+  { id: 8, name: "Agosto" },
+  { id: 9, name: "Septiembre" },
+  { id: 10, name: "Octubre" },
+  { id: 11, name: "Noviembre" },
+  { id: 12, name: "Diciembre" },
+];

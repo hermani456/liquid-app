@@ -1,14 +1,10 @@
-import {
-  Footnote,
-  PageBottom,
-  Tailwind,
-  Margins,
-} from "@fileforge/react-print";
+import { Tailwind } from "@fileforge/react-print";
 import { Building } from "lucide-react";
-import { NumberAsString, formatToClp } from "@/utils/index";
+import { NumberAsString, formatRut, formatToClp } from "@/utils/index";
 
 const page = ({
   name,
+  valorDiaPresente,
   last_name,
   rut,
   position,
@@ -24,6 +20,14 @@ const page = ({
   colacion,
   viatico,
   asignacionFamiliar,
+  prevision,
+  seguroCesantia,
+  fonasa,
+  descuentosPrevisionales,
+  liquido,
+  mes,
+  descuento,
+  totalLiquido
 }) => {
   const date = new Date();
   const year = date.getFullYear();
@@ -34,7 +38,7 @@ const page = ({
     Number(colacion) +
     Number(viatico) +
     Number(asignacionFamiliar);
-  const totalHaberes = totalImponible + totalNoImponible
+  const totalHaberes = totalImponible + totalNoImponible;
   return (
     <div
       className="h-[1056px] w-[816px]"
@@ -60,7 +64,7 @@ const page = ({
           <div className="flex flex-col items-center justify-center font-bold mt-5">
             <h1 className="text-2xl">Remuneración</h1>
             <h2 className="text-xl">Liquidación de sueldo</h2>
-            <h3 className="font-normal">Octubre 2024</h3>
+            <h3 className="font-normal">{`${mes} ${year}`}</h3>
           </div>
           <div
             id="employee-data"
@@ -76,7 +80,7 @@ const page = ({
                   <span className="font-normal">{`${name} ${last_name}`}</span>
                 </h6>
                 <h6 className="font-semibold">
-                  Rut: <span className="font-normal">{rut}</span>
+                  Rut: <span className="font-normal">{formatRut(rut)}</span>
                 </h6>
                 <h6 className="font-semibold">
                   Cargo: <span className="font-normal">{position}</span>
@@ -119,12 +123,12 @@ const page = ({
                   AFP: <span>{afp.name}</span>
                 </div>
                 <div className="flex flex-col items-center">
-                  Tasa: <span>{afp.value}%</span>
+                  Tasa: <span>{(afp.value * 100).toFixed(2)}%</span>
                 </div>
               </div>
               <div className="flex space-x-5 pl-5">
                 <div className="flex flex-col items-center">
-                  Salud: <span>Banmedica</span>
+                  Salud: <span>Fonosa</span>
                 </div>
                 <div className="flex flex-col items-center">
                   Cargas: <span>0</span>
@@ -135,7 +139,7 @@ const page = ({
               {/* left */}
               <div className="w-1/2 px-14">
                 <div className="flex justify-between">
-                  Base: <span>{formatToClp(sueldoBase)}</span>
+                  Base: <span>{formatToClp(valorDiaPresente)}</span>
                 </div>
                 <div className="flex justify-between">
                   Horas Extras: <span>{formatToClp(pagoHoraExtra)}</span>
@@ -176,9 +180,7 @@ const page = ({
                 <div className="w-full h-[1px] mt-1 bg-black/30"></div>
                 <div className="flex justify-between py-1">
                   Total no Imponible:{" "}
-                  <span>
-                    {formatToClp(totalNoImponible)}
-                  </span>
+                  <span>{formatToClp(totalNoImponible)}</span>
                 </div>
                 <div className="w-full h-[1px] mb-1 bg-black/30"></div>
                 {/* divider end */}
@@ -189,13 +191,13 @@ const page = ({
               {/* right */}
               <div className="w-1/2 px-14">
                 <div className="flex justify-between">
-                  Prevision: <span>$90.000</span>
+                  Prevision: <span>{formatToClp(prevision)}</span>
                 </div>
                 <div className="flex justify-between">
                   APV: <span>$0</span>
                 </div>
                 <div className="flex justify-between">
-                  Salud: <span>$60.000</span>
+                  Salud: <span>{formatToClp(fonasa)}</span>
                 </div>
                 <div className="flex justify-between">
                   Adicional Salud: <span>$0</span>
@@ -204,24 +206,25 @@ const page = ({
                   Impuesto Unico: <span>$0</span>
                 </div>
                 <div className="flex justify-between">
-                  Seguro de Cesantia: <span>$6.000</span>
+                  Seguro de Cesantia: <span>{formatToClp(seguroCesantia)}</span>
                 </div>
                 {/* divider start */}
                 <div className="w-full h-[1px] mt-1 bg-black/30"></div>
                 <div className="flex justify-between py-1">
-                  Descuentos Previsionales: <span>$0</span>
+                  Descuentos Previsionales:{" "}
+                  <span>{formatToClp(descuentosPrevisionales)}</span>
                 </div>
                 <div className="w-full h-[1px] mb-1 bg-black/30"></div>
                 {/* divider end */}
                 <div className="flex justify-between font-semibold">
-                  Sueldo Liquido: <span>$6.000</span>
+                  Sueldo Liquido: <span>{formatToClp(liquido)}</span>
                 </div>
                 <div className="w-full h-[1px] mb-1 mt-1 bg-black/30"></div>
                 <div className="flex justify-between">
                   Anticipos: <span>$0</span>
                 </div>
                 <div className="flex justify-between">
-                  Descuentos: <span>$0</span>
+                  Descuentos: <span>{formatToClp(descuento)}</span>
                 </div>
                 <div className="flex justify-between">
                   Otros: <span>$0</span>
@@ -231,11 +234,11 @@ const page = ({
                 </div>
                 <div className="w-full h-[1px] mb-1 mt-1 bg-black/30"></div>
                 <div className="flex justify-between bg-black/10 rounded-md p-1 font-bold">
-                  Liquido a Pagar: <span>{formatToClp(sueldoBase)}</span>
+                  Liquido a Pagar: <span>{formatToClp(totalLiquido)}</span>
                 </div>
                 <div className="mt-3">
                   <p className="text-center text-[10px] font-semibold leading-tight">
-                    {NumberAsString(sueldoBase)}
+                    {NumberAsString(totalLiquido)}
                   </p>
                 </div>
               </div>

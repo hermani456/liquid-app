@@ -158,7 +158,7 @@ export function EmployeeSelection() {
             <TableRow>
               <TableHead>Nombre</TableHead>
               <TableHead>Apellido</TableHead>
-              <TableHead>RUT</TableHead>
+              <TableHead className="hidden md:table-cell">RUT</TableHead>
               <TableHead className="hidden md:table-cell">Cargo</TableHead>
               <TableHead>Acción</TableHead>
             </TableRow>
@@ -172,7 +172,7 @@ export function EmployeeSelection() {
                 <TableCell className="min-w-10 break-all">
                   {employee?.last_name}
                 </TableCell>
-                <TableCell className="min-w-10 break-all">
+                <TableCell className="min-w-10 break-all hidden md:table-cell">
                   {formatRut(employee?.rut)}
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
