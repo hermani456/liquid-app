@@ -28,7 +28,6 @@ export const selectCompaniesByUserId = async (userId) => {
   }
 };
 
-// edit company should check if userid is the same as the company that is being edited
 
 export const editCompany = async (userId, company) => {
   try {
