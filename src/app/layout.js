@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${roboto.variable} ${bebasNeue.variable} antialiased`}
+          className={`${roboto.variable} ${bebasNeue.variable} antialiased bg-bg`}
         >
           <ThemeProvider
             attribute="class"
