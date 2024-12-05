@@ -7,6 +7,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import pool from "@/utils/db";
 import { Building, DollarSign, List, Mail, Users } from "lucide-react";
 import { formatToClp } from "@/utils/index";
+import DataTable from "@/components/data-table";
 
 const page = async () => {
   console.log("dashboard page");
@@ -27,7 +28,6 @@ const page = async () => {
         c.id;
     `);
 
-
   const { rows: totalEmpresas } = await pool.query(`
     SELECT
         COUNT(id) AS companies
@@ -36,7 +36,6 @@ const page = async () => {
     WHERE
         user_id = '${id}';
     `);
-
 
   const { rows: avgPayment } = await pool.query(
     `
@@ -63,7 +62,6 @@ WHERE
     c.user_id = '${id}';
     `
   );
-
 
   const infoCardsContent = [
     {
@@ -108,6 +106,38 @@ WHERE
     },
   ];
 
+  const empresas = [
+    {
+      id: 1,
+      nombre: "TechSolutions SpA",
+      rut: "76.543.210-K",
+      empleados: 120,
+    },
+    {
+      id: 2,
+      nombre: "Constructora Andes Ltda.",
+      rut: "89.876.543-2",
+      empleados: 250,
+    },
+    {
+      id: 3,
+      nombre: "Alimentos del Sur S.A.",
+      rut: "96.321.654-9",
+      empleados: 80,
+    },
+    {
+      id: 4,
+      nombre: "Transportes Rápidos E.I.R.L.",
+      rut: "77.777.777-7",
+      empleados: 45,
+    },
+    {
+      id: 5,
+      nombre: "Servicios Financieros Chile S.A.",
+      rut: "99.999.999-9",
+      empleados: 300,
+    },
+  ];
 
   const date = new Date();
   const day = date.getDate();
@@ -127,27 +157,30 @@ WHERE
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
-          <div className="h-[15rem] col-span-1 mt-5 p-2 rounded overflow-hidden shadow-lg">
-            <h2 className="py-3 pl-2">Empresas</h2>
+          <div className="h-[15rem] col-span-1 mt-5 p-2 rounded-xl overflow-hidden shadow-lg border-gray-300/30 border-2">
+            <h2 className="py-3 pl-2 font-semibold">Empresas</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
-              <DashBoardTable />
+              <DashBoardTable empresas={empresas} />
             </div>
           </div>
-          <div className="h-[15rem] col-span-1 mt-5 p-2 rounded overflow-hidden shadow-lg">
-            <h2 className="py-3 pl-2">Empresas</h2>
+          <div className="h-[15rem] col-span-1 mt-5 p-2 rounded-xl overflow-hidden shadow-lg border-gray-300/30 border-2">
+            <h2 className="py-3 pl-2 font-semibold">Empleados</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
-              <DashBoardTable />
+              <DashBoardTable empresas={empresas} />
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap mt-5">
-          <div className="flex-1 min-w-[18rem]">
+        <div className="flex flex-wrap mt-5 lg:justify-between">
+          {/* <div className="flex-1 min-w-[18rem]">
             <AreaChart />
-          </div>
-          <div className="flex-1 min-w-[18rem]">
+          </div> */}
+          <div className="w-full max-w-[30rem] flex-shrink">
             <BarChart />
           </div>
-          <div className="flex-1 min-w-[18rem]">
+          <div className="w-full max-w-[30rem] flex-shrink">
+            <AreaChart />
+          </div>
+          <div className="w-full max-w-[30rem] flex-shrink">
             <PieChart data={totalEmpleados} />
           </div>
         </div>
