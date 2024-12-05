@@ -197,7 +197,7 @@ export default function CreatePayRoll() {
             <TableRow>
               <TableHead>Nombre</TableHead>
               <TableHead>Apellido</TableHead>
-              <TableHead>RUT</TableHead>
+              <TableHead className="min-w-10 break-all hidden md:table-cell">RUT</TableHead>
               <TableHead className="hidden md:table-cell">Cargo</TableHead>
               <TableHead>Acción</TableHead>
             </TableRow>
@@ -211,7 +211,7 @@ export default function CreatePayRoll() {
                 <TableCell className="min-w-10 break-all">
                   {employee?.last_name}
                 </TableCell>
-                <TableCell className="min-w-10 break-all">
+                <TableCell className="min-w-10 break-all hidden md:table-cell">
                   {formatRut(employee?.rut)}
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
@@ -237,7 +237,7 @@ export default function CreatePayRoll() {
       )}
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="max-w-[300px] sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {`${selectedEmployee.name} ${selectedEmployee.last_name}`}{" "}
