@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 
 const DashBoardTable = ({empresas}) => {
+  console.log(empresas);
   return (
     <Table>
       <TableHeader>
@@ -21,9 +22,9 @@ const DashBoardTable = ({empresas}) => {
       <TableBody>
         {empresas?.map((empresa) => (
           <TableRow key={empresa.id}>
-            <TableCell className="font-medium text-xs md:text-md">{empresa.nombre}</TableCell>
-            <TableCell className="font-medium text-xs md:text-md">{empresa.rut}</TableCell>
-            <TableCell className="font-medium text-xs md:text-md">{empresa.empleados}</TableCell>
+            <TableCell className="font-medium text-xs md:text-md">{empresa.company_name}</TableCell>
+            <TableCell className="font-medium text-xs md:text-md">{empresa.company_rut}</TableCell>
+            <TableCell className="font-medium text-xs md:text-md">{empresa.employee_count}</TableCell>
           </TableRow>
         ))}
       </TableBody>

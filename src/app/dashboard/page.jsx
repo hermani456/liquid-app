@@ -75,6 +75,20 @@ WHERE
   `
   );
 
+  const { rows: employeesCompanies } = await pool.query(
+    `
+    SELECT 
+    c.id AS company_id,
+    c.name AS company_name,
+    c.rut AS company_rut,
+    COUNT(w.id) AS employee_count
+    FROM companies c
+    LEFT JOIN workers w ON c.id = w.company_id
+    WHERE c.user_id = '${id}'
+    GROUP BY c.id;
+    `
+  );
+
   const infoCardsContent = [
     {
       number: totalEmpresas[0].companies,
@@ -172,7 +186,7 @@ WHERE
           <div className="h-[15rem] col-span-1 mt-5 p-2 rounded-xl overflow-hidden shadow-lg border-gray-300/30 border-2">
             <h2 className="py-3 pl-2 font-semibold">Empresas</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
-              <DashBoardTable empresas={empresas} />
+              <DashBoardTable empresas={employeesCompanies} />
             </div>
           </div>
           <div className="h-[15rem] col-span-1 mt-5 p-2 rounded-xl overflow-hidden shadow-lg border-gray-300/30 border-2">
