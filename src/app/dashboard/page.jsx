@@ -63,6 +63,18 @@ WHERE
     `
   );
 
+  const { rows: employeesSalary } = await pool.query(
+    `
+  SELECT 
+    CONCAT(UPPER(LEFT(w.name, 1)), '.', UPPER(LEFT(w.last_name, 1)), '.') AS initials,
+    w.base_salary
+  FROM users u
+  JOIN companies c ON u.id = c.user_id
+  JOIN workers w ON c.id = w.company_id
+  WHERE u.id = '${id}';
+  `
+  );
+
   const infoCardsContent = [
     {
       number: totalEmpresas[0].companies,
@@ -175,7 +187,7 @@ WHERE
             <AreaChart />
           </div> */}
           <div className="w-full max-w-[30rem] flex-shrink">
-            <BarChart />
+            <BarChart chartData={employeesSalary}/>
           </div>
           <div className="w-full max-w-[30rem] flex-shrink">
             <AreaChart />

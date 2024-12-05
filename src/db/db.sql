@@ -115,8 +115,28 @@ ALTER TABLE workers DROP COLUMN department;
 INSERT INTO workers (company_id, name, last_name, rut, sex, home_address, phone, position, base_salary, email) VALUES
 (1,'Maria', 'Gonzalez', '22334455-6', 'F', '123 Main St', '123456789', 'Software Engineer', 1000000, 'luis.martinez@example.com')
 
+SELECT 
+    c.name as company_name,
+    COUNT(w.id) as worker_count,
+    SUM(w.base_salary) as total_salary,
+    ROUND(AVG(w.base_salary)) as avg_salary
+FROM companies c
+LEFT JOIN workers w ON c.company_id = w.company_id
+WHERE c.user_id = 'user_2pQ73AaKJxqZqbGgk71TJ8idg6O'  -- Replace $1 with actual user_id
+GROUP BY c.name
+ORDER BY worker_count DESC;
 
 
 
+SELECT 
+    c.name AS company_name,
+    COUNT(w.id) AS worker_count,
+    SUM(w.base_salary) AS total_salary,
+    ROUND(AVG(w.base_salary)) AS avg_salary
+FROM companies c
+LEFT JOIN workers w ON c.id = w.company_id
+WHERE c.user_id = 'user_2pQ73AaKJxqZqbGgk71TJ8idg6O'  -- Replace $1 with actual user_id
+GROUP BY c.id
+ORDER BY worker_count DESC;
 
 
