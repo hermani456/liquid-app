@@ -10,7 +10,6 @@ import { formatToClp } from "@/utils/index";
 import DataTable from "@/components/data-table";
 
 const page = async () => {
-  console.log("dashboard page");
   const { firstName, lastName, id } = await currentUser();
 
   // TODO: pasar usuario en query

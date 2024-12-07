@@ -1,15 +1,13 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 
-const DashBoardTable = ({empresas}) => {
-  console.log(empresas);
+const DashBoardTable = ({ empresas }) => {
   return (
     <Table>
       <TableHeader>
@@ -22,9 +20,15 @@ const DashBoardTable = ({empresas}) => {
       <TableBody>
         {empresas?.map((empresa) => (
           <TableRow key={empresa.id}>
-            <TableCell className="font-medium text-xs md:text-md">{empresa.company_name}</TableCell>
-            <TableCell className="font-medium text-xs md:text-md">{empresa.company_rut}</TableCell>
-            <TableCell className="font-medium text-xs md:text-md">{empresa.employee_count}</TableCell>
+            <TableCell className="font-medium text-xs md:text-md">
+              {empresa.company_name}
+            </TableCell>
+            <TableCell className="font-medium text-xs md:text-md">
+              {empresa.company_rut}
+            </TableCell>
+            <TableCell className="font-medium text-xs md:text-md">
+              {empresa.employee_count}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -4,7 +4,6 @@ import * as React from "react";
 import { Label, Pie, PieChart } from "recharts";
 
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -13,7 +12,6 @@ import {
 const chartConfig = {};
 
 export function PieChartComponent({ data }) {
-  // console.log(data);
   const COLORS = [
     "hsl(var(--chart-1))",
     "hsl(var(--chart-2))",
