@@ -39,7 +39,7 @@ Bienvenido/a al manual de usuario de la aplicación **LiquidApp**. Esta guía de
    - Ingresa tu correo electrónico y contraseña.
    - Pulsa en **Iniciar Sesión**.
    
-> **Nota**: Agrega una captura de pantalla de la página de inicio de sesión y registro.
+
 ![Inicio de Sesión](src/public/ss-iniciosesion.png)
 
 ---
