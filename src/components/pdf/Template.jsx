@@ -128,7 +128,7 @@ const page = ({
               </div>
               <div className="flex space-x-5 pl-5">
                 <div className="flex flex-col items-center">
-                  Salud: <span>Fonosa</span>
+                  Salud: <span>Fonasa</span>
                 </div>
                 <div className="flex flex-col items-center">
                   Cargas: <span>0</span>

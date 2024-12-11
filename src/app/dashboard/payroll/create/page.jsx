@@ -41,6 +41,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { NumericFormat } from "react-number-format";
 
 export default function CreatePayRoll() {
   const { companyId } = useCompanyStore();
@@ -49,6 +50,7 @@ export default function CreatePayRoll() {
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAfp, setSelectedAfp] = useState("");
+  const [afpError, setAfpError] = useState('');
   const [formData, setFormData] = useState({
     name: "",
     last_name: "",
@@ -151,6 +153,12 @@ export default function CreatePayRoll() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let valid = true;
+    if (!selectedAfp) {
+      setAfpError('Este campo es requerido.');
+      valid = false;
+    }
+    if (!valid) return;
     setIsLoading(true);
     fetch("/api/pdf", {
       method: "POST",
@@ -170,6 +178,9 @@ export default function CreatePayRoll() {
       afp: selected,
     }));
     setSelectedAfp(value);
+    if (value) {
+      setAfpError('');
+    }
   };
 
   if (isPending) return <div>Loading...</div>;
@@ -197,7 +208,9 @@ export default function CreatePayRoll() {
             <TableRow>
               <TableHead>Nombre</TableHead>
               <TableHead>Apellido</TableHead>
-              <TableHead className="min-w-10 break-all hidden md:table-cell">RUT</TableHead>
+              <TableHead className="min-w-10 break-all hidden md:table-cell">
+                RUT
+              </TableHead>
               <TableHead className="hidden md:table-cell">Cargo</TableHead>
               <TableHead>Acción</TableHead>
             </TableRow>
@@ -250,23 +263,39 @@ export default function CreatePayRoll() {
           >
             <div>
               <Label htmlFor="diasAusentes">Días Ausentes</Label>
-              <Input
+              <NumericFormat
                 id="diasAusentes"
                 name="diasAusentes"
-                type="number"
                 value={formData.diasAusentes}
                 onChange={handleChange}
+                isAllowed={(values) => {
+                  const { formattedValue, floatValue } = values;
+                  return (
+                    formattedValue === "" ||
+                    (floatValue >= 0 && floatValue <= 30)
+                  );
+                }}
+                allowNegative={false}
+                customInput={Input}
                 required
               />
             </div>
             <div>
               <Label htmlFor="horasExtras">Horas Extras</Label>
-              <Input
+              <NumericFormat
                 id="horasExtras"
                 name="horasExtras"
-                type="number"
                 value={formData.horasExtras}
                 onChange={handleChange}
+                isAllowed={(values) => {
+                  const { formattedValue, floatValue } = values;
+                  return (
+                    formattedValue === "" ||
+                    (floatValue >= 0 && floatValue <= 80)
+                  );
+                }}
+                allowNegative={false}
+                customInput={Input}
                 required
               />
             </div>
@@ -284,59 +313,80 @@ export default function CreatePayRoll() {
                   ))}
                 </SelectContent>
               </Select>
+              {afpError && <p className="text-red-500 text-sm mt-1">{afpError}</p>}
             </div>
             <div>
               <Label htmlFor="movilizacion">Movilización</Label>
-              <Input
+              <NumericFormat
                 id="movilizacion"
                 name="movilizacion"
-                type="number"
                 value={formData.movilizacion}
                 onChange={handleChange}
+                thousandSeparator="."
+                decimalSeparator=","
+                prefix="$"
+                allowNegative={false}
+                customInput={Input}
                 required
               />
             </div>
             <div>
               <Label htmlFor="colacion">Colación</Label>
-              <Input
+              <NumericFormat
                 id="colacion"
                 name="colacion"
-                type="number"
                 value={formData.colacion}
                 onChange={handleChange}
+                thousandSeparator="."
+                decimalSeparator=","
+                prefix="$"
+                allowNegative={false}
+                customInput={Input}
                 required
               />
             </div>
             <div>
               <Label htmlFor="viatico">Viático</Label>
-              <Input
+              <NumericFormat
                 id="viatico"
                 name="viatico"
-                type="number"
                 value={formData.viatico}
                 onChange={handleChange}
+                thousandSeparator="."
+                decimalSeparator=","
+                prefix="$"
+                allowNegative={false}
+                customInput={Input}
                 required
               />
             </div>
             <div>
               <Label htmlFor="asignacionFamiliar">Asignación Familiar</Label>
-              <Input
+              <NumericFormat
                 id="asignacionFamiliar"
                 name="asignacionFamiliar"
-                type="number"
                 value={formData.asignacionFamiliar}
                 onChange={handleChange}
+                thousandSeparator="."
+                decimalSeparator=","
+                prefix="$"
+                allowNegative={false}
+                customInput={Input}
                 required
               />
             </div>
             <div>
               <Label htmlFor="descuento">Descuento</Label>
-              <Input
+              <NumericFormat
                 id="descuento"
                 name="descuento"
-                type="number"
                 value={formData.descuento}
                 onChange={handleChange}
+                thousandSeparator="."
+                decimalSeparator=","
+                prefix="$"
+                allowNegative={false}
+                customInput={Input}
                 required
               />
             </div>
@@ -362,13 +412,17 @@ export default function CreatePayRoll() {
             </div>
             <div className="col-span-2">
               <Label htmlFor="totalSalary">Sueldo base</Label>
-              <Input
+              <NumericFormat
                 id="totalSalary"
                 name="totalSalary"
-                type="number"
                 value={selectedEmployee?.base_salary}
                 disabled
                 readOnly
+                thousandSeparator="."
+                decimalSeparator=","
+                prefix="$"
+                allowNegative={false}
+                customInput={Input}
               />
             </div>
             <div className="col-span-2">
