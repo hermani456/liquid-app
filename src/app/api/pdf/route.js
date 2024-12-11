@@ -67,44 +67,44 @@ export const POST = async (req) => {
     }
   );
 
-  const pdfFile = pdfStream.pipe(fs.createWriteStream("output.pdf"));
+  // const pdfFile = pdfStream.pipe(fs.createWriteStream("output.pdf"));
 
-  if (pdfFile) {
-    return NextResponse.json("pdf created", { status: 200 });
+  // if (pdfFile) {
+  //   return NextResponse.json("pdf created", { status: 200 });
+  // }
+
+  const chunks = [];
+
+  for await (const chunk of pdfStream) {
+    chunks.push(chunk);
   }
 
-  // const chunks = [];
+  const pdfBuffer = Buffer.concat(chunks);
 
-  // for await (const chunk of pdfStream) {
-  //   chunks.push(chunk);
-  // }
+  const { data, error } = await resend.emails.send({
+    from: "LiquidApp <send@yme.cl>",
+    to: body.email,
+    subject: "Liquidación de sueldo",
+    text: "Liquidación de sueldo",
+    attachments: [
+      {
+        filename: "liquidacion.pdf",
+        content: pdfBuffer.toString("base64"),
+        encoding: "base64",
+        contentType: "application/pdf",
+      },
+    ],
+  });
 
-  // const pdfBuffer = Buffer.concat(chunks);
+  if(data) {
+    console.log(data)
+    return NextResponse.json("email sent", { status: 200 });
+  }
 
-  // const { data, error } = await resend.emails.send({
-  //   from: "LiquidApp <send@yme.cl>",
-  //   to: body.email,
-  //   subject: "Liquidación de sueldo",
-  //   text: "Liquidación de sueldo",
-  //   attachments: [
-  //     {
-  //       filename: "liquidacion.pdf",
-  //       content: pdfBuffer.toString("base64"),
-  //       encoding: "base64",
-  //       contentType: "application/pdf",
-  //     },
-  //   ],
-  // });
+  if (error) {
+    console.log(error);
+    return NextResponse.json("error", { status: 500 });
+  }
 
-  // if(data) {
-  //   console.log(data)
-  //   return NextResponse.json("email sent", { status: 200 });
-  // }
-
-  // if (error) {
-  //   console.log(error);
-  //   return NextResponse.json("error", { status: 500 });
-  // }
-
-  // return NextResponse.json("email sent", { status: 200 });
+  return NextResponse.json("email sent", { status: 200 });
 };
