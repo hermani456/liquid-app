@@ -100,6 +100,11 @@ export function CompaniesManagement() {
   const handleSelectCompany = (company) => {
     setSelectedCompany(company);
     setIsModalOpen(true);
+    setRutValidation({
+      isValid: true,
+      message: "",
+      companyId: company.id,
+    });
   };
 
   const handleSubmit = (e) => {
