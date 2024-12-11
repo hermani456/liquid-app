@@ -32,7 +32,7 @@ import { useCompanyStore } from "@/store/CompanyStore";
 import { LoaderCircle } from "lucide-react";
 import { FilePenLine } from "lucide-react";
 import { Trash } from "lucide-react";
-import { capitalizeAll, formatRut, inputCleaner } from "@/utils";
+import { capitalizeAll, formatRut, inputCleaner, checkRut } from "@/utils";
 import { NumericFormat } from "react-number-format";
 
 export function EmployeeSelection() {
@@ -40,6 +40,8 @@ export function EmployeeSelection() {
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
+  const [isRutValid, setIsRutValid] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const queryClient = useQueryClient();
 
@@ -102,10 +104,16 @@ export function EmployeeSelection() {
   const handleSelectEmployee = (employee) => {
     setSelectedEmployee(employee);
     setIsModalOpen(true);
+    setIsRutValid(true);
+    setErrorMessage('');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!isRutValid) {
+      setErrorMessage("RUT inválido. Por favor, corrige el RUT antes de enviar.");
+      return;
+    }
     updateWorkerMutation.mutate(selectedEmployee);
     // setIsModalOpen(false);
   };
@@ -114,6 +122,15 @@ export function EmployeeSelection() {
     let { name, value } = e.target;
     if (name === "base_salary") {
       value = inputCleaner(value);
+    }
+    if (name === "rut") {
+      const valid = checkRut(value);
+      setIsRutValid(checkRut(value));
+      if (!valid) {
+        setErrorMessage("Rut inválido");
+      } else {
+        setErrorMessage("");
+      }
     }
     setSelectedEmployee((prevData) => ({
       ...prevData,
@@ -280,10 +297,12 @@ export function EmployeeSelection() {
                 <Input
                   id="rut"
                   name="rut"
-                  value={selectedEmployee?.rut}
+                  value={formatRut(selectedEmployee?.rut)}
                   onChange={handleChange}
+                  className={!isRutValid ? "border-red-500" : ""}
                   required
                 />
+                {!isRutValid && <span className="text-red-500 text-sm">{errorMessage}</span>}
               </div>
               <div>
                 <Label>Sexo</Label>
