@@ -12,7 +12,7 @@ export default function Component() {
 
   return (
     <ReactLenis root>
-      <div>
+      <div className="bg-bg">
         {/* <NavBar /> */}
         <Hero />
       </div>

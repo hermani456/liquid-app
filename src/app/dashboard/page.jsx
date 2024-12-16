@@ -1,5 +1,6 @@
 import InfoCard from "@/components/InfoCard";
 import DashBoardTable from "@/components/Table";
+import EmployeeTable from "@/components/EmployeeTable";
 import PieChart from "@/components/charts/PieChart";
 import BarChart from "@/components/charts/BarChart";
 import AreaChart from "@/components/charts/AreaChart";
@@ -85,6 +86,18 @@ WHERE
     LEFT JOIN workers w ON c.id = w.company_id
     WHERE c.user_id = '${id}'
     GROUP BY c.id;
+    `
+  );
+
+  const { rows: employeeData } = await pool.query(
+    `
+    SELECT 
+      w.name AS employee_name,
+      w.rut AS employee_rut,
+      c.name AS company_name
+    FROM companies c
+    JOIN workers w ON c.id = w.company_id
+    WHERE c.user_id = '${id}';
     `
   );
 
@@ -191,7 +204,7 @@ WHERE
           <div className="h-[15rem] col-span-1 mt-5 p-2 rounded-xl overflow-hidden shadow-lg border-gray-300/30 border-2">
             <h2 className="py-3 pl-2 font-semibold">Empleados</h2>
             <div className="h-[calc(100%-3rem)] overflow-y-scroll">
-              <DashBoardTable empresas={empresas} />
+              <EmployeeTable empresas={employeeData} />
             </div>
           </div>
         </div>

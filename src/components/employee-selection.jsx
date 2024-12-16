@@ -302,7 +302,7 @@ export function EmployeeSelection() {
                 <Input
                   id="rut"
                   name="rut"
-                  value={formatRut(selectedEmployee?.rut)}
+                  value={selectedEmployee?.rut}
                   onChange={handleChange}
                   className={
                     rutValidation.employeeId === selectedEmployee?.id &&

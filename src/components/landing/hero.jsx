@@ -27,7 +27,7 @@ const Hero = () => {
         <h1 className="text-6xl text-center lg:text-8xl font-bebasNeue font-semibold bg-gradient-to-br from-teal-400 to-violet-700 text-transparent bg-clip-text">
           Gestiona tus liquidaciones de sueldo de manera fácil y eficiente
         </h1>
-        <p className="font-roboto max-w-prose">
+        <p className="font-roboto max-w-prose text-white">
           Simplifica la administración de tu equipo. Nuestra plataforma te
           permite generar, enviar y organizar liquidaciones de sueldo en
           minutos, sin complicaciones.
@@ -47,7 +47,7 @@ const Hero = () => {
               </button>
             </Link>
           </SignedIn>
-          <button className="px-5 py-2 border rounded-xl hover:scale-105 transition-all">
+          <button className="px-5 py-2 border border-white rounded-xl hover:scale-105 transition-all text-white">
             Conocer mas
           </button>
         </div>
