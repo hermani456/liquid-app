@@ -40,7 +40,11 @@ export function EmployeeSelection() {
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
-  const [isRutValid, setIsRutValid] = useState(true);
+  const [rutValidation, setRutValidation] = useState({
+    isValid: true,
+    message: "",
+    employeeId: null,
+  });
   const [errorMessage, setErrorMessage] = useState("");
 
   const queryClient = useQueryClient();
@@ -104,16 +108,16 @@ export function EmployeeSelection() {
   const handleSelectEmployee = (employee) => {
     setSelectedEmployee(employee);
     setIsModalOpen(true);
-    setIsRutValid(true);
+    setRutValidation({
+      isValid: true,
+      message: "",
+      employeeId: employee.id,
+    });
     setErrorMessage('');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isRutValid) {
-      setErrorMessage("RUT inválido. Por favor, corrige el RUT antes de enviar.");
-      return;
-    }
     updateWorkerMutation.mutate(selectedEmployee);
     // setIsModalOpen(false);
   };
@@ -124,13 +128,14 @@ export function EmployeeSelection() {
       value = inputCleaner(value);
     }
     if (name === "rut") {
-      const valid = checkRut(value);
-      setIsRutValid(checkRut(value));
-      if (!valid) {
-        setErrorMessage("Rut inválido");
-      } else {
-        setErrorMessage("");
-      }
+      const cleanValue = value.replace(/[\.\-]/g, '').toUpperCase();
+      const valid = checkRut(cleanValue);
+  
+      setRutValidation({
+        isValid: valid,
+        message: valid ? "" : "RUT inválido",
+        employeeId: selectedEmployee.id,
+      });
     }
     setSelectedEmployee((prevData) => ({
       ...prevData,
@@ -299,10 +304,20 @@ export function EmployeeSelection() {
                   name="rut"
                   value={formatRut(selectedEmployee?.rut)}
                   onChange={handleChange}
-                  className={!isRutValid ? "border-red-500" : ""}
+                  className={
+                    rutValidation.employeeId === selectedEmployee?.id &&
+                    !rutValidation.isValid
+                      ? "border-red-500"
+                      : ""
+                  }
                   required
                 />
-                {!isRutValid && <span className="text-red-500 text-sm">{errorMessage}</span>}
+                {rutValidation.employeeId === selectedEmployee?.id &&
+                  !rutValidation.isValid && (
+                    <span className="text-red-500 text-sm">
+                      {rutValidation.message}
+                    </span>
+                  )}
               </div>
               <div>
                 <Label>Sexo</Label>

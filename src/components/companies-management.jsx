@@ -115,7 +115,9 @@ export function CompaniesManagement() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "rut") {
-      const valid = checkRut(value);
+      const cleanValue = value.replace(/[\.\-]/g, '').toUpperCase();
+      const valid = checkRut(cleanValue);
+  
       setRutValidation({
         isValid: valid,
         message: valid ? "" : "RUT inválido",
@@ -264,7 +266,7 @@ export function CompaniesManagement() {
                 <Input
                   id="rut"
                   name="rut"
-                  value={selectedCompany?.rut}
+                  value={formatRut(selectedCompany?.rut)}
                   onChange={handleChange}
                   required
                   className={
