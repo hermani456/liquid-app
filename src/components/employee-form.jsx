@@ -149,7 +149,7 @@ export function EmployeeForm() {
               <RadioGroupItem
                 value="M"
                 id="masculino"
-                className="border-emerald-500 text-white"
+                className="border-emerald-500 dark:text-white text-black"
               />
               <Label htmlFor="masculino">Masculino</Label>
             </div>
@@ -157,7 +157,7 @@ export function EmployeeForm() {
               <RadioGroupItem
                 value="F"
                 id="femenino"
-                className="border-emerald-500 text-white"
+                className="border-emerald-500 dark:text-white text-black"
               />
               <Label htmlFor="femenino">Femenino</Label>
             </div>
