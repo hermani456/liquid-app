@@ -1,4 +1,4 @@
-import { Tailwind } from "@fileforge/react-print";
+import React from "react";
 import { Building } from "lucide-react";
 import { NumberAsString, formatRut, formatToClp } from "@/utils/index";
 
@@ -47,7 +47,7 @@ const page = ({
         background: "white",
       }}
     >
-      <Tailwind>
+      <div>
         {/* <Margins pageRatio="A4" top="100" right="100" left="100" bottom="100" /> */}
         <div id="container">
           <div className="flex items-center gap-2">
@@ -274,7 +274,7 @@ const page = ({
             </Footnote>
           </div> */}
         </div>
-      </Tailwind>
+      </div>
     </div>
   );
 };
