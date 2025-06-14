@@ -1,16 +1,9 @@
 import { NextResponse } from "next/server";
-import { FileforgeClient } from "@fileforge/client";
-import { compile } from "@fileforge/react-print";
-import Template from "@/components/pdf/Template";
-import fs from "fs";
-import { File } from "formdata-node";
+import ReactPDFTemplate from "@/components/pdf/ReactPDFTemplate";
 import { Resend } from "resend";
+import { renderToBuffer } from "@react-pdf/renderer";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-const ff = new FileforgeClient({
-  apiKey: process.env.ONEDOC_API_KEY,
-});
 
 export const POST = async (req) => {
   const body = await req.json();
@@ -48,63 +41,35 @@ export const POST = async (req) => {
     totalLiquido
   };
 
-  const HTML = await compile(<Template {...templateProps} />);
+  try {
+    // Generate PDF using @react-pdf/renderer
+    const pdfBuffer = await renderToBuffer(<ReactPDFTemplate {...templateProps} />);
+    
+    // Send email with the PDF attachment
+    const { data, error } = await resend.emails.send({
+      from: "LiquidApp <send@hermani.tech>",
+      to: body.email,
+      subject: "Liquidación de sueldo",
+      text: "Liquidación de sueldo",
+      attachments: [
+        {
+          filename: "liquidacion.pdf",
+          content: pdfBuffer.toString("base64"),
+          encoding: "base64",
+          contentType: "application/pdf",
+        },
+      ],
+    });
 
-  const pdfStream = await ff.pdf.generate(
-    [
-      new File([HTML], "index.html", {
-        type: "text/html",
-      }),
-    ],
-    {
-      options: {
-        host: false,
-        test: false,
-      },
-    },
-    {
-      timeoutInSeconds: 30,
+    if (error) {
+      console.error("Error sending email:", error);
+      return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
     }
-  );
-
-  // const pdfFile = pdfStream.pipe(fs.createWriteStream("output.pdf"));
-
-  // if (pdfFile) {
-  //   return NextResponse.json("pdf created", { status: 200 });
-  // }
-
-  const chunks = [];
-
-  for await (const chunk of pdfStream) {
-    chunks.push(chunk);
+    
+    console.log("Email sent successfully:", data);
+    return NextResponse.json({ message: "Email sent successfully" }, { status: 200 });
+  } catch (err) {
+    console.error("Error generating or sending PDF:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-
-  const pdfBuffer = Buffer.concat(chunks);
-
-  const { data, error } = await resend.emails.send({
-    from: "LiquidApp <send@yme.cl>",
-    to: body.email,
-    subject: "Liquidación de sueldo",
-    text: "Liquidación de sueldo",
-    attachments: [
-      {
-        filename: "liquidacion.pdf",
-        content: pdfBuffer.toString("base64"),
-        encoding: "base64",
-        contentType: "application/pdf",
-      },
-    ],
-  });
-
-  if(data) {
-    console.log(data)
-    return NextResponse.json("email sent", { status: 200 });
-  }
-
-  if (error) {
-    console.log(error);
-    return NextResponse.json("error", { status: 500 });
-  }
-
-  return NextResponse.json("email sent", { status: 200 });
 };
