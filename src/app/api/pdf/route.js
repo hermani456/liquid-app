@@ -50,7 +50,7 @@ export const POST = async (req) => {
       from: "LiquidApp <send@hermani.tech>",
       to: body.email,
       subject: "Liquidación de sueldo",
-      text: "Liquidación de sueldo",
+      text: "Se adjunta su liquidación de sueldo en formato PDF.",
       attachments: [
         {
           filename: "liquidacion.pdf",
