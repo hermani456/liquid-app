@@ -1,36 +1,23 @@
 "use client";
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 import {
   Atom,
   Bird,
-  BookOpen,
-  Bot,
-  Code2,
   Eclipse,
-  Frame,
   History,
   LifeBuoy,
-  Map,
-  PieChart,
   Rabbit,
   Send,
-  Settings2,
-  SquareTerminal,
   Star,
-  Turtle,
   UserPlus,
   Building,
   HandCoins,
-  Mails,
 } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
-import { NavSecondary } from "@/components/nav-secondary";
-import { NavUser } from "@/components/nav-user";
-import { StorageCard } from "@/components/storage-card";
-import { CompanySwitcher } from "@/components/company-switcher";
+import { NavMain } from "@/components/NavMain";
+import { NavSecondary } from "@/components/NavSecondary";
+import { CompanySwitcher } from "@/components/CompanySwitcher";
 import {
   Sidebar,
   SidebarContent,
@@ -39,9 +26,6 @@ import {
   SidebarItem,
   SidebarLabel,
 } from "@/components/ui/sidebar";
-import { CollapsibleTrigger } from "./ui/collapsible";
-import { Button } from "./ui/button";
-import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { LayoutDashboard } from "lucide-react";
 const data = {

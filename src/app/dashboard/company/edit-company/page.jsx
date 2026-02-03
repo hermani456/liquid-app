@@ -1,4 +1,4 @@
-import { CompaniesManagement } from "@/components/companies-management";
+import { CompaniesManagement } from "@/components/CompaniesManagement";
 const page = () => {
   return <CompaniesManagement />;
 };

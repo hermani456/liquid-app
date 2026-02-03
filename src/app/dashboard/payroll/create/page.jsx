@@ -26,7 +26,7 @@ import {
   fetchWorkers,
   fetchUpdateWorker,
   fetchDeleteWorker,
-} from "@/utils/fetchFuntions";
+} from "@/utils/api";
 import { SheetDescription } from "@/components/ui/sheet";
 import { useCompanyStore } from "@/store/CompanyStore";
 import { LoaderCircle } from "lucide-react";

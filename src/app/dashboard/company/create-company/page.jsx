@@ -1,9 +1,9 @@
 import InputComponent from "@/components/InputComponent";
-import { CrearEmpresa } from "@/components/crear-empresa";
+import { CreateCompany } from "@/components/CreateCompany";
 
 const page = () => {
   return (
-    <CrearEmpresa />
+    <CreateCompany />
   );
 };
 

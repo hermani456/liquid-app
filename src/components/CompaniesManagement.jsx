@@ -14,19 +14,13 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Search, X } from "lucide-react";
-import {
-  fetchCompanies,
-  fetchUpdateCompany,
-  fetchDeleteCompany,
-} from "@/utils/fetchFuntions";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { DeleteConfirmationDialog } from "@/components/DeleteConfirmationDialog";
+import { Search } from "lucide-react";
+import { useCompanies } from "@/hooks/useCompanies";
 import { SheetDescription } from "./ui/sheet";
 import { Trash, Loader2 } from "lucide-react";
 import { FilePenLine } from "lucide-react";
@@ -41,48 +35,18 @@ export function CompaniesManagement() {
     companyId: null,
   });
 
-  const queryClient = useQueryClient();
-  const {
-    isPending,
-    isError,
-    data: companies,
-  } = useQuery({
-    queryKey: ["companies"],
-    queryFn: fetchCompanies,
-    staleTime: Infinity,
-  });
+  const { companies, isLoading, updateCompany, isUpdating, deleteCompany, isDeleting } = useCompanies();
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [filteredCompanies, setFilteredCompanies] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (companies) {
       setFilteredCompanies(companies);
     }
   }, [companies]);
-
-  const updateCompanyMutation = useMutation({
-    mutationFn: fetchUpdateCompany,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["companies"]);
-      setIsModalOpen(false);
-    },
-    onError: (error) => {
-      console.error("Error updating company:", error);
-    },
-  });
-
-  const deleteCompanyMutation = useMutation({
-    mutationFn: fetchDeleteCompany,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["companies"]);
-    },
-    onError: (error) => {
-      console.error("Error deleting company:", error);
-    },
-  });
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCompany, setSelectedCompany] = useState(null);
-  const [filteredCompanies, setFilteredCompanies] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
@@ -109,7 +73,11 @@ export function CompaniesManagement() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateCompanyMutation.mutate(selectedCompany);
+    updateCompany(selectedCompany, {
+        onSuccess: () => {
+             setIsModalOpen(false);
+        }
+    });
   };
 
   const handleChange = (e) => {
@@ -135,7 +103,7 @@ export function CompaniesManagement() {
     setIsDeleteDialogOpen(true);
   };
 
-  if (isPending) return <p>Cargando empresas...</p>;
+  if (isLoading) return <p>Cargando empresas...</p>;
 
   return (
     <div className="md:p-6">
@@ -200,46 +168,25 @@ export function CompaniesManagement() {
         </p>
       )}
 
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Confirmar Eliminación</DialogTitle>
-            <DialogDescription>
+      <DeleteConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onConfirm={() => {
+          deleteCompany(companyToDelete.id, {
+            onSuccess: () => {
+              setIsDeleteDialogOpen(false);
+              setCompanyToDelete(null);
+            },
+          });
+        }}
+        isDeleting={isDeleting}
+        description={
+            <span>
               ¿Estás seguro de que deseas eliminar la empresa{" "}
               <span className="font-semibold">{companyToDelete?.name}</span>?
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button
-              variant="secondary"
-              onClick={() => setIsDeleteDialogOpen(false)}
-            >
-              Cancelar
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => {
-                deleteCompanyMutation.mutate(companyToDelete.id, {
-                  onSuccess: () => {
-                    setIsDeleteDialogOpen(false);
-                    setCompanyToDelete(null);
-                  },
-                });
-              }}
-              disabled={deleteCompanyMutation.isPending}
-            >
-              {deleteCompanyMutation.isPending ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Eliminando...
-                </>
-              ) : (
-                "Eliminar"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            </span>
+        }
+      />
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
@@ -305,7 +252,7 @@ export function CompaniesManagement() {
                 />
               </div>
               <Button type="submit" className="w-full">
-                {updateCompanyMutation.isPending ? (
+                {isUpdating ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Editando...

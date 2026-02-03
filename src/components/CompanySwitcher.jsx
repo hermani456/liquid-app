@@ -12,8 +12,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchCompanies } from "@/utils/fetchFuntions";
+import { useCompanies } from "@/hooks/useCompanies";
 import { useCompanyStore } from "@/store/CompanyStore";
 import {
   Home,
@@ -31,30 +30,20 @@ import Link from "next/link";
 
 export function CompanySwitcher() {
   const { companyId, setCompanyId } = useCompanyStore();
-  const queryClient = useQueryClient();
-
-  const {
-    isPending,
-    isError,
-    data: companies,
-  } = useQuery({
-    queryKey: ["companies"],
-    queryFn: fetchCompanies,
-    staleTime: Infinity,
-  });
+  
+  const { companies, isLoading, isError } = useCompanies();
 
   useEffect(() => {
-    if (!isPending && companies && companies.length > 0) {
+    if (!isLoading && companies && companies.length > 0) {
       setCompanyId(companies[0]?.id);
     }
-  }, [companies, isPending, setCompanyId]);
+  }, [companies, isLoading, setCompanyId]);
 
   const handleCompanyChange = (company) => {
     setCompanyId(company.id);
-    queryClient.invalidateQueries(["workers"]);
   };
 
-  if (isPending) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading companies</div>;
 
   const Icons = {

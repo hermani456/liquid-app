@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { fetchCreateCompany } from "@/utils/fetchFuntions";
+import { useCompanies } from "@/hooks/useCompanies";
 import {
   Home,
   Briefcase,
@@ -24,15 +24,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { capitalizeAll, checkRut } from "@/utils";
 
-export function CrearEmpresa() {
+export function CreateCompany() {
   const [isSuccess, setIsSuccess] = useState(false);
-  const queryClient = useQueryClient();
   const [isRutValid, setIsRutValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const { createCompany, isCreating } = useCompanies();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -40,20 +40,6 @@ export function CrearEmpresa() {
     address: "",
     phone: "",
     icon: "",
-  });
-
-  const updateCompanyMutation = useMutation({
-    mutationFn: fetchCreateCompany,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["companies"]);
-      setIsSuccess(true);
-      setTimeout(() => {
-        setIsSuccess(false);
-      }, 3000);
-    },
-    onError: (error) => {
-      console.error("Error creating company:", error);
-    },
   });
 
   const iconOptions = [
@@ -109,16 +95,23 @@ export function CrearEmpresa() {
       );
       return;
     }
-    updateCompanyMutation.mutate(formData, {
+    createCompany(formData, {
       onSuccess: () => {
         setFormData({
-          name: "",
-          rut: "",
-          address: "",
-          phone: "",
-          icon: "",
+            name: "",
+            rut: "",
+            address: "",
+            phone: "",
+            icon: "",
         });
+        setIsSuccess(true);
+        setTimeout(() => {
+            setIsSuccess(false);
+        }, 3000);
       },
+      onError: (error) => {
+          console.error("Error creating company:", error);
+      }
     });
   };
 
@@ -178,10 +171,10 @@ export function CrearEmpresa() {
           >
             <SelectTrigger>
               <SelectValue placeholder="Seleccione un icono">
-                {iconOptions.name && (
+                {formData.icon && (
                   <div className="flex items-center">
-                    <IconComponent iconName={selectedEmployee.component} />
-                    {selectedEmployee.component}
+                    <IconComponent iconName={formData.icon} />
+                    {formData.icon}
                   </div>
                 )}
               </SelectValue>
@@ -201,11 +194,11 @@ export function CrearEmpresa() {
       </div>
       <div className="flex justify-center">
         <Button
-          disabled={updateCompanyMutation.isPending}
+          disabled={isCreating}
           type="submit"
           className="mt-6 min-w-[10%] hover:scale-105 transition-all ease-in-out"
         >
-          {updateCompanyMutation.isPending ? (
+          {isCreating ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Creando

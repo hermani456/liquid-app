@@ -4,9 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { fetchCreateWorker } from "@/utils/fetchFuntions";
+import { useEmployees } from "@/hooks/useEmployees";
 import { useCompanyStore } from "@/store/CompanyStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { capitalizeAll, checkRut, inputCleaner } from "@/utils";
 import { NumericFormat } from "react-number-format";
@@ -18,15 +17,7 @@ export function EmployeeForm() {
   const [isRutValid, setIsRutValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: (newWorker) => fetchCreateWorker(newWorker),
-    onSuccess: () => {
-      // Invalidate and refetch the "workers" query
-      queryClient.invalidateQueries(["workers", companyId]);
-    },
-  });
+  const { createEmployee, isCreating } = useEmployees(companyId);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -73,8 +64,8 @@ export function EmployeeForm() {
       company_id: companyId,
       ...formData,
     };
-    console.log(data);
-    mutation.mutate(data, {
+    
+    createEmployee(data, {
       onSuccess: () => {
         setFormData({
           name: "",
@@ -223,11 +214,11 @@ export function EmployeeForm() {
       </div>
       <div className="flex justify-center">
         <Button
-          disabled={mutation.isPending}
+          disabled={isCreating}
           type="submit"
           className="mt-6 min-w-[10%] hover:scale-105 transition-all ease-in-out"
         >
-          {mutation.isPending ? (
+          {isCreating ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Creando

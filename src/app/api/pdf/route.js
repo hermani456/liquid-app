@@ -47,7 +47,7 @@ export const POST = async (req) => {
     
     // Send email with the PDF attachment
     const { data, error } = await resend.emails.send({
-      from: "LiquidApp <send@hermani.tech>",
+      from: "LiquidApp <send@diegocampuzano.dev>",
       to: body.email,
       subject: "Liquidación de sueldo",
       text: "Se adjunta su liquidación de sueldo en formato PDF.",

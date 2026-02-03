@@ -1,4 +1,4 @@
-import { EmployeeSelection } from "@/components/employee-selection";
+import { EmployeeSelection } from "@/components/EmployeeSelection";
 
 const page = () => {
   return <EmployeeSelection />;

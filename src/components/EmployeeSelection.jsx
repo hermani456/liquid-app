@@ -13,26 +13,20 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Search } from "lucide-react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  fetchWorkers,
-  fetchUpdateWorker,
-  fetchDeleteWorker,
-} from "@/utils/fetchFuntions";
+import { useEmployees } from "@/hooks/useEmployees";
 import { SheetDescription } from "./ui/sheet";
 import { useCompanyStore } from "@/store/CompanyStore";
 import { LoaderCircle } from "lucide-react";
 import { FilePenLine } from "lucide-react";
 import { Trash } from "lucide-react";
 import { capitalizeAll, formatRut, inputCleaner, checkRut } from "@/utils";
+import { DeleteConfirmationDialog } from "@/components/DeleteConfirmationDialog";
 import { NumericFormat } from "react-number-format";
 
 export function EmployeeSelection() {
@@ -47,51 +41,26 @@ export function EmployeeSelection() {
   });
   const [errorMessage, setErrorMessage] = useState("");
 
-  const queryClient = useQueryClient();
-
   const {
-    isPending,
+    employees,
+    isLoading,
     isError,
-    data: employees,
-  } = useQuery({
-    queryKey: ["workers", companyId],
-    queryFn: () => fetchWorkers(companyId),
-    staleTime: Infinity,
-    enabled: !!companyId,
-  });
-
-  useEffect(() => {
-    if (!isPending && employees) {
-      setFilteredEmployees(employees);
-    }
-  }, [isPending, employees]);
-
-  const updateWorkerMutation = useMutation({
-    mutationFn: fetchUpdateWorker,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["workers"]);
-      setIsModalOpen(false);
-    },
-    onError: (error) => {
-      console.error("Error updating worker:", error);
-    },
-  });
-
-  const deleteWorkerMutation = useMutation({
-    mutationFn: fetchDeleteWorker,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["workers"]);
-      // setIsModalOpen(false);
-    },
-    onError: (error) => {
-      console.error("Error deleting worker:", error);
-    },
-  });
+    updateEmployee,
+    isUpdating,
+    deleteEmployee,
+    isDeleting,
+  } = useEmployees(companyId);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState("");
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading && employees) {
+      setFilteredEmployees(employees);
+    }
+  }, [isLoading, employees]);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
@@ -118,8 +87,14 @@ export function EmployeeSelection() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateWorkerMutation.mutate(selectedEmployee);
-    // setIsModalOpen(false);
+    updateEmployee(selectedEmployee, {
+      onSuccess: () => {
+        setIsModalOpen(false);
+      },
+      onError: (error) => {
+        console.error("Error updating worker:", error);
+      },
+    });
   };
 
   const handleChange = (e) => {
@@ -155,7 +130,7 @@ export function EmployeeSelection() {
     setIsDeleteDialogOpen(true);
   };
 
-  if (isPending) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
 
   if (isError) return <div>Error loading employees</div>;
 
@@ -226,46 +201,25 @@ export function EmployeeSelection() {
         </p>
       )}
 
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Confirmar Eliminación</DialogTitle>
-            <DialogDescription>
+      <DeleteConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onConfirm={() => {
+          deleteEmployee(employeeToDelete.id, {
+            onSuccess: () => {
+              setIsDeleteDialogOpen(false);
+              setEmployeeToDelete(null);
+            },
+          });
+        }}
+        isDeleting={isDeleting}
+        description={
+            <span>
               ¿Estás seguro de que deseas eliminar a {employeeToDelete?.name}{" "}
               {employeeToDelete?.last_name}?
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button
-              variant="secondary"
-              onClick={() => setIsDeleteDialogOpen(false)}
-            >
-              Cancelar
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => {
-                deleteWorkerMutation.mutate(employeeToDelete.id, {
-                  onSuccess: () => {
-                    setIsDeleteDialogOpen(false);
-                    setEmployeeToDelete(null);
-                  },
-                });
-              }}
-              disabled={deleteWorkerMutation.isPending}
-            >
-              {deleteWorkerMutation.isPending ? (
-                <>
-                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                  Eliminando...
-                </>
-              ) : (
-                "Eliminar"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            </span>
+        }
+      />
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-[300px] sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
@@ -405,7 +359,7 @@ export function EmployeeSelection() {
                 />
               </div>
               <Button type="submit" className="w-full">
-                {updateWorkerMutation.isPending ? (
+                {isUpdating ? (
                   <>
                     <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
                     Editando...

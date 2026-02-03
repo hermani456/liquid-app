@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarLayout, SidebarTrigger } from "@/components/ui/sidebar";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 
